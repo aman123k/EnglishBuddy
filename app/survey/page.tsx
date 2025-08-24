@@ -7,6 +7,11 @@ import { SurveyResponses } from "../interface/interface";
 import LoaderDialog from "./components/LoaderDialog";
 import PersonalizedPlan from "./components/PersonalizedPlan";
 import SingUp from "./components/SingUp";
+import { useStore } from "../store/store";
+import useGetAPIRequest from "../hooks/useGetAPIRequest";
+import { GET_USER_INFORMATION } from "../queryKeys/allQueryKeys";
+import { User } from "../interface/interface";
+import usePostSurvey from "./hooks/usePostSurvey";
 
 function Survey() {
   const router = useRouter();
@@ -18,17 +23,13 @@ function Survey() {
   const [isLoadingSurvey, setIsLoadingSurvey] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState("");
   const [showPlan, setShowPlan] = useState(false);
+  const { surveyRes, setSurveyRes } = useStore();
 
-  // Define the shape of survey responses
-  const [surveyRes, setSurveyRes] = useState<SurveyResponses>({
-    languageLevel: "",
-    learningGoal: "",
-    learningReason: "",
-    learningStyle: "",
-    ageGroup: "",
-    translationLanguage: "",
-    practiceFrequency: "",
-  });
+  const { data: userInfo } = useGetAPIRequest<User>(
+    "/api/userInformation",
+    GET_USER_INFORMATION("/api/userInformation")
+  );
+  const { mutate: postSurvey } = usePostSurvey();
 
   const fieldName: string = fieldRecord[currentStep];
   const fieldValue = surveyRes[fieldName as keyof SurveyResponses];
@@ -42,36 +43,46 @@ function Survey() {
     }
   };
 
-  // Handles going forward in the multi-step form
-  // 1. Save the current step's answer in surveyRes state
-  // 2. Otherwise, just move to the next step
-  // 4. If the plan is already shown, trigger the register screen
+  /**
+   * Handles navigation to the next step in the survey
+   * Manages survey state, progress, and user flow
+   */
   const handleNext = (stepId: number, value: string) => {
+    // Get the field name for the current step
     const fieldName = fieldRecord[stepId];
 
-    setSurveyRes((prev) => ({
-      ...prev,
-      [fieldName]: value,
-    }));
+    // Save the current step's answer in survey state
+    setSurveyRes({ [fieldName]: value });
 
+    // Check if we're on the second-to-last step and plan hasn't been shown yet
     if (currentStep === surveyData.length - 2 && !showPlan) {
+      // Show loading state and then display personalized plan
       setIsLoadingSurvey(true);
       setTimeout(() => {
         setIsLoadingSurvey(false);
         setShowPlan(true);
       }, 3000);
     } else {
+      // Handle survey completion for existing users
+      if (userInfo?.data && !userInfo.data.isSurveyComplete && showPlan) {
+        return postSurvey(surveyRes);
+      }
+
+      // Move to next step
       setCurrentStep((prev) => prev + 1);
+
+      // Clear search value if on language selection step
       if (stepId === 6) setSearchValue("");
-      // If plan is already shown, go to register
+
+      // Show registration screen if plan is already displayed
       if (showPlan) setShowRegister(true);
     }
   };
-  console.log(surveyRes, currentStep);
+
   return (
     <section className=" bg-blue-900 h-[100dvh]  flex-col flex justify-center items-center py-10 max-[650px]:py-0">
       <section
-        className=" w-[700px] max-[650px]:w-[90%] max-[640px]:max-h-full max-[650px]:rounded-2xl
+        className=" w-[700px] max-[650px]:w-[90%] max-[650px]:rounded-2xl max-[650px]:max-h-[80dvh]
        bg-[#fff] overflow-hidden px-10 py-9 max-[650px]:px-6 relative rounded-2xl  z-20 flex flex-col gap-5"
       >
         {/* Progressbar  */}
@@ -191,7 +202,9 @@ function Survey() {
             className=" bg-blue-800 py-4 font-nunito-sans text-white tracking-wide 
           rounded-2xl font-medium text-base cursor-pointer hover:bg-blue-900 duration-150 w-full capitalize"
           >
-            Continue
+            {userInfo?.data && !userInfo.data.isSurveyComplete && showPlan
+              ? "Submit"
+              : "Continue"}
           </button>
         )}
       </section>

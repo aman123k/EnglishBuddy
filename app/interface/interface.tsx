@@ -32,3 +32,25 @@ export interface PersonalizePlan {
   title: string;
   subText: string;
 }
+
+export interface User {
+  name: string;
+  email: string;
+  password: string;
+  loginWith: string;
+  languageLevel: string;
+  learningGoal: string;
+  learningReason: string;
+  learningStyle: string;
+  ageGroup: string;
+  isSurveyComplete: boolean;
+  translationLanguage: string;
+  practiceFrequency: string;
+  createdAt: Date;
+}
+
+export interface ApiResponse<T> {
+  status: boolean;
+  message: string;
+  data: T;
+}

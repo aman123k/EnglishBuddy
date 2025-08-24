@@ -1,4 +1,8 @@
 "use client";
+import useGoogleAuth from "@/app/hooks/useGoogleAuth";
+import AuthBtn from "@/app/UIKIT/AuthBtn";
+import Input from "@/app/UIKIT/Input";
+import PasswordInput from "@/app/UIKIT/PasswordInput";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaArrowLeft, FaGithub } from "react-icons/fa";
@@ -22,6 +26,8 @@ function SingUp({
       setShowRegister(false);
     }
   };
+  // Google auth
+  const googleAuth = useGoogleAuth();
 
   return (
     <section className=" flex flex-col gap-6 h-full overflow-auto no-scrollbar max-[650px]:gap-4">
@@ -45,27 +51,17 @@ function SingUp({
         <div className="flex flex-col gap-6">
           <div className=" flex flex-col gap-4 pb-20 max-[650px]:pb-10">
             {/* Login with Google */}
-            <button
-              className=" flex items-center gap-4 justify-center text-center w-full border
-        border-[#bbbbbb] cursor-pointer py-3.5 px-3 rounded-xl hover:bg-[#ededfe] hover:border-[#dcddfc]"
-            >
-              <FcGoogle size={22} />
-
-              <span className="text-base nunito-sans text-[#282828] font-medium ">
-                Sign up with Google
-              </span>
-            </button>
+            <AuthBtn
+              authIcon={<FcGoogle size={22} />}
+              authFunction={googleAuth}
+              authText={"Sign up with Google"}
+            />
             {/* Login with Github */}
-            <button
-              className=" flex items-center gap-4 justify-center text-center w-full border
-        border-[#bbbbbb] cursor-pointer py-3.5 px-3 rounded-xl hover:bg-[#ededfe] hover:border-[#dcddfc]"
-            >
-              <FaGithub size={22} />
-
-              <span className="text-base nunito-sans text-[#282828] font-medium ">
-                Sign up with Github
-              </span>
-            </button>
+            <AuthBtn
+              authIcon={<FaGithub size={22} />}
+              authFunction={googleAuth}
+              authText={"Sign up with Github"}
+            />
             {/* Or option */}
             <div className=" flex items-center text-center w-full justify-center ">
               <span className=" h-[0.5px] bg-[#bbbbbb] w-[49%]"></span>
@@ -96,11 +92,57 @@ function SingUp({
             </Link>
           </div>
           <hr className="text-[#bbbbbb]" />
-          <p className=" text-xs text-[#bbbbbb] font-medium max-[650px]:text-[9px]">
+          <p className=" text-sm text-[#bbbbbb] font-medium max-[650px]:text-[9px]">
             By signing up, you accept our Terms and Conditions and Privacy
             Policy. Occasionally, we’ll send you our newsletters, with learning
             tips and special offers.
           </p>
+        </div>
+      )}
+      {isRegisterWithEmail && (
+        <div className=" flex flex-col gap-5">
+          <Input
+            text="Full name*"
+            htmlFor="email"
+            placeholder="Full name"
+            value={""}
+            setValue={() => {}}
+          />
+          <Input
+            text="Your email address*"
+            htmlFor="email"
+            placeholder="Your email address"
+            value={""}
+            setValue={() => {}}
+          />
+          <PasswordInput
+            value={""}
+            onChange={() => {}}
+            placeholder="Enter your password"
+          />
+          <hr className="text-[#bbbbbb] mt-3 mb-1.5" />
+          <p className=" text-sm text-[#bbbbbb] font-medium max-[650px]:text-[9px]">
+            By signing up, you agree to our terms and privacy policy. We might
+            send you helpful tips or updates, and you can unsubscribe whenever
+            you like.
+          </p>
+          <button
+            onClick={() => {}}
+            className=" bg-blue-800 py-4 font-nunito-sans text-white tracking-wide 
+                  rounded-2xl font-medium text-base cursor-pointer hover:bg-blue-900 duration-150 w-full capitalize"
+          >
+            Continue
+          </button>
+
+          <hr className="text-[#bbbbbb]" />
+          <div
+            className={` text-center text-[#c3c3c3] text-base font-medium font-nunito-sans`}
+          >
+            Already a member?{" "}
+            <Link href="/login">
+              <span className="text-[#0136d5] underline">Log in</span>
+            </Link>
+          </div>
         </div>
       )}
     </section>

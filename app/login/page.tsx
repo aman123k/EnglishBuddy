@@ -3,18 +3,26 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import useGoogleAuth from "../hooks/useGoogleAuth";
+import AuthBtn from "../UIKIT/AuthBtn";
+import Input from "../UIKIT/Input";
+import PasswordInput from "../UIKIT/PasswordInput";
+import Link from "next/link";
 
 function Login() {
   const router = useRouter();
 
+  // Google auth
+  const googleAuth = useGoogleAuth();
+
   return (
     <section className=" bg-blue-900 h-[100dvh]  flex-col flex justify-center items-center py-10 max-[650px]:py-0">
       <section
-        className=" w-[700px] max-[650px]:w-[90%] max-[640px]:max-h-full max-[650px]:rounded-2xl
+        className=" w-[700px] max-[650px]:w-[90%] max-[650px]:rounded-2xl max-[650px]:h-[80dvh]
        bg-[#fff] overflow-hidden px-10 py-9 max-[650px]:px-6 relative rounded-2xl  z-20 flex flex-col gap-5"
       >
-        <section className=" flex flex-col gap-6 h-full overflow-auto no-scrollbar max-[650px]:gap-4">
-          <header className=" flex gap-5 max-[650px]:gap-3.5 sticky items-center top-0 bg-white ">
+        <section className=" flex flex-col gap-3.5 h-full overflow-auto no-scrollbar max-[650px]:gap-4">
+          <header className=" flex gap-5 max-[650px]:gap-3.5 sticky items-center top-0 bg-white mb-10 max-[650px]:mb-5">
             <FaArrowLeft
               onClick={() => router.back()}
               className=" cursor-pointer text-lg font-normal flex-shrink-0"
@@ -24,27 +32,19 @@ function Login() {
               Login
             </h1>
           </header>
-          <button
-            className=" flex items-center gap-4 justify-center text-center w-full border
-                border-[#bbbbbb] cursor-pointer py-3.5 px-3 rounded-xl hover:bg-[#ededfe] hover:border-[#dcddfc]"
-          >
-            <FcGoogle size={22} />
-
-            <span className="text-base nunito-sans text-[#282828] font-medium ">
-              Sign up with Google
-            </span>
-          </button>
+          {/* Login with Google */}
+          <AuthBtn
+            authIcon={<FcGoogle size={22} />}
+            authFunction={googleAuth}
+            authText={"Sign up with Google"}
+          />
           {/* Login with Github */}
-          <button
-            className=" flex items-center gap-4 justify-center text-center w-full border
-                border-[#bbbbbb] cursor-pointer py-3.5 px-3 rounded-xl hover:bg-[#ededfe] hover:border-[#dcddfc]"
-          >
-            <FaGithub size={22} />
+          <AuthBtn
+            authIcon={<FaGithub size={22} />}
+            authFunction={googleAuth}
+            authText={"Sign up with Github"}
+          />
 
-            <span className="text-base nunito-sans text-[#282828] font-medium ">
-              Sign up with Github
-            </span>
-          </button>
           {/* Or option */}
           <div className=" flex items-center text-center w-full justify-center ">
             <span className=" h-[0.5px] bg-[#bbbbbb] w-[49%]"></span>
@@ -53,6 +53,49 @@ function Login() {
             </span>
             <span className=" h-[0.5px] bg-[#bbbbbb] w-[49%]"></span>
           </div>
+          {/* login form */}
+          <div className=" flex flex-col gap-5">
+            <Input
+              text="Your email address*"
+              htmlFor="email"
+              placeholder="Your email address"
+              value={""}
+              setValue={() => {}}
+            />
+            <PasswordInput
+              value={""}
+              onChange={() => {}}
+              placeholder="Enter your password"
+            />
+          </div>
+
+          {/* bottom container */}
+          <h6 className="font-nunito-sans font-medium text-base text-end underline text-[#0136d5] cursor-pointer mt-2 max-[650px]:mt-0">
+            <Link href="/forgot-password">Forgot password?</Link>
+          </h6>
+
+          <button
+            className={`bg-[#eeeeee] py-4 text-base font-medium text-[#bbbbbb] cursor-pointer rounded-2xl mt-5`}
+          >
+            Log in
+          </button>
+
+          <div
+            className={` text-center mt-5 text-[#c3c3c3] text-base font-medium font-nunito-sans`}
+          >
+            Not a member yet?{" "}
+            <Link href="/survey">
+              <span className="text-[#0136d5] underline">Sign up</span>
+            </Link>
+          </div>
+
+          <hr className="text-[#bbbbbb] mt-3 mb-1.5" />
+          <p className=" text-xs text-[#bbbbbb] font-medium max-[650px]:text-[9px]">
+            If your Google, Apple, or Facebook email is different from the one
+            you entered, we’ll treat it as a new signup. By signing up, you
+            agree to our Terms & Privacy Policy. We may send you tips and
+            updates sometimes, and you can unsubscribe anytime.
+          </p>
         </section>
       </section>
     </section>
