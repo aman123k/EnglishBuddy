@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -8,13 +8,45 @@ import AuthBtn from "../UIKIT/AuthBtn";
 import Input from "../UIKIT/Input";
 import PasswordInput from "../UIKIT/PasswordInput";
 import Link from "next/link";
+import usePostAPIRequest from "../hooks/usePostAPIRequest";
+import { useStore } from "../store/store";
 
 function Login() {
   const router = useRouter();
+  const { surveyRes } = useStore();
+  const [userInfo, setUserInfo] = useState({ email: "", password: "" });
+  const loginCondition =
+    userInfo.email.match(/^[a-zA-Z0-9._%+-]+@gmail\.com$/) &&
+    userInfo.password.trim();
+
+  // Hook for making POST API requests with loading states and error handling
+  const { mutateAsync } = usePostAPIRequest();
 
   // Google auth
   const googleAuth = useGoogleAuth();
 
+  // Handle user login form submission with validation
+  const handleLogin = async () => {
+    if (!loginCondition) {
+      return;
+    } else {
+      const path = "/api/login";
+      // Make API call to register user
+      const response = await mutateAsync({ path, data: userInfo });
+      if (response?.status) {
+        router.push(response?.route);
+      }
+    }
+  };
+
+  // Github Auth
+  const CLIENT_ID = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
+  const githubLogin = (): void => {
+    localStorage.setItem("surveyRes", JSON.stringify(surveyRes));
+    window.location.assign(
+      `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}`
+    );
+  };
   return (
     <section className=" bg-blue-900 h-[100dvh]  flex-col flex justify-center items-center py-10 max-[650px]:py-0">
       <section
@@ -41,7 +73,7 @@ function Login() {
           {/* Login with Github */}
           <AuthBtn
             authIcon={<FaGithub size={22} />}
-            authFunction={googleAuth}
+            authFunction={githubLogin}
             authText={"Sign up with Github"}
           />
 
@@ -59,12 +91,16 @@ function Login() {
               text="Your email address*"
               htmlFor="email"
               placeholder="Your email address"
-              value={""}
-              setValue={() => {}}
+              value={userInfo.email}
+              setValue={(value) => {
+                setUserInfo((pre) => ({ ...pre, email: value }));
+              }}
             />
             <PasswordInput
-              value={""}
-              onChange={() => {}}
+              value={userInfo.password}
+              onChange={(value) => {
+                setUserInfo((pre) => ({ ...pre, password: value }));
+              }}
               placeholder="Enter your password"
             />
           </div>
@@ -75,7 +111,13 @@ function Login() {
           </h6>
 
           <button
-            className={`bg-[#eeeeee] py-4 text-base font-medium text-[#bbbbbb] cursor-pointer rounded-2xl mt-5`}
+            type="button"
+            onClick={handleLogin}
+            className={`${
+              loginCondition
+                ? "cursor-pointer bg-[#193CB8] text-white"
+                : " bg-[#eeeeee] cursor-not-allowed text-[#bbbbbb]"
+            } py-4 text-base font-medium rounded-2xl mt-5`}
           >
             Log in
           </button>

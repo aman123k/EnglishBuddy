@@ -41,6 +41,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${nunitoSans.variable} ${roboto.variable} ${poppins.variable}`}
+        suppressHydrationWarning={true}
       >
         <Providers>{children}</Providers>
       </body>

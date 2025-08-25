@@ -1,10 +1,15 @@
 "use client";
+import { ERROR_MESSAGES } from "@/app/constants/messages";
 import useGoogleAuth from "@/app/hooks/useGoogleAuth";
+import usePostAPIRequest from "@/app/hooks/usePostAPIRequest";
+import { useStore } from "@/app/store/store";
 import AuthBtn from "@/app/UIKIT/AuthBtn";
 import Input from "@/app/UIKIT/Input";
 import PasswordInput from "@/app/UIKIT/PasswordInput";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { FaArrowLeft, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { LuMail } from "react-icons/lu";
@@ -16,8 +21,22 @@ function SingUp({
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   setShowRegister: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const router = useRouter();
+  // State to toggle between social login and email registration
   const [isRegisterWithEmail, setIsRegisterWithEmail] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
+  // Hook for making POST API requests with loading states and error handling
+  const { mutateAsync } = usePostAPIRequest();
+
+  // Get survey results from global store to include in registration
+  const { surveyRes } = useStore();
+
+  // Handle back navigation - either go back to social login or previous step
   const handleBack = () => {
     if (isRegisterWithEmail) {
       setIsRegisterWithEmail(false);
@@ -26,9 +45,47 @@ function SingUp({
       setShowRegister(false);
     }
   };
-  // Google auth
+
+  // Initialize Google authentication hook
   const googleAuth = useGoogleAuth();
 
+  // Handle user registration form submission with validation
+  const handleSingUp = async () => {
+    if (!userInfo.name.trim()) {
+      toast.error(ERROR_MESSAGES.REQUIRED_NAME);
+    } else if (!userInfo.email.match(/^[a-zA-Z0-9._%+-]+@gmail\.com$/)) {
+      toast.error(ERROR_MESSAGES.INVALID_EMAIL);
+    } else if (!userInfo.password) {
+      toast.error(ERROR_MESSAGES.REQUIRED_PASSWORD);
+    } else if (
+      !userInfo.password.match(
+        /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/
+      )
+    ) {
+      toast.error(ERROR_MESSAGES.WEAK_PASSWORD);
+    } else {
+      const path = "/api/register";
+      // Combine user info with survey results for complete registration data
+      const data = {
+        ...userInfo,
+        ...surveyRes,
+      };
+      // Make API call to register user
+      const response = await mutateAsync({ path, data });
+      if (response?.status) {
+        router.push(response?.route);
+      }
+    }
+  };
+
+  // Github Auth
+  const CLIENT_ID = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
+  const githubLogin = (): void => {
+    localStorage.setItem("surveyRes", JSON.stringify(surveyRes));
+    window.location.assign(
+      `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}`
+    );
+  };
   return (
     <section className=" flex flex-col gap-6 h-full overflow-auto no-scrollbar max-[650px]:gap-4">
       <header className=" flex gap-5 max-[650px]:gap-3.5 sticky top-0 bg-white ">
@@ -59,7 +116,7 @@ function SingUp({
             {/* Login with Github */}
             <AuthBtn
               authIcon={<FaGithub size={22} />}
-              authFunction={googleAuth}
+              authFunction={githubLogin}
               authText={"Sign up with Github"}
             />
             {/* Or option */}
@@ -103,21 +160,31 @@ function SingUp({
         <div className=" flex flex-col gap-5">
           <Input
             text="Full name*"
-            htmlFor="email"
+            htmlFor="name"
             placeholder="Full name"
-            value={""}
-            setValue={() => {}}
+            value={userInfo.name}
+            setValue={(value) => {
+              // Filter input to only allow letters and spaces for name field
+              const filteredValue = value.replace(/[^a-zA-Z\s]/g, "");
+              setUserInfo((pre) => ({ ...pre, name: filteredValue }));
+            }}
           />
           <Input
             text="Your email address*"
             htmlFor="email"
             placeholder="Your email address"
-            value={""}
-            setValue={() => {}}
+            value={userInfo.email}
+            setValue={(value) => {
+              // Update email field in user info state
+              setUserInfo((pre) => ({ ...pre, email: value }));
+            }}
           />
           <PasswordInput
-            value={""}
-            onChange={() => {}}
+            value={userInfo.password}
+            onChange={(value) => {
+              // Update password field in user info state
+              setUserInfo((pre) => ({ ...pre, password: value }));
+            }}
             placeholder="Enter your password"
           />
           <hr className="text-[#bbbbbb] mt-3 mb-1.5" />
@@ -127,7 +194,7 @@ function SingUp({
             you like.
           </p>
           <button
-            onClick={() => {}}
+            onClick={handleSingUp}
             className=" bg-blue-800 py-4 font-nunito-sans text-white tracking-wide 
                   rounded-2xl font-medium text-base cursor-pointer hover:bg-blue-900 duration-150 w-full capitalize"
           >

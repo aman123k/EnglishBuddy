@@ -12,7 +12,7 @@ function PasswordInput({
   value = "",
   onChange,
   placeholder = "Password",
-  label = "Password",
+  label = "Password*",
 }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
