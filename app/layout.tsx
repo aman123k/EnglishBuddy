@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Nunito_Sans, Poppins, Roboto } from "next/font/google";
 import "./globals.css";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { Toaster } from "react-hot-toast";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Providers } from "./providers";
 
 const nunitoSans = Nunito_Sans({
