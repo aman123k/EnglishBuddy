@@ -8,10 +8,8 @@ import LoaderDialog from "./components/LoaderDialog";
 import PersonalizedPlan from "./components/PersonalizedPlan";
 import SingUp from "./components/SingUp";
 import { useStore } from "../store/store";
-import useGetAPIRequest from "../hooks/useGetAPIRequest";
-import { GET_USER_INFORMATION } from "../queryKeys/allQueryKeys";
-import { User } from "../interface/interface";
 import usePostSurvey from "./hooks/usePostSurvey";
+import useAuthentication from "../hooks/useAuth";
 
 function Survey() {
   const router = useRouter();
@@ -25,10 +23,7 @@ function Survey() {
   const [showPlan, setShowPlan] = useState(false);
   const { surveyRes, setSurveyRes } = useStore();
 
-  const { data: userInfo } = useGetAPIRequest<User>(
-    "/api/userInformation",
-    GET_USER_INFORMATION("/api/userInformation")
-  );
+  const { userData } = useAuthentication();
   const { mutate: postSurvey } = usePostSurvey();
 
   const fieldName: string = fieldRecord[currentStep];
@@ -64,7 +59,7 @@ function Survey() {
       }, 3000);
     } else {
       // Handle survey completion for existing users
-      if (userInfo?.data && !userInfo.data.isSurveyComplete && showPlan) {
+      if (userData && !userData.isSurveyComplete && showPlan) {
         return postSurvey(surveyRes);
       }
 
@@ -202,7 +197,7 @@ function Survey() {
             className=" bg-blue-800 py-4 font-nunito-sans text-white tracking-wide 
           rounded-2xl font-medium text-base cursor-pointer hover:bg-blue-900 duration-150 w-full capitalize"
           >
-            {userInfo?.data && !userInfo.data.isSurveyComplete && showPlan
+            {userData && !userData.isSurveyComplete && showPlan
               ? "Submit"
               : "Continue"}
           </button>
