@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import useAuthentication from "./hooks/useAuth";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
-  const { userData, isLoading, isAuthenticated, isError } = useAuthentication();
+  const { userData, isLoading } = useAuthentication();
 
   const [messages, setMessages] = useState([
     {
@@ -43,9 +43,6 @@ export default function Home() {
     setInput("");
   }
 
-  useEffect(() => {
-    if ((!isLoading && !isAuthenticated) || isError) router.push("/login");
-  }, [isAuthenticated, isError, router, isLoading]);
   return (
     <div>
       <div>

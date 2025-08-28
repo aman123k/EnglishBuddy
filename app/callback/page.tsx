@@ -27,9 +27,10 @@ function GithubCallBack() {
   useEffect(() => {
     const url = new URL(window.location.href);
     const code = url.searchParams.get("code") as string;
-    if (!code) return;
+    if (!code) router.push("/login");
+
     githubAuth(code);
-  }, [githubAuth]);
+  }, [githubAuth, router]);
 
   return <></>;
 }

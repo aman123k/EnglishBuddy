@@ -1,9 +1,12 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import SwiperSlider from "./component/SwiperSlide";
 import Link from "next/link";
+import useAuthentication from "../hooks/useAuth";
 
 function GetStarted() {
+  useAuthentication();
   return (
     <section className=" bg-blue-900 h-[100dvh]  flex-col flex justify-center items-center py-10 max-[650px]:py-0">
       <section

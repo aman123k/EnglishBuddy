@@ -10,9 +10,11 @@ import PasswordInput from "../UIKIT/PasswordInput";
 import Link from "next/link";
 import usePostAPIRequest from "../hooks/usePostAPIRequest";
 import { useStore } from "../store/store";
+import useAuthentication from "../hooks/useAuth";
 
 function Login() {
   const router = useRouter();
+  useAuthentication();
   const { surveyRes } = useStore();
   const [userInfo, setUserInfo] = useState({ email: "", password: "" });
   const loginCondition =
@@ -56,7 +58,7 @@ function Login() {
         <section className=" flex flex-col gap-3.5 h-full overflow-auto no-scrollbar max-[650px]:gap-4">
           <header className=" flex gap-5 max-[650px]:gap-3.5 sticky items-center top-0 bg-white mb-10 max-[650px]:mb-5">
             <FaArrowLeft
-              onClick={() => router.back()}
+              onClick={() => router.push("/get-started")}
               className=" cursor-pointer text-lg font-normal flex-shrink-0"
             />
 

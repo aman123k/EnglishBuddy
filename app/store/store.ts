@@ -3,12 +3,10 @@ import { SurveyResponses } from "../interface/interface";
 
 interface CreateStoreState {
   surveyRes: SurveyResponses;
-  surveyCompleted: boolean;
 }
 
 interface Store {
   setSurveyRes: (data: Partial<CreateStoreState>) => void;
-  setSurveyCompleted: (data: boolean) => void;
   resetSurvey: () => void;
 }
 
@@ -23,7 +21,6 @@ const initialState: CreateStoreState = {
     translationLanguage: "",
     practiceFrequency: "",
   },
-  surveyCompleted: false,
 };
 
 export const useStore = create<Store & CreateStoreState>((set) => ({
@@ -33,8 +30,6 @@ export const useStore = create<Store & CreateStoreState>((set) => ({
     set((state) => ({
       surveyRes: { ...state.surveyRes, ...data },
     })),
-
-  setSurveyCompleted: (value) => set({ surveyCompleted: value }),
 
   resetSurvey: () =>
     set({
