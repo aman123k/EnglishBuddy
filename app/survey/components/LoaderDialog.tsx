@@ -1,6 +1,6 @@
 import Lottie from "lottie-react";
 import React, { useState } from "react";
-import successLoader from "../../../public/Images/success.json";
+import successLoader from "../data/Success.json";
 
 function LoaderDialog() {
   const dimensions = { height: 250, width: 250 };
