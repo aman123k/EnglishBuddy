@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SurveyResponses } from "../../interface/interface";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -10,9 +10,10 @@ const url = process.env.NEXT_PUBLIC_API_URL;
 /**
  * Custom hook for posting survey data to the server
  */
-const usePostSurvey = () => {
+const usePostSurvey = (refetchQueryKey?: string[]) => {
   const router = useRouter();
   const toastId = useRef("");
+  const queryClient = useQueryClient();
 
   /**
    * Posts survey data to the server
@@ -46,6 +47,9 @@ const usePostSurvey = () => {
   return useMutation({
     mutationFn: (surveyData: SurveyResponses) => postSurveyData(surveyData),
     onSuccess: () => {
+      if (refetchQueryKey) {
+        queryClient.invalidateQueries({ queryKey: refetchQueryKey });
+      }
       router.push("/");
     },
     onError: (error) => {

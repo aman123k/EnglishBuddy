@@ -10,6 +10,7 @@ import SingUp from "./components/SingUp";
 import { useStore } from "../store/store";
 import usePostSurvey from "./hooks/usePostSurvey";
 import useAuthentication from "../hooks/useAuth";
+import { GET_USER_INFORMATION } from "../queryKeys/allQueryKeys";
 
 function Survey() {
   const router = useRouter();
@@ -24,7 +25,9 @@ function Survey() {
   const { surveyRes, setSurveyRes } = useStore();
 
   const { userData } = useAuthentication();
-  const { mutate: postSurvey } = usePostSurvey();
+  const { mutate: postSurvey } = usePostSurvey(
+    GET_USER_INFORMATION("/api/userInformation")
+  );
 
   const fieldName: string = fieldRecord[currentStep];
   const fieldValue = surveyRes[fieldName as keyof SurveyResponses];

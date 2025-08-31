@@ -11,6 +11,7 @@ import Link from "next/link";
 import usePostAPIRequest from "../hooks/usePostAPIRequest";
 import { useStore } from "../store/store";
 import useAuthentication from "../hooks/useAuth";
+import { CookieProvider } from "../lib/cookieProvider";
 
 function Login() {
   const router = useRouter();
@@ -36,6 +37,7 @@ function Login() {
       // Make API call to register user
       const response = await mutateAsync({ path, data: userInfo });
       if (response?.status) {
+        await CookieProvider.setAuthToken(response?.token);
         router.push(response?.route);
       }
     }
