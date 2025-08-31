@@ -34,7 +34,9 @@ function Survey() {
 
   // Handles going back in the multi-step form
   const handleBack = () => {
-    if (currentStep === 1) {
+    if (!userData && currentStep === 1) {
+      router.push("/login");
+    } else if (currentStep === 1) {
       router.back();
     } else {
       setCurrentStep((pre) => pre - 1);
