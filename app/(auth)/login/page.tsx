@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import useGoogleAuth from "../hooks/useGoogleAuth";
-import AuthBtn from "../UIKIT/AuthBtn";
-import Input from "../UIKIT/Input";
-import PasswordInput from "../UIKIT/PasswordInput";
+import useGoogleAuth from "../../hooks/useGoogleAuth";
+import AuthBtn from "../../UIKIT/AuthBtn";
+import Input from "../../UIKIT/Input";
+import PasswordInput from "../../UIKIT/PasswordInput";
 import Link from "next/link";
-import usePostAPIRequest from "../hooks/usePostAPIRequest";
-import { useStore } from "../store/store";
-import useAuthentication from "../hooks/useAuth";
+import usePostAPIRequest from "../../hooks/usePostAPIRequest";
+import { useStore } from "../../store/store";
+import useAuthentication from "../../hooks/useAuth";
 
 function Login() {
   const router = useRouter();

@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect } from "react";
-import usePostAPIRequest from "../hooks/usePostAPIRequest";
+import usePostAPIRequest from "../../hooks/usePostAPIRequest";
 import { useRouter } from "next/navigation";
 
 function GithubCallBack() {

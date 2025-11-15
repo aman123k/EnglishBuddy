@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { fieldRecord, surveyData } from "./data/surveyData";
 import { useRouter } from "next/navigation";
-import { SurveyResponses } from "../interface/interface";
+import { SurveyResponses } from "../../interface/interface";
 import LoaderDialog from "./components/LoaderDialog";
 import PersonalizedPlan from "./components/PersonalizedPlan";
 import SingUp from "./components/SingUp";
-import { useStore } from "../store/store";
+import { useStore } from "../../store/store";
 import usePostSurvey from "./hooks/usePostSurvey";
-import useAuthentication from "../hooks/useAuth";
-import { GET_USER_INFORMATION } from "../queryKeys/allQueryKeys";
+import useAuthentication from "../../hooks/useAuth";
+import { GET_USER_INFORMATION } from "../../queryKeys/allQueryKeys";
 
 function Survey() {
   const router = useRouter();

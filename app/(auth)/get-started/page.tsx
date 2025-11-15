@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import SwiperSlider from "./component/SwiperSlide";
 import Link from "next/link";
-import useAuthentication from "../hooks/useAuth";
+import useAuthentication from "../../hooks/useAuth";
 
 function GetStarted() {
   useAuthentication();

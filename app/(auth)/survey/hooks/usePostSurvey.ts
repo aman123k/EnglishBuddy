@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { SurveyResponses } from "../../interface/interface";
+import { SurveyResponses } from "../../../interface/interface";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useRef } from "react";
