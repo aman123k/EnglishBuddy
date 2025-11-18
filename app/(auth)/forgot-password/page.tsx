@@ -9,7 +9,7 @@ import usePostAPIRequest from "@/app/hooks/usePostAPIRequest";
 import Image from "next/image";
 
 function ForgotPassword() {
-  //   useAuthentication();
+  useAuthentication();
   const router = useRouter();
   const [email, setEmail] = useState("");
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
@@ -8,7 +8,7 @@ import Link from "next/link";
 import usePostAPIRequest from "@/app/hooks/usePostAPIRequest";
 import PasswordInput from "@/app/UIKIT/PasswordInput";
 
-function ConfirmPassword() {
+function ConfirmPasswordContent() {
   const router = useRouter();
   const email = useSearchParams().get("email") || "";
   const [changePass, setChangePass] = useState({ otp: "", newPassword: "" });
@@ -28,7 +28,7 @@ function ConfirmPassword() {
   };
   const handleSentOTP = async () => {
     const path = "/api/forgot-password";
-    const response = await mutateAsync({ path, data: { email } });
+    await mutateAsync({ path, data: { email } });
   };
 
   return (
@@ -119,4 +119,16 @@ function ConfirmPassword() {
   );
 }
 
-export default ConfirmPassword;
+export default function ConfirmPassword() {
+  return (
+    <Suspense
+      fallback={
+        <div className="bg-blue-900 h-[100dvh] flex justify-center items-center">
+          <p>Loading...</p>
+        </div>
+      }
+    >
+      <ConfirmPasswordContent />
+    </Suspense>
+  );
+}
