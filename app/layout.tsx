@@ -26,6 +26,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Lingo",
+  icons: "/Images/logo-white.svg",
   description:
     "Your friendly companion for mastering any English, one conversation at a time",
 };

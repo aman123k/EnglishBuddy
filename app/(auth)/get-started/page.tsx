@@ -9,6 +9,13 @@ function GetStarted() {
   useAuthentication();
   return (
     <section className=" bg-blue-900 h-[100dvh]  flex-col flex justify-center items-center py-10 max-[650px]:py-0">
+      <Image
+        src="/Images/logo-white.svg"
+        alt="Logo"
+        width={40}
+        height={40}
+        className=" absolute left-6 top-6"
+      />
       <section
         className=" w-[700px] max-[650px]:w-full max-[640px]:max-h-full max-[650px]:rounded-none
        bg-[#fff] overflow-hidden relative rounded-4xl  z-20 "

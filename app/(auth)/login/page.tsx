@@ -11,6 +11,7 @@ import Link from "next/link";
 import usePostAPIRequest from "../../hooks/usePostAPIRequest";
 import { useStore } from "../../store/store";
 import useAuthentication from "../../hooks/useAuth";
+import Image from "next/image";
 
 function Login() {
   const router = useRouter();
@@ -18,8 +19,9 @@ function Login() {
   const { surveyRes } = useStore();
   const [userInfo, setUserInfo] = useState({ email: "", password: "" });
   const loginCondition =
-    userInfo.email.match(/^[a-zA-Z0-9._%+-]+@gmail\.com$/) &&
-    userInfo.password.trim();
+    userInfo.email
+      .toLocaleLowerCase()
+      .match(/^[a-zA-Z0-9._%+-]+@gmail\.com$/) && userInfo.password.trim();
 
   // Hook for making POST API requests with loading states and error handling
   const { mutateAsync } = usePostAPIRequest();
@@ -29,15 +31,11 @@ function Login() {
 
   // Handle user login form submission with validation
   const handleLogin = async () => {
-    if (!loginCondition) {
-      return;
-    } else {
-      const path = "/api/login";
-      // Make API call to register user
-      const response = await mutateAsync({ path, data: userInfo });
-      if (response?.status) {
-        router.push(response?.route);
-      }
+    const path = "/api/login";
+    // Make API call to register user
+    const response = await mutateAsync({ path, data: userInfo });
+    if (response?.status) {
+      router.push(response?.route);
     }
   };
 
@@ -51,6 +49,14 @@ function Login() {
   };
   return (
     <section className=" bg-blue-900 h-[100dvh]  flex-col flex justify-center items-center py-10 max-[650px]:py-0">
+      <Image
+        src="/Images/logo-white.svg"
+        alt="Logo"
+        width={40}
+        height={40}
+        className=" absolute left-6 top-6"
+      />
+
       <section
         className=" w-[700px] max-[650px]:w-[90%] max-[650px]:rounded-2xl max-[650px]:h-[80dvh]
        bg-[#fff] overflow-hidden px-10 py-9 max-[650px]:px-6 relative rounded-2xl  z-20 flex flex-col gap-5"
@@ -115,6 +121,7 @@ function Login() {
           <button
             type="button"
             onClick={handleLogin}
+            disabled={!loginCondition}
             className={`${
               loginCondition
                 ? "cursor-pointer bg-[#193CB8] text-white"

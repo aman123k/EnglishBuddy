@@ -1,13 +1,16 @@
 import { create } from "zustand";
-import { SurveyResponses } from "../interface/interface";
+import { SurveyResponses, User } from "../interface/interface";
 
 interface CreateStoreState {
   surveyRes: SurveyResponses;
+  user: User | null;
 }
 
 interface Store {
-  setSurveyRes: (data: Partial<CreateStoreState>) => void;
+  setSurveyRes: (data: Partial<SurveyResponses>) => void;
   resetSurvey: () => void;
+  setUser: (user: User | null) => void;
+  clearUser: () => void;
 }
 
 // Initial state
@@ -21,6 +24,7 @@ const initialState: CreateStoreState = {
     translationLanguage: "",
     practiceFrequency: "",
   },
+  user: null,
 };
 
 export const useStore = create<Store & CreateStoreState>((set) => ({
@@ -43,4 +47,7 @@ export const useStore = create<Store & CreateStoreState>((set) => ({
         practiceFrequency: "",
       },
     }),
+
+  setUser: (user) => set({ user }),
+  clearUser: () => set({ user: null }),
 }));

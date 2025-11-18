@@ -11,6 +11,7 @@ import { useStore } from "../../store/store";
 import usePostSurvey from "./hooks/usePostSurvey";
 import useAuthentication from "../../hooks/useAuth";
 import { GET_USER_INFORMATION } from "../../queryKeys/allQueryKeys";
+import Image from "next/image";
 
 function Survey() {
   const router = useRouter();
@@ -81,6 +82,13 @@ function Survey() {
 
   return (
     <section className=" bg-blue-900 h-[100dvh]  flex-col flex justify-center items-center py-10 max-[650px]:py-0">
+      <Image
+        src="/Images/logo-white.svg"
+        alt="Logo"
+        width={40}
+        height={40}
+        className=" absolute left-6 top-6"
+      />
       <section
         className=" w-[700px] max-[650px]:w-[90%] max-[650px]:rounded-2xl max-[650px]:max-h-[80dvh]
        bg-[#fff] overflow-hidden px-10 py-9 max-[650px]:px-6 relative rounded-2xl  z-20 flex flex-col gap-5"

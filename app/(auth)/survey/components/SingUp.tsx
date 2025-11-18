@@ -100,7 +100,7 @@ function SingUp({
           </h1>
 
           <p className=" text-base leading-[24px] max-[650px]:text-sm text-[#979797] nunito-sans tracking-[0.2px]">
-            Just a bit more info to set up your Talkpal account.
+            Just a bit more info to set up your Lingo account.
           </p>
         </div>
       </header>
