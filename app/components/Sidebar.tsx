@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { GiProgression } from "react-icons/gi";
 import { IoHome } from "react-icons/io5";
@@ -9,7 +10,12 @@ function Sidebar() {
       {/* Desktop header */}
       <section className="w-64 h-[100dvh] bg-[#FFFFFF] border border-gray-200 overflow-y-scroll no-scrollbar max-[650px]:hidden ">
         <div className="p-[24px] sticky top-0 bg-white">
-          <h1>Logo</h1>
+          <Image
+            src="/Images/logo-blue.svg"
+            alt="logo"
+            width={35}
+            height={35}
+          />
         </div>
         <div className=" flex flex-col justify-center gap-14 max-[1050px]:gap-12 px-[24px] mt-[16px]">
           <ul className=" flex flex-col gap-3.5">
@@ -18,7 +24,7 @@ function Sidebar() {
               Dashboard
             </li>
             <li className="py-2 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
-              Explore
+              🧭 Explore
             </li>
             <li className="py-2 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
               <GiProgression size={18} className="mb-1" />
@@ -51,8 +57,13 @@ function Sidebar() {
       {/* mobile header */}
       <section className="min-[650px]:hidden">
         <header className="flex items-center justify-between px-8 py-4 ">
-          <h1 className="">Logo</h1>
-          <RiAccountCircleFill size={24} />
+          <Image
+            src="/Images/logo-blue.svg"
+            alt="logo"
+            width={30}
+            height={30}
+          />
+          <RiAccountCircleFill size={28} />
         </header>
         <div className="fixed bottom-0 left-0 right-0 bg-white px-8 py-4 max-[650px]:z-50">
           <div className="flex justify-between">

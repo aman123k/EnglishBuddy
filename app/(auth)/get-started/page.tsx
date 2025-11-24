@@ -17,8 +17,8 @@ function GetStarted() {
         className=" absolute left-6 top-6"
       />
       <section
-        className=" w-[700px] max-[650px]:w-full max-[640px]:max-h-full max-[650px]:rounded-none
-       bg-[#fff] overflow-hidden relative rounded-4xl  z-20 "
+        className=" w-[700px] max-[650px]:w-[90%] max-[640px]:max-h-[80vh] max-[650px]:rounded-2xl
+       bg-[#fff] overflow-hidden max-[650px]:mt-5 relative rounded-4xl  z-20 "
       >
         <div className="px-8 overflow-scroll w-full h-full max-[650px]:px-4">
           <div className=" w-full  h-[300px] absolute top-0 left-0 -z-10">

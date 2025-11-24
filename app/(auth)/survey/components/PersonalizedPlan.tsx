@@ -12,7 +12,7 @@ function PersonalizedPlan({
 }) {
   return (
     <section className=" flex flex-col gap-6 max-[650px]:pb-16 pb-28 h-full overflow-auto no-scrollbar">
-      <header className=" flex gap-5 max-[650px]:gap-2.5 sticky top-0 bg-white">
+      <header className=" flex gap-5 max-[650px]:gap-2.5 sticky top-[-1px] bg-white">
         <FaArrowLeft
           onClick={() => {
             setCurrentStep((prev: number) => (prev === 7 ? 7 : prev - 1));
