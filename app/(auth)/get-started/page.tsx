@@ -54,7 +54,7 @@ function GetStarted() {
             </Link>
           </div>
           <div className=" border-t border-gray-200 mt-4 text-center py-4 text-gray-500 tracking-wide">
-            @Hello
+            @Lingo
           </div>
         </div>
       </section>

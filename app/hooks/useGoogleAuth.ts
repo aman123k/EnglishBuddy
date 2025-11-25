@@ -28,7 +28,7 @@ const useGoogleAuth = () => {
             router.push(json.route);
           }, 2000);
         } else {
-          toast.error(json.response);
+          toast.error(json.message);
           router.push("/get-started");
         }
       } catch (err) {
