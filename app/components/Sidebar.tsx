@@ -10,7 +10,7 @@ function Sidebar() {
   return (
     <>
       {/* Desktop header */}
-      <section className="w-64 flex-shrink-0 h-[100dvh] bg-[#FFFFFF] border border-gray-200 overflow-y-scroll no-scrollbar max-[650px]:hidden ">
+      <section className="w-64 flex-shrink-0 h-[100dvh] bg-[#FFFFFF] border border-gray-200 overflow-y-scroll no-scrollbar max-[950px]:hidden ">
         <div className="p-[24px] sticky top-0 bg-white">
           <Link href={"/"}>
             <Image
@@ -69,7 +69,7 @@ function Sidebar() {
       </section>
 
       {/* mobile header */}
-      <section className="min-[650px]:hidden">
+      <section className="min-[950px]:hidden">
         <header className="flex items-center justify-between px-8 py-4 ">
           <Image
             src="/Images/logo-blue.svg"
@@ -79,7 +79,7 @@ function Sidebar() {
           />
           <RiAccountCircleFill size={28} />
         </header>
-        <div className="fixed bottom-0 left-0 right-0 bg-white px-8 py-4 max-[650px]:z-50">
+        <div className="fixed bottom-0 left-0 right-0 bg-white px-8 py-4 max-[950px]:z-50">
           <div className="flex justify-between">
             <button
               className={`flex flex-col items-center justify-center gap-2`}
