@@ -3,25 +3,64 @@ import { useState } from "react";
 import { BsSend } from "react-icons/bs";
 import { LuMic } from "react-icons/lu";
 import { useStore } from "@/app/store/store";
+import successLoader from "../data/loading.json";
+import usePostMessageRequest from "../../hooks/usePostMessage";
+import Lottie from "lottie-react";
 
 function Footer() {
   const [message, setMessage] = useState("");
   const { setUserMessage } = useStore();
 
-  const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
+  // Hook for making POST API requests with loading states and error handling
+  const { mutateAsync, isPending } = usePostMessageRequest();
+
+  const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!message.trim()) return;
+
     setUserMessage({
       id: String(new Date().getTime()),
-      sender: "user",
+      role: "user",
       content: message,
       timestamp: new Date(),
     });
+
+    // Make API call to send chat message
+    const path = "/api/chatService";
+    const response = await mutateAsync({
+      path,
+      data: { messages: [{ content: message, role: "user" }] },
+    });
+    setUserMessage({
+      id: String(new Date().getTime()),
+      role: "model",
+      content: response?.reply,
+      timestamp: new Date(),
+    });
     setMessage("");
+    console.log(response, "okay");
   };
+
+  const dimensions = { height: 50, width: 80 };
 
   return (
     <section>
+      {isPending && (
+        <div className=" absolute bottom-[80px] left-4">
+          <Lottie
+            loop={true}
+            autoplay={true}
+            animationData={successLoader}
+            height={dimensions.height}
+            width={dimensions.width}
+            style={{
+              height: dimensions.height,
+              width: dimensions.width,
+            }}
+          />
+        </div>
+      )}
+
       <form
         onSubmit={handleSendMessage}
         className=" bg-white max-[950px]:bg-[#F5F5FC] rounded-xl w-full flex items-center"
@@ -45,8 +84,11 @@ function Footer() {
         )}
         {message.trim() && (
           <button
-            className=" bg-[#2E3BC7] w-14 flex flex-col items-center justify-center mr-4
-       rounded-xl cursor-pointer py-3.5 max-[950px]:py-2.5 "
+            disabled={isPending}
+            className={`bg-[#2E3BC7] w-14 flex flex-col items-center justify-center mr-4
+       rounded-xl cursor-pointer py-3.5 max-[950px]:py-2.5 ${
+         isPending ? " opacity-65" : ""
+       }`}
           >
             <BsSend className="text-[#F7F7FD] text-lg" />
           </button>

@@ -5,7 +5,7 @@ import { Message, UtilitySidebarProps } from "../interface/messageInterface";
 interface CreateStoreState {
   surveyRes: SurveyResponses;
   user: User | null;
-  userMessage: Message[] | null;
+  userMessage: Message[];
   utilitySidebar: UtilitySidebarProps;
 }
 
@@ -15,7 +15,9 @@ interface Store {
   setUser: (user: User | null) => void;
   clearUser: () => void;
   setUserMessage: (message: Message) => void;
+  setPreviousMessages: (messages: Message[]) => void;
   setUtilitySidebar: (props: Partial<UtilitySidebarProps>) => void;
+  setInitialMessages: (messages: Message[]) => void;
 }
 
 // Initial state
@@ -32,40 +34,7 @@ const initialState: CreateStoreState = {
   user: null,
 
   // Chat Messages
-  userMessage: [
-    {
-      id: "1",
-      sender: "ai",
-      content: "Hello! How can I assist you today?",
-      timestamp: new Date(),
-    },
-    {
-      id: "2",
-      sender: "user",
-      content: "I would like to learn more about your services.",
-      timestamp: new Date(),
-    },
-    {
-      id: "3",
-      sender: "ai",
-      content:
-        "Sure! We offer a variety of language learning tools and resources to help you improve your skills.",
-      timestamp: new Date(),
-    },
-    {
-      id: "4",
-      sender: "user",
-      content: "That sounds great! How do I get started?",
-      timestamp: new Date(),
-    },
-    {
-      id: "5",
-      sender: "ai",
-      content:
-        "Just sign up for an account, and you can access all our learning materials and start your journey!",
-      timestamp: new Date(),
-    },
-  ],
+  userMessage: [],
 
   // Utility Sidebar
   utilitySidebar: {
@@ -109,6 +78,19 @@ export const useStore = create<Store & CreateStoreState>((set) => ({
     }));
   },
 
+  //
+  setInitialMessages: (messages: Message[]) => {
+    set(() => ({
+      userMessage: messages,
+    }));
+  },
+
+  // Prepend previous messages (for pagination)
+  setPreviousMessages: (messages) => {
+    set((state) => ({
+      userMessage: [...messages, ...(state.userMessage || [])],
+    }));
+  },
   // Utility Sidebar
   setUtilitySidebar: (props) => {
     set((state) => ({

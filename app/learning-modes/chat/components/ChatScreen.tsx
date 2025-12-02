@@ -1,20 +1,32 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdReplay, MdTranslate } from "react-icons/md";
 import { useStore } from "@/app/store/store";
 import { Message } from "@/app/interface/messageInterface";
+import useGetAPIRequest from "@/app/hooks/useGetAPIRequest";
+import { GET_USER_MESSAGES } from "@/app/queryKeys/allQueryKeys";
 
 function ChatScreen() {
-  const { userMessage, setUtilitySidebar } = useStore();
+  const { userMessage, setUtilitySidebar, setPreviousMessages } = useStore();
   const autoScroll = useRef<HTMLDivElement>(null);
+  const [page, setPage] = useState(2);
+  const [totalPageCount, setTotalPageCount] = useState(0);
+  const [isFetchingHistory, setIsFetchingHistory] = useState(false);
 
-  const handleTranslate = (aiMessage: string) => {
-    // Logic to handle translation of the message
-    setUtilitySidebar({
-      isOpen: true,
-      title: "Translation",
-      yourWords: aiMessage,
-    });
-  };
+  const {
+    data: chatHistory,
+    isLoading,
+    isError,
+  } = useGetAPIRequest<Message[]>(
+    `/api/chatHistory?page=${page}`,
+    GET_USER_MESSAGES(`/api/chatHistory?page=${page}`)
+  );
+
+  useEffect(() => {
+    if (chatHistory?.data) {
+      setPreviousMessages(chatHistory.data);
+      setTotalPageCount(chatHistory?.total ?? 0);
+    }
+  }, [chatHistory, setPreviousMessages]);
 
   useEffect(() => {
     if (autoScroll.current) {
@@ -25,15 +37,63 @@ function ChatScreen() {
     }
   }, [userMessage]);
 
+  const handleScroll = () => {
+    const scrollDiv = autoScroll.current;
+    if (!scrollDiv || isFetchingHistory) return;
+
+    // If user scrolled to top
+    if (scrollDiv.scrollTop === 0) {
+      console.log(userMessage.length, totalPageCount);
+      if (userMessage.length >= totalPageCount) return; // No more messages
+      console.log("Okay");
+
+      setIsFetchingHistory(true);
+
+      const prevHeight = scrollDiv.scrollHeight;
+
+      // Load next page
+      setPage((prev) => prev + 1);
+
+      setTimeout(() => {
+        // Maintain scroll position after new messages load
+        const newHeight = scrollDiv.scrollHeight;
+        scrollDiv.scrollTop = newHeight - prevHeight;
+
+        setIsFetchingHistory(false);
+      }, 300);
+    }
+  };
+  const handleTranslate = (aiMessage: string, translatedContent: string) => {
+    // If translated content already exists, open the sidebar with it
+
+    if (translatedContent) {
+      setUtilitySidebar({
+        isOpen: true,
+        title: "Translation",
+        yourWords: aiMessage,
+        translatedWords: translatedContent,
+      });
+    } else {
+      // Logic to handle translation of the message
+      setUtilitySidebar({
+        isOpen: true,
+        title: "Translation",
+        yourWords: aiMessage,
+        translatedWords: "Translating...",
+      });
+    }
+  };
+
   return (
     <section className="h-[calc(100dvh-156px-75px)] max-[950px]:h-[calc(100dvh-79px-70px)]">
       <section
         className="h-full overflow-y-auto py-4 flex flex-col gap-3.5 px-0.5 no-scrollbar"
         ref={autoScroll}
+        onScroll={handleScroll}
       >
         {userMessage && userMessage?.length > 0
           ? userMessage.map((msg: Message, index: number) => {
-              if (msg.sender === "ai") {
+              if (msg.role === "model") {
                 // AI message
                 return (
                   <div
@@ -56,7 +116,9 @@ function ChatScreen() {
                         </span>
                       </button>
                       <button
-                        onClick={() => handleTranslate(msg.content!)}
+                        onClick={() =>
+                          handleTranslate(msg.content!, msg.translatedContent!)
+                        }
                         className=" flex items-center gap-2 border border-[#E9EBF9] rounded-full px-2 py-1 group"
                       >
                         <MdTranslate className=" group-hover:bg-[#ABB1E9] p-0.5 rounded-full cursor-pointer group-hover:text-white bg-[#F5F5FC] text-lg" />

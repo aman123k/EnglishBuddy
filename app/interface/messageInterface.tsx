@@ -1,10 +1,11 @@
 export interface Message {
   id?: string;
-  sender: "user" | "ai";
+  role: "user" | "model";
   content: string;
   timestamp: Date;
   conversationId?: string;
   translatedContent?: string;
+  conversationMode?: string;
 }
 
 export interface UtilitySidebarProps {
