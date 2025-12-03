@@ -3,9 +3,10 @@ import { useState } from "react";
 import { BsSend } from "react-icons/bs";
 import { LuMic } from "react-icons/lu";
 import { useStore } from "@/app/store/store";
-import successLoader from "../data/loading.json";
+import successLoader from "../../data/loading.json";
 import usePostMessageRequest from "../../hooks/usePostMessage";
 import Lottie from "lottie-react";
+import { speakFemale } from "../../voice/speak";
 
 function Footer() {
   const [message, setMessage] = useState("");
@@ -25,6 +26,8 @@ function Footer() {
       timestamp: new Date(),
     });
 
+    setMessage("");
+
     // Make API call to send chat message
     const path = "/api/chatService";
     const response = await mutateAsync({
@@ -37,8 +40,9 @@ function Footer() {
       content: response?.reply,
       timestamp: new Date(),
     });
-    setMessage("");
-    console.log(response, "okay");
+    if (response && response?.reply) {
+      speakFemale(response?.reply);
+    }
   };
 
   const dimensions = { height: 50, width: 80 };

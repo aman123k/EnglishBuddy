@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useRouter } from "next/navigation";
+import { toggleTts } from "../../function/toggleTts";
+import toast from "react-hot-toast";
 
 function Header() {
   const router = useRouter();
+  const [isSpeakerOn, setIsSpeakerOn] = useState(true);
+  useEffect(() => {
+    const stored: string = localStorage.getItem("ttsEnabled") ?? "true";
+    setIsSpeakerOn(JSON.parse(stored));
+  }, []);
+
+  const handleClick = () => {
+    setIsSpeakerOn(!isSpeakerOn);
+    toggleTts(!isSpeakerOn);
+    toast(
+      isSpeakerOn
+        ? "Speaker OFF: Voices muted."
+        : "Speaker ON: Voices will play.",
+      {
+        icon: isSpeakerOn ? "🔊" : "🔇",
+      }
+    );
+  };
   return (
     <>
       <header
@@ -40,9 +60,12 @@ function Header() {
           <h3 className=" text-[20px]">Jennifer</h3>
         </div>
         <div className=" flex items-center gap-6 pr-4">
-          <div>
-            <HiSpeakerWave size={24} className="  cursor-pointer" />
-            <HiSpeakerXMark size={24} className=" cursor-pointer hidden" />
+          <div onClick={handleClick}>
+            {isSpeakerOn ? (
+              <HiSpeakerWave size={24} className="  cursor-pointer" />
+            ) : (
+              <HiSpeakerXMark size={24} className=" cursor-pointer" />
+            )}
           </div>
           <BsThreeDotsVertical size={24} className=" cursor-pointer" />
         </div>

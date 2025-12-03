@@ -19,6 +19,9 @@ function GithubCallBack() {
       if (response?.status) {
         localStorage.removeItem("surveyRes");
         router.push(response?.route);
+      } else {
+        localStorage.removeItem("surveyRes");
+        router.push("/login");
       }
     },
     [mutateAsync, router]

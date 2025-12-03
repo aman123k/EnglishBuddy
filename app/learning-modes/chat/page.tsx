@@ -6,8 +6,10 @@ import Footer from "./components/Footer";
 import ChatScreen from "./components/ChatScreen";
 import UtilitySidebar from "./components/UtilitySidebar";
 import { useStore } from "@/app/store/store";
+import useAuthentication from "@/app/hooks/useAuth";
 
 function Chats() {
+  useAuthentication();
   const { utilitySidebar } = useStore();
   return (
     <section className=" bg-[#F7F7FE] max-[950px]:bg-white min-[1600px]:w-[1400px]  min-[1600px]:mx-[50%] min-[1600px]:translate-x-[-50%]">

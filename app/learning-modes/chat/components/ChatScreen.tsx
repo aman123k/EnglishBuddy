@@ -1,32 +1,39 @@
+import Lottie from "lottie-react";
 import React, { useEffect, useRef, useState } from "react";
 import { MdReplay, MdTranslate } from "react-icons/md";
 import { useStore } from "@/app/store/store";
 import { Message } from "@/app/interface/messageInterface";
 import useGetAPIRequest from "@/app/hooks/useGetAPIRequest";
 import { GET_USER_MESSAGES } from "@/app/queryKeys/allQueryKeys";
+import { speakFemale } from "../../voice/speak";
+import chatsLoader from "../../data/chatsLoading.json";
 
 function ChatScreen() {
-  const { userMessage, setUtilitySidebar, setPreviousMessages } = useStore();
+  const {
+    userMessage,
+    setUtilitySidebar,
+    setPreviousMessages,
+    setInitialMessages,
+  } = useStore();
   const autoScroll = useRef<HTMLDivElement>(null);
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
   const [isFetchingHistory, setIsFetchingHistory] = useState(false);
+  const dimensions = { height: 400, width: 500 };
 
-  const {
-    data: chatHistory,
-    isLoading,
-    isError,
-  } = useGetAPIRequest<Message[]>(
+  const { data: chatHistory, isLoading } = useGetAPIRequest<Message[]>(
     `/api/chatHistory?page=${page}`,
     GET_USER_MESSAGES(`/api/chatHistory?page=${page}`)
   );
 
   useEffect(() => {
     if (chatHistory?.data) {
-      setPreviousMessages(chatHistory.data);
+      setInitialMessages(chatHistory.data);
       setTotalPageCount(chatHistory?.total ?? 0);
+
+      speakFemale(chatHistory.data[chatHistory.data.length - 1].content);
     }
-  }, [chatHistory, setPreviousMessages]);
+  }, [chatHistory, setInitialMessages]);
 
   useEffect(() => {
     if (autoScroll.current) {
@@ -65,7 +72,6 @@ function ChatScreen() {
   };
   const handleTranslate = (aiMessage: string, translatedContent: string) => {
     // If translated content already exists, open the sidebar with it
-
     if (translatedContent) {
       setUtilitySidebar({
         isOpen: true,
@@ -91,59 +97,78 @@ function ChatScreen() {
         ref={autoScroll}
         onScroll={handleScroll}
       >
-        {userMessage && userMessage?.length > 0
-          ? userMessage.map((msg: Message, index: number) => {
-              if (msg.role === "model") {
-                // AI message
-                return (
-                  <div
-                    key={msg.id || index}
-                    className={`px-6 py-4 bg-white rounded-xl shadow-md max-w-max max-[950px]:bg-none max-[950px]:w-[97%]
+        {isLoading ? (
+          <div className=" absolute left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%]">
+            <Lottie
+              loop={true}
+              autoplay={true}
+              animationData={chatsLoader}
+              height={dimensions.height}
+              width={dimensions.width}
+              style={{
+                height: dimensions.height,
+                width: dimensions.width,
+              }}
+            />
+          </div>
+        ) : userMessage && userMessage?.length > 0 ? (
+          userMessage.map((msg: Message, index: number) => {
+            if (msg.role === "model") {
+              // AI message
+              return (
+                <div
+                  key={msg.id || index}
+                  className={`px-6 py-4 bg-white rounded-xl shadow-md max-w-max max-[950px]:bg-none max-[950px]:w-[97%]
             max-[950px]:shadow-none max-[950px]:px-0 max-[950px]:py-0 max-[950px]:flex-row max-[950px]:gap-2.5
              flex flex-col gap-4`}
-                  >
-                    <p
-                      className="font-nunito-sans font-medium text-base text-[#282828]
+                >
+                  <p
+                    className="font-nunito-sans font-medium text-base text-[#282828]
          max-[950px]:bg-[#F5F5FC] max-[950px]:text-md max-[950px]:p-4 max-[950px]:rounded-xl"
-                    >
-                      {msg.content}
-                    </p>
-                    <div className=" flex gap-2.5 items-center">
-                      <button className=" flex items-center gap-2 border border-[#E9EBF9] rounded-full px-2 py-1 group">
-                        <MdReplay className=" group-hover:bg-[#ABB1E9] p-0.5 rounded-full cursor-pointer group-hover:text-white bg-[#F5F5FC] text-lg" />
-                        <span className=" text-xs text-[#868686] font-nunito-sans font-semibold cursor-pointer max-[950px]:hidden">
-                          Replay
-                        </span>
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleTranslate(msg.content!, msg.translatedContent!)
-                        }
-                        className=" flex items-center gap-2 border border-[#E9EBF9] rounded-full px-2 py-1 group"
-                      >
-                        <MdTranslate className=" group-hover:bg-[#ABB1E9] p-0.5 rounded-full cursor-pointer group-hover:text-white bg-[#F5F5FC] text-lg" />
-                        <span className=" text-xs text-[#868686] font-nunito-sans font-semibold cursor-pointer max-[950px]:hidden">
-                          Translate
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                );
-              } else {
-                // User message
-                return (
-                  <div
-                    key={msg.id || index}
-                    className={`px-6 py-4 bg-[#2E3BC7] rounded-xl ml-auto shadow-md max-w-max max-[950px]:w-[97%] flex flex-col gap-4`}
                   >
-                    <p className="font-nunito-sans font-medium text-base text-white max-[950px]:text-md">
-                      {msg.content}
-                    </p>
+                    {msg.content}
+                  </p>
+                  <div className=" flex gap-2.5 items-center">
+                    <button
+                      onClick={() => speakFemale(msg.content)}
+                      className=" flex items-center gap-2 border border-[#E9EBF9] rounded-full px-2 py-1 group"
+                    >
+                      <MdReplay className=" group-hover:bg-[#ABB1E9] p-0.5 rounded-full cursor-pointer group-hover:text-white bg-[#F5F5FC] text-lg" />
+                      <span className=" text-xs text-[#868686] font-nunito-sans font-semibold cursor-pointer max-[950px]:hidden">
+                        Replay
+                      </span>
+                    </button>
+                    <button
+                      onClick={() =>
+                        handleTranslate(msg.content!, msg.translatedContent!)
+                      }
+                      className=" flex items-center gap-2 border border-[#E9EBF9] rounded-full px-2 py-1 group"
+                    >
+                      <MdTranslate className=" group-hover:bg-[#ABB1E9] p-0.5 rounded-full cursor-pointer group-hover:text-white bg-[#F5F5FC] text-lg" />
+                      <span className=" text-xs text-[#868686] font-nunito-sans font-semibold cursor-pointer max-[950px]:hidden">
+                        Translate
+                      </span>
+                    </button>
                   </div>
-                );
-              }
-            })
-          : "No messages yet. Start the conversation!"}
+                </div>
+              );
+            } else {
+              // User message
+              return (
+                <div
+                  key={msg.id || index}
+                  className={`px-6 py-4 bg-[#2E3BC7] rounded-xl ml-auto shadow-md max-w-max max-[950px]:w-[97%] flex flex-col gap-4`}
+                >
+                  <p className="font-nunito-sans font-medium text-base text-white max-[950px]:text-md">
+                    {msg.content}
+                  </p>
+                </div>
+              );
+            }
+          })
+        ) : (
+          ""
+        )}
       </section>
     </section>
   );
