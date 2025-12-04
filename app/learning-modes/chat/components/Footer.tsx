@@ -20,7 +20,7 @@ function Footer() {
     if (!message.trim()) return;
 
     setUserMessage({
-      id: String(new Date().getTime()),
+      _id: String(new Date().getTime()),
       role: "user",
       content: message,
       timestamp: new Date(),
@@ -35,13 +35,13 @@ function Footer() {
       data: { messages: [{ content: message, role: "user" }] },
     });
     setUserMessage({
-      id: String(new Date().getTime()),
+      _id: String(new Date().getTime()),
       role: "model",
-      content: response?.reply,
+      content: response?.reply?.content,
       timestamp: new Date(),
     });
     if (response && response?.reply) {
-      speakFemale(response?.reply);
+      speakFemale(response?.reply?.content);
     }
   };
 

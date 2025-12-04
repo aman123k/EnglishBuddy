@@ -3,11 +3,15 @@ import { ApiResponse } from "../interface/interface";
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 
-const useGetAPIRequest = <T>(path: string, key: string[]) => {
+const useGetAPIRequest = <T>(
+  path: string,
+  key: string[],
+  staleTime: number
+) => {
   return useQuery<ApiResponse<T>>({
     queryKey: key,
     queryFn: () => getAPIRequest({ path }),
-    staleTime: 1000 * 60 * 5,
+    staleTime: staleTime,
   });
 };
 export default useGetAPIRequest;

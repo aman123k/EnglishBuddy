@@ -7,13 +7,14 @@ import useGetAPIRequest from "@/app/hooks/useGetAPIRequest";
 import { GET_USER_MESSAGES } from "@/app/queryKeys/allQueryKeys";
 import { speakFemale } from "../../voice/speak";
 import chatsLoader from "../../data/chatsLoading.json";
+import usePostMessageRequest from "../../hooks/usePostMessage";
 
 function ChatScreen() {
   const {
     userMessage,
     setUtilitySidebar,
-    setPreviousMessages,
     setInitialMessages,
+    setPreviousMessages,
   } = useStore();
   const autoScroll = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(1);
@@ -23,17 +24,23 @@ function ChatScreen() {
 
   const { data: chatHistory, isLoading } = useGetAPIRequest<Message[]>(
     `/api/chatHistory?page=${page}`,
-    GET_USER_MESSAGES(`/api/chatHistory?page=${page}`)
+    GET_USER_MESSAGES(`/api/chatHistory?page=${page}`),
+    0
   );
+
+  const { mutateAsync } = usePostMessageRequest();
 
   useEffect(() => {
     if (chatHistory?.data) {
-      setInitialMessages(chatHistory.data);
+      if (page === 1) {
+        setInitialMessages(chatHistory.data);
+        speakFemale(chatHistory.data[chatHistory.data.length - 1].content);
+      } else {
+        setPreviousMessages(chatHistory.data);
+      }
       setTotalPageCount(chatHistory?.total ?? 0);
-
-      speakFemale(chatHistory.data[chatHistory.data.length - 1].content);
     }
-  }, [chatHistory, setInitialMessages]);
+  }, [chatHistory, setInitialMessages, setPreviousMessages, page]);
 
   useEffect(() => {
     if (autoScroll.current) {
@@ -42,7 +49,7 @@ function ChatScreen() {
         behavior: "smooth",
       });
     }
-  }, [userMessage]);
+  }, [userMessage, page]);
 
   const handleScroll = () => {
     const scrollDiv = autoScroll.current;
@@ -50,9 +57,7 @@ function ChatScreen() {
 
     // If user scrolled to top
     if (scrollDiv.scrollTop === 0) {
-      console.log(userMessage.length, totalPageCount);
       if (userMessage.length >= totalPageCount) return; // No more messages
-      console.log("Okay");
 
       setIsFetchingHistory(true);
 
@@ -70,7 +75,12 @@ function ChatScreen() {
       }, 300);
     }
   };
-  const handleTranslate = (aiMessage: string, translatedContent: string) => {
+
+  const handleTranslate = async (
+    aiMessage: string,
+    translatedContent: string,
+    id: string
+  ) => {
     // If translated content already exists, open the sidebar with it
     if (translatedContent) {
       setUtilitySidebar({
@@ -81,12 +91,19 @@ function ChatScreen() {
       });
     } else {
       // Logic to handle translation of the message
-      setUtilitySidebar({
-        isOpen: true,
-        title: "Translation",
-        yourWords: aiMessage,
-        translatedWords: "Translating...",
+      const path = "/api/translate";
+      const response = await mutateAsync({
+        path,
+        data: { id },
       });
+      if (response?.status) {
+        setUtilitySidebar({
+          isOpen: true,
+          title: "Translation",
+          yourWords: aiMessage,
+          translatedWords: response?.data,
+        });
+      }
     }
   };
 
@@ -117,7 +134,7 @@ function ChatScreen() {
               // AI message
               return (
                 <div
-                  key={msg.id || index}
+                  key={msg._id || index}
                   className={`px-6 py-4 bg-white rounded-xl shadow-md max-w-max max-[950px]:bg-none max-[950px]:w-[97%]
             max-[950px]:shadow-none max-[950px]:px-0 max-[950px]:py-0 max-[950px]:flex-row max-[950px]:gap-2.5
              flex flex-col gap-4`}
@@ -140,7 +157,11 @@ function ChatScreen() {
                     </button>
                     <button
                       onClick={() =>
-                        handleTranslate(msg.content!, msg.translatedContent!)
+                        handleTranslate(
+                          msg.content!,
+                          msg.translatedContent!,
+                          msg._id!
+                        )
                       }
                       className=" flex items-center gap-2 border border-[#E9EBF9] rounded-full px-2 py-1 group"
                     >
@@ -156,7 +177,7 @@ function ChatScreen() {
               // User message
               return (
                 <div
-                  key={msg.id || index}
+                  key={msg._id || index}
                   className={`px-6 py-4 bg-[#2E3BC7] rounded-xl ml-auto shadow-md max-w-max max-[950px]:w-[97%] flex flex-col gap-4`}
                 >
                   <p className="font-nunito-sans font-medium text-base text-white max-[950px]:text-md">

@@ -1,8 +1,8 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { User } from "../interface/interface";
 import { GET_USER_INFORMATION } from "../queryKeys/allQueryKeys";
 import useGetAPIRequest from "./useGetAPIRequest";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useStore } from "../store/store";
 
 const useAuthentication = () => {
@@ -17,7 +17,8 @@ const useAuthentication = () => {
     isLoading: queryLoading,
   } = useGetAPIRequest<User>(
     "/api/userInformation",
-    GET_USER_INFORMATION("/api/userInformation")
+    GET_USER_INFORMATION("/api/userInformation"),
+    1000 * 60 * 5
   );
 
   // store fetched user once
