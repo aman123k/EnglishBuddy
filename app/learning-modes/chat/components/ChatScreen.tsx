@@ -1,3 +1,4 @@
+// This component displays the chat interface, including messages and interactive elements.
 import Lottie from "lottie-react";
 import React, { useEffect, useRef, useState } from "react";
 import { MdReplay, MdTranslate } from "react-icons/md";
@@ -10,14 +11,19 @@ import chatsLoader from "../../data/chatsLoading.json";
 import usePostMessageRequest from "../../hooks/usePostMessage";
 
 function ChatScreen() {
+  // Global store for managing chat-related states.
   const {
     userMessage,
     setUtilitySidebar,
     setInitialMessages,
     setPreviousMessages,
   } = useStore();
+
+  // Ref for auto-scrolling to the bottom of the chat.
   const autoScroll = useRef<HTMLDivElement>(null);
+  // State for pagination of chat history.
   const [page, setPage] = useState(1);
+  // State for total number of pages in chat history.
   const [totalPageCount, setTotalPageCount] = useState(0);
   const [isFetchingHistory, setIsFetchingHistory] = useState(false);
   const dimensions = { height: 400, width: 500 };
@@ -57,17 +63,17 @@ function ChatScreen() {
 
     // If user scrolled to top
     if (scrollDiv.scrollTop === 0) {
-      if (userMessage.length >= totalPageCount) return; // No more messages
+      if (userMessage.length >= totalPageCount) return; // No more messages to load.
 
       setIsFetchingHistory(true);
 
       const prevHeight = scrollDiv.scrollHeight;
 
-      // Load next page
+      // Load next page of chat history.
       setPage((prev) => prev + 1);
 
       setTimeout(() => {
-        // Maintain scroll position after new messages load
+        // Maintain scroll position after new messages load to give a continuous experience.
         const newHeight = scrollDiv.scrollHeight;
         scrollDiv.scrollTop = newHeight - prevHeight;
 
@@ -76,12 +82,13 @@ function ChatScreen() {
     }
   };
 
+  // Handles translation of AI messages.
   const handleTranslate = async (
     aiMessage: string,
     translatedContent: string,
     id: string
   ) => {
-    // If translated content already exists, open the sidebar with it
+    // If translated content already exists, open the sidebar with it directly.
     if (translatedContent) {
       setUtilitySidebar({
         isOpen: true,
@@ -90,12 +97,13 @@ function ChatScreen() {
         translatedWords: translatedContent,
       });
     } else {
-      // Logic to handle translation of the message
+      // If not translated, make an API call to translate the message.
       const path = "/api/translate";
       const response = await mutateAsync({
         path,
         data: { id },
       });
+      // On successful translation, open the sidebar with the translated content.
       if (response?.status) {
         setUtilitySidebar({
           isOpen: true,
@@ -114,6 +122,7 @@ function ChatScreen() {
         ref={autoScroll}
         onScroll={handleScroll}
       >
+        {/* Display loading animation if chat history is being fetched. */}
         {isLoading ? (
           <div className=" absolute left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%]">
             <Lottie
@@ -129,9 +138,10 @@ function ChatScreen() {
             />
           </div>
         ) : userMessage && userMessage?.length > 0 ? (
+          // Render chat messages if available.
           userMessage.map((msg: Message, index: number) => {
             if (msg.role === "model") {
-              // AI message
+              // AI message display.
               return (
                 <div
                   key={msg._id || index}
@@ -146,6 +156,7 @@ function ChatScreen() {
                     {msg.content}
                   </p>
                   <div className=" flex gap-2.5 items-center">
+                    {/* Replay button for AI message. */}
                     <button
                       onClick={() => speakFemale(msg.content)}
                       className=" flex items-center gap-2 border border-[#E9EBF9] rounded-full px-2 py-1 group"
@@ -155,6 +166,7 @@ function ChatScreen() {
                         Replay
                       </span>
                     </button>
+                    {/* Translate button for AI message. */}
                     <button
                       onClick={() =>
                         handleTranslate(
@@ -174,7 +186,7 @@ function ChatScreen() {
                 </div>
               );
             } else {
-              // User message
+              // User message display.
               return (
                 <div
                   key={msg._id || index}
@@ -188,6 +200,7 @@ function ChatScreen() {
             }
           })
         ) : (
+          // Render empty string if no messages and not loading.
           ""
         )}
       </section>

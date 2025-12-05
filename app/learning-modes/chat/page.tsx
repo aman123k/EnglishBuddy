@@ -28,7 +28,7 @@ function Chats() {
         </section>
         <section
           className={`${
-            utilitySidebar?.isOpen ? "w-[30%]" : "hidden"
+            utilitySidebar?.isOpen ? "w-[30%] " : "hidden"
           } bg-white px-5`}
         >
           <UtilitySidebar />
