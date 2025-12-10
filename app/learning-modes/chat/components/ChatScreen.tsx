@@ -116,7 +116,7 @@ function ChatScreen() {
   };
 
   return (
-    <section className="h-[calc(100dvh-156px-75px)] max-[950px]:h-[calc(100dvh-79px-70px)]">
+    <section className="h-[calc(100dvh-156px-75px)] max-[950px]:h-[calc(100dvh-79px-90px)]">
       <section
         className="h-full overflow-y-auto py-4 flex flex-col gap-3.5 px-0.5 no-scrollbar"
         ref={autoScroll}
