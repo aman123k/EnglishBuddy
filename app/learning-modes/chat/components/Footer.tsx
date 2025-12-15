@@ -113,7 +113,7 @@ function Footer() {
 
   // 5. RENDER
   return (
-    <section className="pt-4">
+    <section className="max-[950px]:pt-4">
       {/* Loading Indicator for API Call */}
       {isPending && (
         <div className=" absolute bottom-[80px] left-4 max-[950px]:bottom-[50px]">

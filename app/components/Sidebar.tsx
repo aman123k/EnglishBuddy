@@ -61,24 +61,28 @@ function Sidebar() {
             </Link>
           </ul>
         </div>
-        <div className="p-[24px] fixed bottom-0 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
-          <RiAccountCircleFill size={24} />
+        <Link href={"/account"}>
+          <div className="p-[24px] fixed bottom-0 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
+            <RiAccountCircleFill size={24} />
 
-          <span>Account</span>
-        </div>
+            <span>Account</span>
+          </div>
+        </Link>
       </section>
 
       {/* mobile header */}
       <section className="min-[950px]:hidden">
-        <header className="flex items-center justify-between px-8 py-4 ">
-          <Image
-            src="/Images/logo-blue.svg"
-            alt="logo"
-            width={30}
-            height={30}
-          />
-          <RiAccountCircleFill size={28} />
-        </header>
+        <Link href={"/account"}>
+          <header className="flex items-center justify-between px-8 py-4 ">
+            <Image
+              src="/Images/logo-blue.svg"
+              alt="logo"
+              width={30}
+              height={30}
+            />
+            <RiAccountCircleFill size={28} />
+          </header>
+        </Link>
         <div className="fixed bottom-0 left-0 right-0 bg-white px-8 py-4 max-[950px]:z-50">
           <div className="flex justify-between">
             <button

@@ -7,6 +7,7 @@ interface CreateStoreState {
   user: User | null;
   userMessage: Message[];
   utilitySidebar: UtilitySidebarProps;
+  accountSidebar: UtilitySidebarProps;
 }
 
 interface Store {
@@ -18,6 +19,7 @@ interface Store {
   setPreviousMessages: (messages: Message[]) => void;
   setUtilitySidebar: (props: Partial<UtilitySidebarProps>) => void;
   setInitialMessages: (messages: Message[]) => void;
+  setAccountSidebar: (props: Partial<UtilitySidebarProps>) => void;
 }
 
 // Initial state
@@ -42,6 +44,10 @@ const initialState: CreateStoreState = {
     title: "Information",
     description:
       "AI will assess your messages and give you personalized feedback",
+  },
+  accountSidebar: {
+    isOpen: false,
+    title: "",
   },
 };
 
@@ -95,6 +101,12 @@ export const useStore = create<Store & CreateStoreState>((set) => ({
   setUtilitySidebar: (props) => {
     set((state) => ({
       utilitySidebar: { ...state.utilitySidebar, ...props },
+    }));
+  },
+  // Profile Sidebar
+  setAccountSidebar: (props) => {
+    set((state) => ({
+      accountSidebar: { ...state.accountSidebar, ...props },
     }));
   },
 }));
