@@ -24,13 +24,21 @@ const getAPIRequest = async ({ path }: { path: string }) => {
         "Content-Type": "application/json",
       },
     });
+
+    // Surface network-level failures to React Query
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
     const json = await response.json();
+
     if (json.status) {
       return json;
-    } else {
-      throw new Error(json.message);
     }
+
+    throw new Error(json.message || "Request failed");
   } catch (err) {
-    console.log(err);
+    // Ensure we return a rejected promise so the query never resolves to undefined
+    return Promise.reject(err);
   }
 };

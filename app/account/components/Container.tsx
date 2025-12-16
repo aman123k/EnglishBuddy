@@ -1,17 +1,42 @@
+import usePostAPIRequest from "@/app/hooks/usePostAPIRequest";
 import { useStore } from "@/app/store/store";
+import { useRouter } from "next/navigation";
 import { IoMdPerson } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
 import { MdSupportAgent } from "react-icons/md";
+import { useQueryClient } from "@tanstack/react-query";
+import { GET_USER_INFORMATION } from "@/app/queryKeys/allQueryKeys";
 
 function Container() {
-  const { setAccountSidebar } = useStore();
+  const { setAccountSidebar, setUser } = useStore();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  // Hook for making POST API requests with loading states and error handling
+  const { mutateAsync: mutatePost } = usePostAPIRequest();
 
   const handleProfileSidebar = (title: string) => {
     setAccountSidebar({
       isOpen: true,
       title: title,
     });
+  };
+
+  // Logs the user out and clears any cached user info to prevent redirect loops.
+  const handleLogout = async () => {
+    const path = "/api/logoutUser";
+    // Call backend to destroy the session/cookies.
+    const response = await mutatePost({ path, data: {} });
+    if (response?.status) {
+      // Clear local user and remove cached user info to avoid stale redirects.
+      setUser(null);
+      queryClient.removeQueries({
+        queryKey: GET_USER_INFORMATION("/api/userInformation"),
+      });
+      const redirectPath = response.route ?? "/login";
+      router.push(redirectPath);
+    }
   };
 
   return (
@@ -71,6 +96,7 @@ function Container() {
         </div>
         {/* Logout */}
         <div
+          onClick={handleLogout}
           className=" group flex items-center gap-3 max-[950px]:border-white max-[950px]:bg-white
          border-[#E9EBF9] border px-5 rounded-2xl cursor-pointer py-3"
         >
