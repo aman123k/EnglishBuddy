@@ -7,6 +7,11 @@ import { User } from "@/app/interface/interface";
 import PasswordInput from "@/app/UIKIT/PasswordInput";
 import { surveyData } from "@/app/(auth)/survey/data/surveyData";
 import SelectField from "@/app/UIKIT/SelectField";
+import usePostAPIRequest from "@/app/hooks/usePostAPIRequest";
+import { GET_USER_INFORMATION } from "@/app/queryKeys/allQueryKeys";
+import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { ERROR_MESSAGES } from "@/app/constants/messages";
 
 function ProfileSidebar() {
   // Access utility sidebar state and setter from the global store.
@@ -15,6 +20,15 @@ function ProfileSidebar() {
   const { userData } = useAuthentication();
   const [userProfile, setUserProfile] = useState<User>(() => userData as User);
   const [updatePass, setUpdatePass] = useState("");
+  const [addSupport, setAddSupport] = useState({
+    subTitle: "",
+    subDescription: "",
+  });
+
+  const queryClient = useQueryClient();
+
+  // Hook for making POST API requests with loading states and error handling
+  const { mutateAsync: mutatePost } = usePostAPIRequest();
 
   useEffect(() => {
     if (userData) setUserProfile(userData);
@@ -22,6 +36,7 @@ function ProfileSidebar() {
 
   const isProfile = accountSidebar?.title === "Profile";
   const isSettings = accountSidebar?.title === "Settings";
+  const isSupport = accountSidebar?.title === "Support";
 
   const hasChanges = useMemo(() => {
     if (!userProfile || !userData) return false;
@@ -41,11 +56,54 @@ function ProfileSidebar() {
         userProfile.learningStyle !== userData.learningStyle
       );
     }
+    if (isSupport) {
+      return addSupport.subDescription && addSupport.subTitle;
+    }
 
     return false;
-  }, [userProfile, userData, updatePass, isProfile, isSettings]);
+  }, [
+    userProfile,
+    userData,
+    updatePass,
+    isProfile,
+    isSettings,
+    isSupport,
+    addSupport.subDescription,
+    addSupport.subTitle,
+  ]);
 
   if (!accountSidebar?.isOpen || !userProfile) return null;
+
+  const handleProfileAndSupport = async () => {
+    if (isSupport) {
+      const path = "/api/addSupport";
+      const response = await mutatePost({ path, data: addSupport });
+    } else {
+      const path = "/api/updateUserInfo";
+      if (!userProfile.email.match(/^[a-zA-Z0-9._%+-]+@gmail\.com$/)) {
+        toast.error(ERROR_MESSAGES.INVALID_EMAIL);
+      } else if (
+        updatePass &&
+        !updatePass.match(
+          /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/
+        )
+      ) {
+        toast.error(ERROR_MESSAGES.WEAK_PASSWORD);
+      } else {
+        // Call backend to destroy the session/cookies.
+        const response = await mutatePost({
+          path,
+          data: { ...userProfile, updatePass, title: accountSidebar?.title },
+        });
+        if (response?.status) {
+          // Clear local user and remove cached user info to avoid stale redirects.
+          queryClient.removeQueries({
+            queryKey: GET_USER_INFORMATION("/api/userInformation"),
+          });
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -108,6 +166,7 @@ function ProfileSidebar() {
             </section>
           )}
 
+          {/* Setting update */}
           {isSettings && (
             <section className=" flex flex-col gap-3.5">
               {/* Translation Language */}
@@ -140,7 +199,39 @@ function ProfileSidebar() {
             </section>
           )}
 
+          {/* Contact us */}
+          {isSupport && (
+            <form className=" flex flex-col gap-3.5">
+              <input
+                className=" outline-none border border-[#E5E7EB] rounded-xl px-3.5 font-nunito-sans text-base
+                text-[#282828] py-2.5"
+                type="text"
+                placeholder="Subject"
+                value={addSupport.subTitle}
+                onChange={(e) =>
+                  setAddSupport((pre) => ({ ...pre, subTitle: e.target.value }))
+                }
+              />
+
+              <textarea
+                className=" outline-none border border-[#E5E7EB] rounded-xl px-3.5 font-nunito-sans text-base
+                text-[#282828] py-2.5"
+                name=""
+                id=""
+                rows={3}
+                placeholder="Type here..."
+                value={addSupport.subDescription}
+                onChange={(e) =>
+                  setAddSupport((pre) => ({
+                    ...pre,
+                    subDescription: e.target.value,
+                  }))
+                }
+              ></textarea>
+            </form>
+          )}
           <button
+            onClick={handleProfileAndSupport}
             type="button"
             className={`${
               hasChanges

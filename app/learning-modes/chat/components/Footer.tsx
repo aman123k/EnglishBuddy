@@ -1,5 +1,6 @@
 // This component represents the footer of the chat interface,
 // containing the message input, send button, and voice interaction controls.
+"use client";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { BsSend } from "react-icons/bs";
