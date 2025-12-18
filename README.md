@@ -2,38 +2,49 @@
 
 Your friendly companion for mastering English, one conversation at a time.
 
-## Description
+## Overview
 
-This is a Next.js application designed to help users improve their English speaking skills through interactive conversations with an AI. It offers features like chat history, real-time translation of AI messages, and personalized feedback to enhance the learning experience.
+EnglishTutor (Lingo) is a Next.js application that helps users improve their English speaking and communication skills through interactive, AI-powered practice.  
+It combines real-time chat, character-based roleplays, debates, and guided scenarios to create an engaging, adaptive learning experience.
 
-## Features
+## Core Features
 
-- **User Authentication:** Secure login using Google OAuth.
-- **Interactive Chat Interface:** Engage in real-time conversations with an AI model.
-- **Chat History:** Seamlessly load and view past conversations with pagination.
-- **AI Message Translation:** Translate AI messages into your preferred language for better understanding.
-- **Voice Playback:** Listen to AI messages with text-to-speech functionality.
-- **Responsive Design:** Enjoy a consistent experience across various devices, from desktop to mobile.
-- **Global State Management:** Efficient state management using Zustand for user data, chat messages, and UI elements.
+- **Authentication & Onboarding**
+  - Secure login via **Google OAuth**.
+  - Guided onboarding and survey flow to understand the learner’s goals and level.
+- **Interactive Chat Practice**
+  - Real-time conversation with an AI tutor.
+  - Support for multiple learning modes (free chat, roleplays, debates, and character conversations).
+  - Chat history loading so users can revisit previous conversations.
+- **Voice & Accessibility**
+  - **Text-to-Speech (TTS)** playback for AI messages.
+  - Visual loading and voice wave animations for a smooth UX.
+- **Personalization**
+  - Survey-driven personalized learning plans.
+  - Character-based conversations (e.g., historical figures, fictional characters) for varied contexts.
+- **Modern UI & State Management**
+  - Fully responsive UI built with Tailwind CSS.
+  - Global state managed with **Zustand**.
+  - Data fetching and caching handled via **React Query (TanStack Query)**.
 
-## Technologies Used
+## Tech Stack
 
-- [Next.js](https://nextjs.org/): React framework for building full-stack web applications.
-- [React](https://react.dev/): JavaScript library for building user interfaces.
-- [TypeScript](https://www.typescriptlang.org/): Typed superset of JavaScript that compiles to plain JavaScript.
-- [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for rapid UI development.
-- [Zustand](https://zustand-store.netlify.app/): A small, fast, and scalable bear-necessities state-management solution.
-- [React Query](https://tanstack.com/query/latest): Powerful asynchronous state management for React.
-- [Lottie](https://lottiefiles.com/): For rendering engaging animations.
-- Google OAuth: For secure user authentication.
+- [Next.js](https://nextjs.org/) – App Router–based React framework.
+- [React](https://react.dev/) – UI library.
+- [TypeScript](https://www.typescriptlang.org/) – Static typing for safer code.
+- [Tailwind CSS](https://tailwindcss.com/) – Utility-first styling.
+- [Zustand](https://zustand-store.netlify.app/) – Lightweight global state management.
+- [React Query](https://tanstack.com/query/latest) – Server state management and caching.
+- [Lottie](https://lottiefiles.com/) – Animations and visual feedback.
+- **Google OAuth** – User authentication.
 
-## Setup
+## Getting Started
 
 Follow these steps to set up and run the project locally.
 
-### 1. Installation
+### 1. Install dependencies
 
-Clone the repository and install the dependencies:
+From the project root:
 
 ```bash
 npm install
@@ -41,17 +52,20 @@ npm install
 yarn install
 ```
 
-### 2. Environment Variables
+### 2. Configure environment variables
 
-Create a `.env.local` file in the root directory of the project and add your Google OAuth client ID:
+Create a `.env.local` file in the project root and define the required environment variables.  
+At minimum, you’ll need your Google OAuth client ID:
 
-```
+```bash
 NEXT_PUBLIC_GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
 ```
 
-### 3. Running the Development Server
+If your project requires additional environment variables (API URLs, keys, etc.), define them here as well following the same pattern.
 
-Start the development server:
+### 3. Run the development server
+
+Start the Next.js dev server:
 
 ```bash
 npm run dev
@@ -59,24 +73,57 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+Then open `http://localhost:3000` in your browser.
 
-## Project Structure (Client-side)
+## Project Structure (Client)
 
-Below is an overview of the key directories and files on the client-side:
+High-level overview of the main client-side structure, with a focus on the `app/` directory (Next.js App Router):
 
-- `app/`: Contains the main application logic, including pages, reusable components, and custom hooks.
-  - `(auth)/`: Houses authentication-related pages and components (e.g., login, forgot password, get started, survey).
-  - `components/`: General reusable UI components (e.g., `Sidebar.tsx`).
-  - `hooks/`: Custom React hooks for various functionalities, such as authentication (`useAuth.ts`), API requests (`useGetAPIRequest.ts`, `usePostAPIRequest.ts`), and Google authentication (`useGoogleAuth.ts`).
-  - `interface/`: Defines TypeScript interfaces for data structures used throughout the application, like `messageInterface.tsx` for chat messages.
-  - `learning-modes/`: Contains different learning modes, with `chat/` being a prominent one.
-    - `chat/`: Specific components and logic related to the chat learning mode.
-      - `components/`: Includes core chat UI components such as `ChatScreen.tsx` (displays messages), `Header.tsx` (chat header), `Footer.tsx` (message input), and `UtilitySidebar.tsx` (for translations or information).
-      - `voice/`: Contains functionality for text-to-speech (`speak.ts`).
-  - `store/`: Manages global application state using Zustand (`store.ts`), including user information, chat messages, and UI sidebar state.
-  - `UIKIT/`: A collection of basic UI components (e.g., `AuthBtn.tsx`, `Input.tsx`, `PasswordInput.tsx`).
-- `public/`: Stores static assets such as images (e.g., `Images/` folder).
-- `globals.css`: Global CSS styles for the application.
-- `tailwind.config.js`: Tailwind CSS configuration.
-- `tsconfig.json`: TypeScript configuration.
+- `app/` – Main application entry and route tree.
+
+  - `page.tsx` – Root landing page.
+  - `layout.tsx` – Root layout (providers, global shells, etc.).
+  - `providers.tsx` – Global providers (React Query, Zustand wrappers, etc.).
+  - `globals.css` – Global styles and Tailwind layers.
+  - `(auth)/` – Authentication and onboarding flows:
+    - `login/`, `forgot-password/`, `get-started/`, `survey/`, `callback/` – Auth pages and survey / onboarding journey.
+  - `learning-modes/` – All learning experiences:
+    - `chat/` – Real-time chat practice
+      - `components/` – Core chat UI (e.g., `ChatScreen.tsx`, `Footer.tsx`, `UtilitySidebar.tsx`).
+      - `voice/` – TTS utilities (`speak.ts`, `voicePack.ts`).
+      - `hooks/` – Chat-specific hooks (e.g., `usePostMessage.ts`).
+      - `data/` – Loading and voice animation JSON (`loading.json`, `voice_wave.json`, etc.).
+    - `characters/` – Character-based conversation mode
+      - `[character]/` – Dynamic character routes and components.
+      - `data/charactersData.ts` – Metadata and configuration for available characters.
+    - `debates/` – Debate-style practice mode.
+    - `roleplays/` – Role-play conversation scenarios.
+  - `account/` – User account area:
+    - `page.tsx` – Account dashboard / entry point.
+    - `components/` – Profile and account UI (e.g., `ProfileSidebar.tsx`, `Header.tsx`, `Container.tsx`).
+  - `components/` – Shared, app-level components such as `Sidebar.tsx` and common headers/sidebars.
+  - `hooks/` – Cross-cutting hooks:
+    - `useAuth.ts` – Authentication state and utilities.
+    - `useGetAPIRequest.ts`, `usePostAPIRequest.ts`, `useDeleteAPIRequest.ts` – Generic API hooks.
+    - `useGoogleAuth.ts` – Google OAuth integration helper.
+  - `interface/` – Shared TypeScript interfaces and types (messages, cards, UI models, etc.).
+  - `constants/` – Reusable constants such as chat system messages.
+  - `queryKeys/` – Centralized React Query key definitions.
+  - `store/` – Zustand store configuration (`store.ts`) for user, chat, and UI state.
+  - `UIKIT/` – Reusable UI elements and form controls (`AuthBtn.tsx`, `Input.tsx`, `PasswordInput.tsx`, `SelectField.tsx`).
+
+- `public/` – Static assets (images, illustrations, character avatars, logos).
+- `tailwind.config.js` – Tailwind CSS configuration.
+- `tsconfig.json` – TypeScript compiler configuration.
+
+## Contributing
+
+1. Fork the repository.
+2. Create a new branch for your feature or fix.
+3. Commit your changes with clear, descriptive messages.
+4. Open a pull request describing the change and how to test it.
+
+## License
+
+This project is currently intended for internal / personal use.  
+If you plan to use it in production or redistribute it, please add an explicit license file that matches your requirements.
