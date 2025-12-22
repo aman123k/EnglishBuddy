@@ -1,3 +1,5 @@
+// Small wrapper around React Query's mutation for posting chat messages.
+// Optionally invalidates a query key after a successful request.
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const url = process.env.NEXT_PUBLIC_API_URL;

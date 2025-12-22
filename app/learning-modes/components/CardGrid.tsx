@@ -1,3 +1,5 @@
+// Generic grid of clickable cards used for learning mode entry points (e.g. characters).
+// Each card links to a dynamic route using the provided base path and card id.
 import { cardGridInterface } from "@/app/interface/cardGridInterface";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,14 +17,14 @@ function CardGrid({
         {CardGridArray.map((item: cardGridInterface) => {
           return (
             <Link
-              href={`/${path}/${item.slug}`}
-              key={item.id}
+              href={`/${path}/${item._id}`}
+              key={item._id}
               className="w-full relative flex-shrink-0 rounded-3xl overflow-hidden cursor-pointer"
             >
               <div className=" absolute bg-black w-full h-full left-0 top-0 opacity-50"></div>
               <div>
                 <Image
-                  src={item.image}
+                  src={item.imageUrl}
                   alt={item.name}
                   height={200}
                   width={200}

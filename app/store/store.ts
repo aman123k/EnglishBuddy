@@ -1,6 +1,9 @@
+// Central client-side store for survey answers, authenticated user data,
+// chat messages and UI sidebars (account + utility).
 import { create } from "zustand";
 import { SurveyResponses, User } from "../interface/interface";
 import { Message, UtilitySidebarProps } from "../interface/messageInterface";
+import { cardGridInterface } from "../interface/cardGridInterface";
 
 interface CreateStoreState {
   surveyRes: SurveyResponses;
@@ -8,6 +11,7 @@ interface CreateStoreState {
   userMessage: Message[];
   utilitySidebar: UtilitySidebarProps;
   accountSidebar: UtilitySidebarProps;
+  allCharacter: cardGridInterface[];
 }
 
 interface Store {
@@ -20,6 +24,7 @@ interface Store {
   setUtilitySidebar: (props: Partial<UtilitySidebarProps>) => void;
   setInitialMessages: (messages: Message[]) => void;
   setAccountSidebar: (props: Partial<UtilitySidebarProps>) => void;
+  setAllCharacter: (characters: cardGridInterface[]) => void;
 }
 
 // Initial state
@@ -49,6 +54,7 @@ const initialState: CreateStoreState = {
     isOpen: false,
     title: "",
   },
+  allCharacter: [],
 };
 
 export const useStore = create<Store & CreateStoreState>((set) => ({
@@ -109,4 +115,5 @@ export const useStore = create<Store & CreateStoreState>((set) => ({
       accountSidebar: { ...state.accountSidebar, ...props },
     }));
   },
+  setAllCharacter: (characters) => set({ allCharacter: characters }),
 }));

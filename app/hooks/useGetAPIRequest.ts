@@ -1,3 +1,5 @@
+// Generic GET helper hook backed by React Query.
+// Accepts a relative API path, a pre-built query key and a stale time.
 import { useQuery } from "@tanstack/react-query";
 import { ApiResponse } from "../interface/interface";
 

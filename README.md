@@ -89,15 +89,23 @@ High-level overview of the main client-side structure, with a focus on the `app/
     - `login/`, `forgot-password/`, `get-started/`, `survey/`, `callback/` – Auth pages and survey / onboarding journey.
   - `learning-modes/` – All learning experiences:
     - `chat/` – Real-time chat practice
-      - `components/` – Core chat UI (e.g., `ChatScreen.tsx`, `Footer.tsx`, `UtilitySidebar.tsx`).
+      - `page.tsx` – Chat mode entry page that wires up the shared layout.
+      - `components/` – Core chat UI is now shared in `learning-modes/components/`.
       - `voice/` – TTS utilities (`speak.ts`, `voicePack.ts`).
-      - `hooks/` – Chat-specific hooks (e.g., `usePostMessage.ts`).
+      - `hooks/` – Chat-specific hooks (e.g., `usePostMessage.ts`, `useChatHistory.ts`).
       - `data/` – Loading and voice animation JSON (`loading.json`, `voice_wave.json`, etc.).
     - `characters/` – Character-based conversation mode
-      - `[character]/` – Dynamic character routes and components.
-      - `data/charactersData.ts` – Metadata and configuration for available characters.
+      - `page.tsx` – Character grid listing all available characters.
+      - `[character]/page.tsx` – Dynamic character routes and chat entry per character.
     - `debates/` – Debate-style practice mode.
     - `roleplays/` – Role-play conversation scenarios.
+    - `components/` – Shared learning-mode UI:
+      - `MainContentSection.tsx` – Main chat layout (header + chat history + footer).
+      - `ChatScreen.tsx` – Scrollable chat history view.
+      - `Footer.tsx` – Chat input (text + mic) and send logic.
+      - `Header.tsx` – Shared header and conversation header with TTS toggle.
+      - `CardGrid.tsx` – Generic grid for clickable learning cards (e.g., characters).
+      - `CommonSidebar.tsx`, `CommonSidebarLayout.tsx` – Informational and translation sidebars.
   - `account/` – User account area:
     - `page.tsx` – Account dashboard / entry point.
     - `components/` – Profile and account UI (e.g., `ProfileSidebar.tsx`, `Header.tsx`, `Container.tsx`).
@@ -110,7 +118,10 @@ High-level overview of the main client-side structure, with a focus on the `app/
   - `constants/` – Reusable constants such as chat system messages.
   - `queryKeys/` – Centralized React Query key definitions.
   - `store/` – Zustand store configuration (`store.ts`) for user, chat, and UI state.
-  - `UIKIT/` – Reusable UI elements and form controls (`AuthBtn.tsx`, `Input.tsx`, `PasswordInput.tsx`, `SelectField.tsx`).
+  - `UIKIT/` – Reusable UI elements and form controls:
+    - `AuthBtn.tsx`, `Input.tsx`, `PasswordInput.tsx`, `SelectField.tsx` – Common form components.
+    - `GeneralAvatar.tsx` – Generated avatar (initials + deterministic color) for tutors/users.
+    - `Loader.tsx` – Centered Lottie loader used across chat and characters.
 
 - `public/` – Static assets (images, illustrations, character avatars, logos).
 - `tailwind.config.js` – Tailwind CSS configuration.

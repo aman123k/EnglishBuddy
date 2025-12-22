@@ -1,21 +1,21 @@
-// This component represents the footer of the chat interface,
-// containing the message input, send button, and voice interaction controls.
+// Chat input footer: handles text input, voice input and sending messages
+// to the chat API, and pushes both user and AI replies into the store.
 "use client";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { BsSend } from "react-icons/bs";
 import { LuMic } from "react-icons/lu";
 import { useStore } from "@/app/store/store";
-import successLoader from "../../data/loading.json";
-import usePostMessageRequest from "../../hooks/usePostMessage";
+import successLoader from "../data/loading.json";
+import usePostMessageRequest from "../hooks/usePostMessage";
 import Lottie from "lottie-react";
-import { speakFemale } from "../../voice/speak";
-import voice_wave from "../../data/voice_wave.json";
+import { speakFemale } from "../voice/speak";
+import voice_wave from "../data/voice_wave.json";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 
-function Footer() {
+function Footer({ path }: { path: string }) {
   // 1. STATE MANAGEMENT
 
   const [message, setMessage] = useState("");
@@ -59,7 +59,7 @@ function Footer() {
     resetTranscript();
 
     //  API CALL: Send the message to the backend chat service.
-    const path = "/api/chatService";
+
     const response = await mutateAsync({
       path,
       data: { messages: [{ content: text, role: "user" }] },

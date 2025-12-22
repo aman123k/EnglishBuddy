@@ -1,3 +1,5 @@
+// Shared header for learning modes: renders page title and,
+// when requested, a compact conversation header with avatar and TTS toggle.
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -7,10 +9,11 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { toggleTts } from "../function/toggleTts";
 import toast from "react-hot-toast";
+import GeneralAvatar from "@/app/UIKIT/GeneralAvatar";
 
 type HeaderProps = {
   title: string;
-  img: string;
+  img: string | undefined;
   tutorName?: string;
   isShowBottomHeader?: boolean;
 };
@@ -57,13 +60,17 @@ function Header({ title, img, tutorName, isShowBottomHeader }: HeaderProps) {
               className=" cursor-pointer hidden max-[950px]:inline-block"
             />
             <div className=" relative">
-              <Image
-                src={img}
-                alt="chats"
-                width={60}
-                height={60}
-                className="rounded-full h-11.5 w-11.5 object-cover object-top"
-              />
+              {img ? (
+                <Image
+                  src={img}
+                  alt="chats"
+                  width={60}
+                  height={60}
+                  className="rounded-full h-11.5 w-11.5 object-cover object-top"
+                />
+              ) : (
+                <GeneralAvatar height={45} width={45} name={tutorName ?? ""} />
+              )}
               <span className="w-2 h-2 bg-green-500 rounded-full absolute bottom-0.5 right-0.5 outline-2 outline-white"></span>
             </div>
             <h3 className=" text-[20px]">{tutorName}</h3>

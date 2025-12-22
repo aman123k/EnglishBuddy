@@ -1,19 +1,22 @@
-// This component renders a sidebar for displaying utility content such as information or translations.
 "use client";
-import React from "react";
-import { RxCross2 } from "react-icons/rx";
 import { useStore } from "@/app/store/store";
 import useAuthentication from "@/app/hooks/useAuth";
+import { RxCross2 } from "react-icons/rx";
 import { FaCheck, FaMicrophone } from "react-icons/fa";
 
-function UtilitySidebar() {
-  // Access utility sidebar state and setter from the global store.
+export function CommonSidebarLayout() {
   const { utilitySidebar, setUtilitySidebar } = useStore();
+  // Access utility sidebar state and setter from the global store.
+
   // Access user data from authentication hook.
   const { userData } = useAuthentication();
 
   return (
-    <>
+    <section
+      className={`${
+        utilitySidebar?.isOpen ? "w-[30%] " : "hidden"
+      } bg-white px-5`}
+    >
       {/* Overlay to close the sidebar when clicked outside on smaller screens. */}
       <div
         className="max-[950px]:absolute max-[950px]:h-full max-[950px]:bg-[#282828] max-[950px]:left-0 max-[950px]:top-0 
@@ -86,8 +89,6 @@ function UtilitySidebar() {
           )}
         </div>
       </div>
-    </>
+    </section>
   );
 }
-
-export default UtilitySidebar;

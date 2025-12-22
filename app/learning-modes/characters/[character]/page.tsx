@@ -1,7 +1,13 @@
+// Character detail page: loads a single character and opens
+// the chat experience scoped to that character.
+"use client";
 import Sidebar from "@/app/components/Sidebar";
-import Header from "../../components/Header";
-import Footer from "../../chat/components/Footer";
-import { characters } from "../data/charactersData";
+import { CommonSidebarLayout } from "../../components/CommonSidebarLayout";
+import { MainContentSection } from "../../components/MainContentSection";
+import { use } from "react";
+import useGetAPIRequest from "@/app/hooks/useGetAPIRequest";
+import { GET_USER_COMMON } from "@/app/queryKeys/allQueryKeys";
+import { cardGridInterface } from "@/app/interface/cardGridInterface";
 
 type Props = {
   params: Promise<{
@@ -9,10 +15,18 @@ type Props = {
   }>;
 };
 
-async function CharacterPage({ params }: Props) {
-  const { character } = await params;
+function CharacterPage({ params }: Props) {
+  const { character } = use(params);
 
-  const currentCharacters = characters.find((cat) => cat.slug === character);
+  const { data: CardGridArray } = useGetAPIRequest<cardGridInterface[]>(
+    "/api/allCharacter",
+    GET_USER_COMMON("/api/allCharacter"),
+    1000 * 60 * 5
+  );
+
+  const currentCharacters = CardGridArray?.data?.find(
+    (cat) => cat._id === character
+  );
 
   return (
     <section className=" bg-[#F7F7FE] max-[950px]:bg-white min-[1600px]:w-[1400px]  min-[1600px]:mx-[50%] min-[1600px]:translate-x-[-50%]">
@@ -20,27 +34,16 @@ async function CharacterPage({ params }: Props) {
         <div className="max-[950px]:hidden">
           <Sidebar />
         </div>
-        <section
-          className={`${
-            true ? "w-full" : "w-[55%] max-[950px]:w-full"
-          } px-6 max-[950px]:px-4 relative ease-in-out duration-500`}
-        >
-          <Header
-            title="Characters"
-            tutorName={currentCharacters?.name}
-            img={currentCharacters?.image ?? ""}
-            isShowBottomHeader={true}
-          />
-          {/* <ChatScreen /> */}
-          <Footer />
-        </section>
-        {/* <section
-          className={`${
-            utilitySidebar?.isOpen ? "w-[30%] " : "hidden"
-          } bg-white px-5`}
-        >
-          <UtilitySidebar />
-        </section> */}
+        <MainContentSection
+          title="Characters"
+          tutorName={currentCharacters?.name}
+          img={currentCharacters?.imageUrl}
+          isShowBottomHeader={true}
+          apiEndpoint={`/api/chatHistory`}
+          query={`characterName=${currentCharacters?.name}&mode=character`}
+          apiPath={`/api/character?characterName=${currentCharacters?.name}`}
+        />
+        <CommonSidebarLayout />
       </section>
     </section>
   );
