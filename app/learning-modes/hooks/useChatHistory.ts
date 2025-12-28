@@ -130,10 +130,10 @@ export const useChatHistory = (
       });
     } else {
       // If not translated, make an API call to translate the message.
-      const path = "/api/translate";
+      const path = `/api/translate?chatId=${id}`;
       const response = await mutateAsync({
         path,
-        data: { id },
+        data: { aiMessage },
       });
       // On successful translation, open the sidebar with the translated content.
       if (response?.status) {

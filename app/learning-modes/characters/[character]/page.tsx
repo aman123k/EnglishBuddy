@@ -18,16 +18,14 @@ type Props = {
 function CharacterPage({ params }: Props) {
   const { character } = use(params);
 
-  const { data: CardGridArray } = useGetAPIRequest<cardGridInterface[]>(
-    "/api/allCharacter",
-    GET_USER_COMMON("/api/allCharacter"),
-    1000 * 60 * 5
-  );
+  const { data: CardGridArray, isLoading } = useGetAPIRequest<
+    cardGridInterface[]
+  >("/api/allCharacter", GET_USER_COMMON("/api/allCharacter"), 1000 * 60 * 5);
 
   const currentCharacters = CardGridArray?.data?.find(
     (cat) => cat._id === character
   );
-
+  if (isLoading) return;
   return (
     <section className=" bg-[#F7F7FE] max-[950px]:bg-white min-[1600px]:w-[1400px]  min-[1600px]:mx-[50%] min-[1600px]:translate-x-[-50%]">
       <section className="flex max-[950px]:flex-col">
@@ -40,8 +38,8 @@ function CharacterPage({ params }: Props) {
           img={currentCharacters?.imageUrl}
           isShowBottomHeader={true}
           apiEndpoint={`/api/chatHistory`}
-          query={`characterName=${currentCharacters?.name}&mode=character`}
-          apiPath={`/api/character?characterName=${currentCharacters?.name}`}
+          query={`characterName=${currentCharacters?.name}&mode=character&id=${currentCharacters?._id}`}
+          apiPath={`/api/characterService?id=${currentCharacters?._id}`}
         />
         <CommonSidebarLayout />
       </section>

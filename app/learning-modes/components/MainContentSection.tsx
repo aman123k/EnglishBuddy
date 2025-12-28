@@ -2,6 +2,7 @@
 // Renders the header, chat history and message input area, and adapts
 // its width based on whether the utility sidebar is open.
 "use client";
+import { useEffect } from "react";
 import { useStore } from "@/app/store/store";
 import Header from "./Header";
 import ChatScreen from "./ChatScreen";
@@ -29,7 +30,14 @@ export function MainContentSection({
   apiPath,
 }: MainContentSectionProps) {
   useAuthentication();
-  const { utilitySidebar } = useStore();
+  const { utilitySidebar, setUtilitySidebar } = useStore();
+
+  // Close the utility sidebar when the component unmounts (user exits the page).
+  useEffect(() => {
+    return () => {
+      setUtilitySidebar({ isOpen: false });
+    };
+  }, [setUtilitySidebar]);
 
   return (
     <section
