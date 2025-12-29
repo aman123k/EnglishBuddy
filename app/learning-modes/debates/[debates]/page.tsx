@@ -2,29 +2,29 @@
 // the chat experience scoped to that character.
 "use client";
 import Sidebar from "@/app/components/Sidebar";
-import { CommonSidebarLayout } from "../../components/CommonSidebarLayout";
-import { MainContentSection } from "../../components/MainContentSection";
+
 import { use } from "react";
 import useGetAPIRequest from "@/app/hooks/useGetAPIRequest";
 import { GET_USER_COMMON } from "@/app/queryKeys/allQueryKeys";
 import { cardGridInterface } from "@/app/interface/cardGridInterface";
+import { MainContentSection } from "../../components/MainContentSection";
+import { CommonSidebarLayout } from "../../components/CommonSidebarLayout";
 
 type Props = {
   params: Promise<{
-    character: string;
+    debates: string;
   }>;
 };
 
-function CharacterPage({ params }: Props) {
-  const { character } = use(params);
+function DebatePage({ params }: Props) {
+  const { debates } = use(params);
 
   const { data: CardGridArray, isLoading } = useGetAPIRequest<
     cardGridInterface[]
-  >("/api/allCharacter", GET_USER_COMMON("/api/allCharacter"), 1000 * 60 * 5);
+  >("/api/allDebates", GET_USER_COMMON("/api/allDebates"), 1000 * 60 * 5);
 
-  const currentCharacters = CardGridArray?.data?.find(
-    (cat) => cat._id === character
-  );
+  const currentDebate = CardGridArray?.data?.find((cat) => cat._id === debates);
+  console.log(currentDebate);
   if (isLoading) return;
   return (
     <section className=" bg-[#F7F7FE] max-[950px]:bg-white min-[1600px]:w-[1400px]  min-[1600px]:mx-[50%] min-[1600px]:translate-x-[-50%]">
@@ -33,13 +33,13 @@ function CharacterPage({ params }: Props) {
           <Sidebar />
         </div>
         <MainContentSection
-          title="Characters"
-          tutorName={currentCharacters?.name}
-          img={currentCharacters?.imageUrl}
+          title="Debates"
+          tutorName={currentDebate?.name}
+          img={currentDebate?.imageUrl}
           isShowBottomHeader={true}
           apiEndpoint={`/api/chatHistory`}
-          query={`characterName=${currentCharacters?.name}&mode=character&characterId=${currentCharacters?._id}`}
-          apiPath={`/api/characterService?characterId=${currentCharacters?._id}`}
+          query={`topic=${currentDebate?.name}&mode=debate&debateId=${currentDebate?._id}`}
+          apiPath={`/api/debateService?debateId=${currentDebate?._id}`}
         />
         <CommonSidebarLayout />
       </section>
@@ -47,4 +47,4 @@ function CharacterPage({ params }: Props) {
   );
 }
 
-export default CharacterPage;
+export default DebatePage;

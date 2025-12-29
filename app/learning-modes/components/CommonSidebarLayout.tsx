@@ -26,7 +26,7 @@ export function CommonSidebarLayout() {
       {/* Sidebar container with conditional styling for responsiveness. */}
       <div
         className={`max-[950px]:z-50 max-[950px]:absolute max-[950px]:bottom-0 max-[950px]:left-0 bg-white
-          max-[950px]:w-full  max-[950px]:bg-[#E9EBF9] max-[950px]:rounded-t-2xl `}
+          max-[950px]:w-full  max-[950px]:bg-[#E9EBF9] max-[950px]:h-[60dvh] overflow-scroll no-scrollbar h-[100dvh] max-[950px]:rounded-t-2xl`}
       >
         <div
           className=" max-[950px]:rounded-2xl max-[950px]:mx-[20px]
