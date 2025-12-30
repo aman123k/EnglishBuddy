@@ -7,8 +7,10 @@ import { cardGridInterface } from "@/app/interface/cardGridInterface";
 import { GET_USER_COMMON } from "@/app/queryKeys/allQueryKeys";
 import Loader from "@/app/UIKIT/Loader";
 import CardGrid from "../components/CardGrid";
+import useAuthentication from "@/app/hooks/useAuth";
 
 function Debates() {
+  useAuthentication();
   const { data: CardGridArray, isLoading } = useGetAPIRequest<
     cardGridInterface[]
   >("/api/allDebates", GET_USER_COMMON("/api/allDebates"), 1000 * 60 * 5);

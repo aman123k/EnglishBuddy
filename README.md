@@ -54,14 +54,20 @@ yarn install
 
 ### 2. Configure environment variables
 
-Create a `.env.local` file in the project root and define the required environment variables.  
-At minimum, you’ll need your Google OAuth client ID:
+Create a `.env.local` file in the project root and define the required environment variables:
 
 ```bash
+# Google OAuth Configuration
 NEXT_PUBLIC_GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
+
+# API Configuration
+NEXT_PUBLIC_API_URL=YOUR_API_BASE_URL
 ```
 
-If your project requires additional environment variables (API URLs, keys, etc.), define them here as well following the same pattern.
+**Required variables:**
+
+- `NEXT_PUBLIC_GOOGLE_CLIENT_ID` – Your Google OAuth client ID for authentication.
+- `NEXT_PUBLIC_API_URL` – Base URL for your backend API (used by all API hooks for fetching data and sending messages).
 
 ### 3. Run the development server
 
@@ -74,6 +80,21 @@ yarn dev
 ```
 
 Then open `http://localhost:3000` in your browser.
+
+## Learning Modes Architecture
+
+All learning modes (Chat, Characters, Debates, Roleplays) follow a consistent pattern:
+
+1. **Listing Pages** (`page.tsx`) – Display a grid of available options (characters, debate topics, roleplay scenarios) fetched from the API.
+2. **Detail Pages** (`[id]/page.tsx`) – Load a specific item and render the `MainContentSection` component with chat functionality.
+3. **Shared Components** – All modes use the same reusable components:
+   - `MainContentSection` – Wraps the chat interface
+   - `ChatScreen` – Displays messages with pagination
+   - `Footer` – Handles user input (text/voice)
+   - `Header` – Shows tutor info and controls
+   - `CardGrid` – Renders clickable cards for navigation
+
+This architecture ensures consistency across all learning experiences while allowing each mode to have its own API endpoints and data structure.
 
 ## Project Structure (Client)
 
@@ -90,22 +111,34 @@ High-level overview of the main client-side structure, with a focus on the `app/
   - `learning-modes/` – All learning experiences:
     - `chat/` – Real-time chat practice
       - `page.tsx` – Chat mode entry page that wires up the shared layout.
-      - `components/` – Core chat UI is now shared in `learning-modes/components/`.
-      - `voice/` – TTS utilities (`speak.ts`, `voicePack.ts`).
-      - `hooks/` – Chat-specific hooks (e.g., `usePostMessage.ts`, `useChatHistory.ts`).
-      - `data/` – Loading and voice animation JSON (`loading.json`, `voice_wave.json`, etc.).
     - `characters/` – Character-based conversation mode
-      - `page.tsx` – Character grid listing all available characters.
-      - `[character]/page.tsx` – Dynamic character routes and chat entry per character.
-    - `debates/` – Debate-style practice mode.
-    - `roleplays/` – Role-play conversation scenarios.
-    - `components/` – Shared learning-mode UI:
-      - `MainContentSection.tsx` – Main chat layout (header + chat history + footer).
-      - `ChatScreen.tsx` – Scrollable chat history view.
-      - `Footer.tsx` – Chat input (text + mic) and send logic.
-      - `Header.tsx` – Shared header and conversation header with TTS toggle.
-      - `CardGrid.tsx` – Generic grid for clickable learning cards (e.g., characters).
-      - `CommonSidebar.tsx`, `CommonSidebarLayout.tsx` – Informational and translation sidebars.
+      - `page.tsx` – Character grid listing all available characters (fetches from `/api/allCharacter`).
+      - `[character]/page.tsx` – Dynamic character route that loads a specific character and opens the chat experience scoped to that character.
+    - `debates/` – Debate-style practice mode
+      - `page.tsx` – Debate topics grid listing all available debates (fetches from `/api/allDebates`).
+      - `[debates]/page.tsx` – Dynamic debate route that loads a specific debate topic and opens the chat experience for that debate.
+    - `roleplays/` – Role-play conversation scenarios
+      - `page.tsx` – Roleplay scenarios grid listing all available roleplays (fetches from `/api/allRoleplays`).
+      - `[roleplays]/page.tsx` – Dynamic roleplay route that loads a specific scenario and opens the chat experience for that roleplay.
+    - `components/` – Shared learning-mode UI components:
+      - `MainContentSection.tsx` – Main chat layout wrapper (header + chat history + footer). Automatically closes utility sidebar on unmount.
+      - `ChatScreen.tsx` – Scrollable chat history view with message rendering, replay, and translation features.
+      - `Footer.tsx` – Chat input form with text input, voice recognition (mic), and send functionality.
+      - `Header.tsx` – Shared header component with navigation, tutor avatar, and TTS toggle controls.
+      - `CardGrid.tsx` – Generic grid component for displaying clickable learning cards (characters, debates, roleplays).
+      - `CommonSidebar.tsx` – Static informational sidebar for learning mode descriptions.
+      - `CommonSidebarLayout.tsx` – Dynamic utility sidebar for translations and information, controlled by global store.
+    - `hooks/` – Learning-mode specific hooks:
+      - `useChatHistory.ts` – Manages chat history fetching, pagination, auto-scroll, and translation functionality.
+      - `usePostMessage.ts` – Handles sending messages to the API with React Query mutations.
+    - `voice/` – Text-to-Speech utilities:
+      - `speak.ts` – TTS functions for AI message playback.
+      - `voicePack.ts` – Voice configuration and settings.
+    - `function/` – Utility functions:
+      - `toggleTts.ts` – Toggle text-to-speech on/off and persist to localStorage.
+    - `data/` – Static data and animations:
+      - `loading.json`, `chatsLoading.json` – Lottie loading animations.
+      - `voice_wave.json` – Voice wave animation for active speech recognition.
   - `account/` – User account area:
     - `page.tsx` – Account dashboard / entry point.
     - `components/` – Profile and account UI (e.g., `ProfileSidebar.tsx`, `Header.tsx`, `Container.tsx`).

@@ -10,8 +10,10 @@ import { cardGridInterface } from "@/app/interface/cardGridInterface";
 import useGetAPIRequest from "@/app/hooks/useGetAPIRequest";
 import { GET_USER_COMMON } from "@/app/queryKeys/allQueryKeys";
 import Loader from "@/app/UIKIT/Loader";
+import useAuthentication from "@/app/hooks/useAuth";
 
 function Characters() {
+  useAuthentication();
   const { data: CardGridArray, isLoading } = useGetAPIRequest<
     cardGridInterface[]
   >("/api/allCharacter", GET_USER_COMMON("/api/allCharacter"), 1000 * 60 * 5);
