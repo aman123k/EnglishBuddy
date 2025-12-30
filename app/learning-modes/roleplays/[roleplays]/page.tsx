@@ -12,18 +12,20 @@ import { CommonSidebarLayout } from "../../components/CommonSidebarLayout";
 
 type Props = {
   params: Promise<{
-    debates: string;
+    roleplays: string;
   }>;
 };
 
-function DebatePage({ params }: Props) {
-  const { debates } = use(params);
+function RoleplayPage({ params }: Props) {
+  const { roleplays } = use(params);
 
   const { data: CardGridArray, isLoading } = useGetAPIRequest<
     cardGridInterface[]
-  >("/api/allDebates", GET_USER_COMMON("/api/allDebates"), 1000 * 60 * 5);
+  >("/api/allRoleplays", GET_USER_COMMON("/api/allRoleplays"), 1000 * 60 * 5);
 
-  const currentDebate = CardGridArray?.data?.find((cat) => cat._id === debates);
+  const currentRoleplay = CardGridArray?.data?.find(
+    (cat) => cat._id === roleplays
+  );
 
   if (isLoading) return;
   return (
@@ -33,13 +35,13 @@ function DebatePage({ params }: Props) {
           <Sidebar />
         </div>
         <MainContentSection
-          title="Debates"
-          tutorName={currentDebate?.name}
-          img={currentDebate?.imageUrl}
+          title="Roleplays"
+          tutorName={currentRoleplay?.name}
+          img={currentRoleplay?.imageUrl}
           isShowBottomHeader={true}
           apiEndpoint={`/api/chatHistory`}
-          query={`topic=${currentDebate?.name}&mode=debate&debateId=${currentDebate?._id}`}
-          apiPath={`/api/debateService?debateId=${currentDebate?._id}`}
+          query={`scenario=${currentRoleplay?.name}&mode=roleplay&roleplayId=${currentRoleplay?._id}`}
+          apiPath={`/api/roleplayService?roleplayId=${currentRoleplay?._id}`}
         />
         <CommonSidebarLayout />
       </section>
@@ -47,4 +49,4 @@ function DebatePage({ params }: Props) {
   );
 }
 
-export default DebatePage;
+export default RoleplayPage;

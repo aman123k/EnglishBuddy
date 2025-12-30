@@ -1,6 +1,7 @@
 // Small wrapper around React Query's mutation for posting chat messages.
 // Optionally invalidates a query key after a successful request.
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 
@@ -32,11 +33,11 @@ const usePostMessageRequest = (refetchQueryKey?: string[]) => {
       if (json.status) {
         return json;
       } else {
-        throw new Error(json.message);
+        toast.error(json.message || "An error occurred");
       }
     } catch (err) {
       console.log(err);
-      throw new Error("Post API request failed");
+      toast.error("An error occurred while sending the message");
     }
   };
 
