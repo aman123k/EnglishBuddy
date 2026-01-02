@@ -10,9 +10,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { FaArrowLeft, FaGithub } from "react-icons/fa";
+import { ArrowLeft } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { LuMail } from "react-icons/lu";
+import { FaGithub } from "react-icons/fa";
 
 function SingUp({
   setCurrentStep,
@@ -78,7 +79,7 @@ function SingUp({
     }
   };
 
-  // Github Auth
+  // FaGithub Auth
   const CLIENT_ID = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
   const githubLogin = (): void => {
     localStorage.setItem("surveyRes", JSON.stringify(surveyRes));
@@ -89,7 +90,7 @@ function SingUp({
   return (
     <section className=" flex flex-col gap-6 h-full overflow-auto no-scrollbar max-[650px]:gap-4">
       <header className=" flex gap-5 max-[650px]:gap-3.5 sticky top-0 bg-white ">
-        <FaArrowLeft
+        <ArrowLeft
           onClick={handleBack}
           className=" mt-[15px] cursor-pointer text-lg font-normal flex-shrink-0"
         />
@@ -113,7 +114,7 @@ function SingUp({
               authFunction={googleAuth}
               authText={"Sign up with Google"}
             />
-            {/* Login with Github */}
+            {/* Login with FaGithub */}
             <AuthBtn
               authIcon={<FaGithub size={22} />}
               authFunction={githubLogin}

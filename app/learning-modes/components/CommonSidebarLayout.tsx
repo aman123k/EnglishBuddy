@@ -1,12 +1,12 @@
 "use client";
 import { useStore } from "@/app/store/store";
 import useAuthentication from "@/app/hooks/useAuth";
-import { RxCross2 } from "react-icons/rx";
-import { FaCheck, FaMicrophone } from "react-icons/fa";
+import { X } from "lucide-react";
+import { Check, Mic } from "lucide-react";
 
 export function CommonSidebarLayout() {
-  const { utilitySidebar, setUtilitySidebar } = useStore();
   // Access utility sidebar state and setter from the global store.
+  const { utilitySidebar, setUtilitySidebar } = useStore();
 
   // Access user data from authentication hook.
   const { userData } = useAuthentication();
@@ -39,7 +39,7 @@ export function CommonSidebarLayout() {
           >
             <h1>{utilitySidebar?.title}</h1>
 
-            <RxCross2
+            <X
               className=" cursor-pointer text-2xl max-[950px]:hidden"
               onClick={() => setUtilitySidebar({ isOpen: false })}
             />
@@ -53,10 +53,10 @@ export function CommonSidebarLayout() {
               </h1>
               <div className=" flex items-center gap-6">
                 <span className=" bg-[#0D8345] p-2 rounded-full">
-                  <FaCheck color="#FFFFFF" size={20} />
+                  <Check color="#FFFFFF" size={20} />
                 </span>
                 <span className=" bg-[#2E3BC7] p-2 rounded-full">
-                  <FaMicrophone color="#ffffff" size={20} />
+                  <Mic color="#ffffff" size={20} />
                 </span>
               </div>
               <p className=" text-[#282828] text-base font-semibold font-nunito-sans">

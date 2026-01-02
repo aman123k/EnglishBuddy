@@ -12,7 +12,7 @@ function CardGrid({
   CardGridArray: cardGridInterface[];
 }) {
   return (
-    <section className="h-[calc(100dvh-75px)] max-[950px]:h-[calc(100dvh-79px)] overflow-y-auto no-scrollbar py-6">
+    <section className="h-[calc(100dvh-75px)] max-[950px]:h-[calc(100dvh-79px)] overflow-y-auto no-scrollbar py-6 max-[850px]:pb-52">
       <div className="grid grid-cols-2 gap-5 max-[650px]:gap-3">
         {CardGridArray.map((item: cardGridInterface) => {
           return (
@@ -28,7 +28,7 @@ function CardGrid({
                   alt={item.name}
                   height={200}
                   width={200}
-                  className=" w-full"
+                  className=" w-full max-[650px]:min-h-[130px]"
                 />
               </div>
               <h2

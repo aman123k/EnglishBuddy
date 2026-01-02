@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaArrowLeft } from "react-icons/fa";
+import { ArrowLeft } from "lucide-react";
 import useAuthentication from "@/app/hooks/useAuth";
 import Input from "@/app/UIKIT/Input";
 import Link from "next/link";
@@ -43,7 +43,7 @@ function ForgotPassword() {
       >
         <section className=" flex flex-col gap-3.5 h-full overflow-auto no-scrollbar max-[650px]:gap-4">
           <header className=" flex gap-5 max-[650px]:gap-3.5 sticky top-0 bg-white ">
-            <FaArrowLeft
+            <ArrowLeft
               onClick={() => router.push("/login")}
               className=" mt-[15px] cursor-pointer text-lg font-normal flex-shrink-0"
             />

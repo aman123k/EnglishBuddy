@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { RxCross2 } from "react-icons/rx";
+import { X } from "lucide-react";
 import { useStore } from "@/app/store/store";
 import useAuthentication from "@/app/hooks/useAuth";
 import Input from "@/app/UIKIT/Input";
@@ -75,6 +75,8 @@ function ProfileSidebar() {
   if (!accountSidebar?.isOpen || !userProfile) return null;
 
   const handleProfileAndSupport = async () => {
+    if (!hasChanges) return;
+
     if (isSupport) {
       const path = "/api/addSupport";
       const response = await mutatePost({ path, data: addSupport });
@@ -129,7 +131,7 @@ function ProfileSidebar() {
           >
             <h1>{accountSidebar?.title}</h1>
 
-            <RxCross2
+            <X
               className=" cursor-pointer text-2xl max-[950px]:hidden"
               onClick={() => setAccountSidebar({ isOpen: false })}
             />

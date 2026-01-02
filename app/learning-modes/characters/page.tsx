@@ -21,8 +21,10 @@ function Characters() {
   return (
     <section className=" bg-[#F7F7FE] max-[950px]:bg-white min-[1600px]:w-[1400px]  min-[1600px]:mx-[50%] min-[1600px]:translate-x-[-50%]">
       <section className="flex max-[950px]:flex-col">
-        <div className="max-[950px]:hidden">
-          <Sidebar />
+        <Sidebar />
+        <div className=" bg-[#E92D71] px-4 py-2.5 text-white font-nunito-sans max-[950px]:block hidden">
+          Engage in conversations with historical or fictional characters to
+          improve listening skills
         </div>
         <section
           className={`w-[55%] px-6 max-[950px]:px-4 max-[950px]:w-full relative`}

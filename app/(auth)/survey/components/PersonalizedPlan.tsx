@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { ArrowLeft } from "lucide-react";
 import { personalizePlan } from "../data/surveyData";
 
 function PersonalizedPlan({
@@ -13,7 +13,7 @@ function PersonalizedPlan({
   return (
     <section className=" flex flex-col gap-6 max-[650px]:pb-16 pb-28 h-full overflow-auto no-scrollbar">
       <header className=" flex gap-5 max-[650px]:gap-2.5 sticky top-[-1px] bg-white">
-        <FaArrowLeft
+        <ArrowLeft
           onClick={() => {
             setCurrentStep((prev: number) => (prev === 7 ? 7 : prev - 1));
             setShowPlan(false);

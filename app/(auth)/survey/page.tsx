@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { ArrowLeft } from "lucide-react";
 import { fieldRecord, surveyData } from "./data/surveyData";
 import { useRouter } from "next/navigation";
 import { SurveyResponses } from "../../interface/interface";
@@ -120,7 +120,7 @@ function Survey() {
                 >
                   <header className="flex flex-col gap-5 sticky top-0 bg-white">
                     <div className=" flex gap-5 max-[650px]:gap-3.5 ">
-                      <FaArrowLeft
+                      <ArrowLeft
                         onClick={handleBack}
                         className=" mt-[15px] cursor-pointer text-lg font-normal flex-shrink-0"
                       />

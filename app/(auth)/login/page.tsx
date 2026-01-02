@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaArrowLeft, FaGithub } from "react-icons/fa";
+import { ArrowLeft } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import useGoogleAuth from "../../hooks/useGoogleAuth";
 import AuthBtn from "../../UIKIT/AuthBtn";
@@ -12,6 +12,7 @@ import usePostAPIRequest from "../../hooks/usePostAPIRequest";
 import { useStore } from "../../store/store";
 import useAuthentication from "../../hooks/useAuth";
 import Image from "next/image";
+import { FaGithub } from "react-icons/fa";
 
 function Login() {
   const router = useRouter();
@@ -39,7 +40,7 @@ function Login() {
     }
   };
 
-  // Github Auth
+  // FaGithub Auth
   const CLIENT_ID = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
   const githubLogin = (): void => {
     localStorage.setItem("surveyRes", JSON.stringify(surveyRes));
@@ -63,7 +64,7 @@ function Login() {
       >
         <section className=" flex flex-col gap-3.5 h-full overflow-auto no-scrollbar max-[650px]:gap-4">
           <header className=" flex gap-5 max-[650px]:gap-3.5 sticky items-center top-0 bg-white mb-10 max-[650px]:mb-5">
-            <FaArrowLeft
+            <ArrowLeft
               onClick={() => router.push("/get-started")}
               className=" cursor-pointer text-lg font-normal flex-shrink-0"
             />
@@ -78,7 +79,7 @@ function Login() {
             authFunction={googleAuth}
             authText={"Sign up with Google"}
           />
-          {/* Login with Github */}
+          {/* Login with FaGithub */}
           <AuthBtn
             authIcon={<FaGithub size={22} />}
             authFunction={githubLogin}
