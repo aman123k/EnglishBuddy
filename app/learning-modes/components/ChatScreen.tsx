@@ -37,7 +37,7 @@ function ChatScreen({
         onScroll={handleScroll}
       >
         {/* Display loading animation if chat history is being fetched. */}
-        {isLoading ? (
+        {!isLoading ? (
           <Loader />
         ) : userMessage && userMessage?.length > 0 ? (
           // Render chat messages if available.

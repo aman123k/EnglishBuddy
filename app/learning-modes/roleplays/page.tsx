@@ -21,7 +21,9 @@ function Roleplay() {
         <div className=" bg-[#E92D71] px-4 py-2.5 text-white font-nunito-sans max-[950px]:block hidden">
           Roleplay mode makes language practice fun and immersive
         </div>
-        <section className={`w-[55%] px-6 max-[950px]:px-4 max-[950px]:w-full`}>
+        <section
+          className={`w-[55%] px-6 max-[950px]:px-4 max-[950px]:w-full min-[950px]:relative`}
+        >
           <Header
             title="Roleplays"
             tutorName=""

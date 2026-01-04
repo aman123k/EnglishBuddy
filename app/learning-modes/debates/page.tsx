@@ -23,7 +23,9 @@ function Debates() {
           Debate intriguing topics, sharpen language skills, and defend
           arguments confidently
         </div>
-        <section className={`w-[55%] px-6 max-[950px]:px-4 max-[950px]:w-full`}>
+        <section
+          className={`w-[55%] px-6 max-[950px]:px-4 max-[950px]:w-full min-[950px]:relative`}
+        >
           <Header
             title="Debates"
             tutorName=""

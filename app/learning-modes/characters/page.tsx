@@ -27,7 +27,7 @@ function Characters() {
           improve listening skills
         </div>
         <section
-          className={`w-[55%] px-6 max-[950px]:px-4 max-[950px]:w-full relative`}
+          className={`w-[55%] px-6 max-[950px]:px-4 max-[950px]:w-full min-[950px]:relative`}
         >
           <Header
             title="Characters"
