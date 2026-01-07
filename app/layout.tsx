@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   title: "Lingo",
   icons: "/Images/logo-white.svg",
   description:
-    "Your friendly companion for mastering any English, one conversation at a time",
+    "Your friendly companion for mastering English, one conversation at a time",
 };
 
 export default function RootLayout({

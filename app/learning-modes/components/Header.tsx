@@ -31,10 +31,11 @@ function Header({ title, img, tutorName, isShowBottomHeader }: HeaderProps) {
     toggleTts(!isSpeakerOn);
     toast(
       isSpeakerOn
-        ? "Speaker OFF: Voices muted."
-        : "Speaker ON: Voices will play.",
+        ? "Speaker OFF: Voices muted"
+        : "Speaker ON: Voices will play",
       {
         icon: isSpeakerOn ? "🔊" : "🔇",
+        duration: 2000,
       }
     );
   };

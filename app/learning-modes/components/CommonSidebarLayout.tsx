@@ -10,7 +10,6 @@ export function CommonSidebarLayout() {
 
   // Access user data from authentication hook.
   const { userData } = useAuthentication();
-
   return (
     <section
       className={`${
@@ -85,6 +84,44 @@ export function CommonSidebarLayout() {
                   {utilitySidebar?.translatedWords}
                 </p>
               </div>
+            </section>
+          )}
+
+          {/* Conditional rendering for "Get feedback on messages" content. */}
+
+          {utilitySidebar?.title === "Feedback" && (
+            <section>
+              <div className="py-6 w-full border-b border-gray-200 font-nunito-sans  font-semibold text-xl">
+                <div className=" w-6 h-6 rounded-full bg-[#FCA129]"></div>
+              </div>
+              <section className=" flex flex-col gap-5 py-5 max-[650px]:gap-3">
+                <div className=" flex flex-col gap-2">
+                  <span className=" text-[#868686] text-xs font-semibold font-nunito-sans  ">
+                    Your message
+                  </span>
+                  <p className=" font-nunito-sans text-[#282828] font-semibold text-base">
+                    {utilitySidebar?.yourWords}
+                  </p>
+                </div>
+                <hr className=" border-gray-200" />
+                <div className=" flex flex-col gap-2">
+                  <span className=" text-[#868686] text-xs font-semibold font-nunito-sans  ">
+                    Corrected message
+                  </span>
+                  <p className=" font-nunito-sans text-[#282828] font-medium tracking-[0px] text-base">
+                    {utilitySidebar?.translatedWords}
+                  </p>
+                </div>
+                <hr className=" border-gray-200" />
+                <div className=" bg-[#FCA129] px-4 py-4 rounded-2xl text-white flex-col flex gap-3">
+                  <span className="  text-xs font-semibold font-nunito-sans  ">
+                    Explanation
+                  </span>
+                  <p className=" text-base font-nunito-sans">
+                    {utilitySidebar?.description}
+                  </p>
+                </div>
+              </section>
             </section>
           )}
         </div>

@@ -6,6 +6,8 @@ export interface Message {
   conversationId?: string;
   translatedContent?: string;
   conversationMode?: string;
+  feedback?: string;
+  correction?: string;
 }
 
 export interface UtilitySidebarProps {

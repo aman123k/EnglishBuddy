@@ -1,5 +1,10 @@
 export function toggleTts(enabled: boolean) {
   localStorage.setItem("ttsEnabled", JSON.stringify(enabled));
+  if (!enabled) {
+    const synth = window.speechSynthesis;
+    // Stop any ongoing speech before starting new speech
+    synth.cancel();
+  }
 }
 
 export function getTtsStatus() {

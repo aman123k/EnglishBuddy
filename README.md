@@ -1,6 +1,6 @@
 # EnglishTutor (Lingo) 🗣️
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.0+-000000?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.0+-000000?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0+-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
@@ -33,8 +33,11 @@ EnglishTutor (Lingo) is a cutting-edge Next.js application that revolutionizes E
 
 - Real-time conversations with AI tutor "Jennifer"
 - Natural language processing for contextual responses
-- Grammar correction and vocabulary suggestions
-- Conversation history with pagination support
+- **Grammar correction and vocabulary suggestions** with instant feedback
+- **Translation support** for AI messages in multiple languages
+- **Interactive feedback system** with correction suggestions for user messages
+- Conversation history with pagination support and auto-scroll
+- Enhanced voice features with speech recognition and text-to-speech
 
 #### **Character Conversations**
 
@@ -58,17 +61,21 @@ EnglishTutor (Lingo) is a cutting-edge Next.js application that revolutionizes E
 
 ### 🎤 Voice & Accessibility Features
 
-- **Text-to-Speech Integration**: High-quality voice synthesis for AI responses
-- **Speech Recognition**: Voice input capability for hands-free practice
-- **Visual Feedback**: Lottie animations and voice wave indicators
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Text-to-Speech Integration**: High-quality voice synthesis for AI responses with replay functionality
+- **Speech Recognition**: Advanced voice input with continuous listening and automatic transcription
+- **Translation Features**: Real-time translation of AI messages with persistent storage
+- **Grammar Feedback System**: Instant correction suggestions with detailed explanations
+- **Visual Feedback**: Lottie animations, voice wave indicators, and interactive feedback alerts
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices with touch-friendly controls
 
 ### 🎯 Personalization & Progress Tracking
 
 - **Adaptive Learning Paths**: AI-driven content recommendations based on user performance
 - **Survey-Driven Customization**: Initial assessment creates tailored learning experiences
+- **Instant Feedback System**: Real-time grammar corrections and translation assistance
 - **Progress Analytics**: Track improvement across different skills and modes
-- **Chat History Management**: Persistent conversation storage with search functionality
+- **Enhanced Chat History**: Persistent conversation storage with translation caching and feedback history
+- **Interactive Learning Tools**: Click-to-translate and feedback features for deeper engagement
 
 ### 🛠️ Technical Excellence
 
@@ -85,7 +92,7 @@ _Main dashboard showcasing different learning modes and navigation_
 
 ### Interactive Chat Interface
 
-_Real-time conversation with AI tutor featuring voice controls and chat history_
+_Real-time conversation with AI tutor featuring voice controls, translation, feedback, and chat history_
 
 ### Character Selection
 
@@ -95,6 +102,10 @@ _Browse and select from 25+ famous characters for contextual learning_
 
 _Speech recognition and text-to-speech capabilities with visual feedback_
 
+### Translation & Feedback
+
+_In-app translation and grammar correction features with interactive feedback system_
+
 ### Mobile Responsive Design
 
 _Optimized experience across all device sizes_
@@ -103,8 +114,8 @@ _Optimized experience across all device sizes_
 
 ### Core Framework & Language
 
-- **[Next.js 16](https://nextjs.org/)** – App Router with server components and API routes
-- **[React 19](https://react.dev/)** – Latest React with concurrent features
+- **[Next.js 16](https://nextjs.org/)** – App Router with server components, API routes, and enhanced performance
+- **[React 19](https://react.dev/)** – Latest React with concurrent features and improved developer experience
 - **[TypeScript 5](https://www.typescriptlang.org/)** – Full type safety and modern ES features
 
 ### Styling & UI
@@ -223,9 +234,9 @@ All learning modes (Chat, Characters, Debates, Roleplays) follow a consistent pa
 2. **Detail Pages** (`[id]/page.tsx`) – Load a specific item and render the `MainContentSection` component with chat functionality.
 3. **Shared Components** – All modes use the same reusable components:
    - `MainContentSection` – Wraps the chat interface
-   - `ChatScreen` – Displays messages with pagination
-   - `Footer` – Handles user input (text/voice)
-   - `Header` – Shows tutor info and controls
+   - `ChatScreen` – Displays messages with pagination, translation, and feedback features
+   - `Footer` – Handles user input (text/voice) with enhanced speech recognition
+   - `Header` – Shows tutor info and controls with TTS toggle
    - `CardGrid` – Renders clickable cards for navigation
 
 This architecture ensures consistency across all learning experiences while allowing each mode to have its own API endpoints and data structure.
@@ -256,14 +267,14 @@ High-level overview of the main client-side structure, with a focus on the `app/
       - `[roleplays]/page.tsx` – Dynamic roleplay route that loads a specific scenario and opens the chat experience for that roleplay.
     - `components/` – Shared learning-mode UI components:
       - `MainContentSection.tsx` – Main chat layout wrapper (header + chat history + footer). Automatically closes utility sidebar on unmount.
-      - `ChatScreen.tsx` – Scrollable chat history view with message rendering, replay, and translation features.
+      - `ChatScreen.tsx` – Scrollable chat history view with message rendering, replay, translation, and interactive feedback features.
       - `Footer.tsx` – Chat input form with text input, voice recognition (mic), and send functionality.
       - `Header.tsx` – Shared header component with navigation, tutor avatar, and TTS toggle controls.
       - `CardGrid.tsx` – Generic grid component for displaying clickable learning cards (characters, debates, roleplays).
       - `CommonSidebar.tsx` – Static informational sidebar for learning mode descriptions.
       - `CommonSidebarLayout.tsx` – Dynamic utility sidebar for translations and information, controlled by global store.
     - `hooks/` – Learning-mode specific hooks:
-      - `useChatHistory.ts` – Manages chat history fetching, pagination, auto-scroll, and translation functionality.
+      - `useChatHistory.ts` – Manages chat history fetching, pagination, auto-scroll, translation, and feedback functionality.
       - `usePostMessage.ts` – Handles sending messages to the API with React Query mutations.
     - `voice/` – Text-to-Speech utilities:
       - `speak.ts` – TTS functions for AI message playback.

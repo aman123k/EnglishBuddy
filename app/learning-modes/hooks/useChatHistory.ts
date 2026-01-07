@@ -22,6 +22,12 @@ interface UseChatHistoryReturn {
     translatedContent: string,
     id: string
   ) => Promise<void>;
+  handleGetFeedback: (
+    explanation: string,
+    originalMessage: string,
+    correction: string,
+    id: string
+  ) => Promise<void>;
   isLoading: boolean;
   isFetchingHistory: boolean;
 }
@@ -89,6 +95,7 @@ export const useChatHistory = (
     }
   }, [userMessage, page]);
 
+  // Handles the scroll event of the chat history.
   const handleScroll = () => {
     const scrollDiv = autoScroll.current;
     if (!scrollDiv || isFetchingHistory) return;
@@ -147,10 +154,44 @@ export const useChatHistory = (
     }
   };
 
+  //
+  const handleGetFeedback = async (
+    explanation: string,
+    originalMessage: string,
+    correction: string,
+    id: string
+  ) => {
+    const path = `/api/get-feedback?chatId=${id}`;
+    if (correction) {
+      setUtilitySidebar({
+        isOpen: true,
+        title: "Feedback",
+        yourWords: originalMessage,
+        translatedWords: correction,
+        description: explanation,
+      });
+    } else {
+      const response = await mutateAsync({
+        path,
+        data: { originalMessage },
+      });
+      if (response?.status) {
+        setUtilitySidebar({
+          isOpen: true,
+          title: "Feedback",
+          yourWords: originalMessage,
+          translatedWords: response?.data?.correctedMatch[1],
+          description: response?.data?.feedbackMatch[1],
+        });
+      }
+    }
+  };
+
   return {
     autoScroll,
     handleScroll,
     handleTranslate,
+    handleGetFeedback,
     isLoading,
     isFetchingHistory,
   };

@@ -10,6 +10,7 @@ import { speakFemale } from "../voice/speak";
 
 import { useChatHistory } from "../hooks/useChatHistory";
 import Loader from "@/app/UIKIT/Loader";
+import { CircleAlert } from "lucide-react";
 
 function ChatScreen({
   apiEndpoint,
@@ -22,12 +23,17 @@ function ChatScreen({
   const { userMessage } = useStore();
 
   // Use the reusable chat history hook for managing pagination, scrolling, and translation.
-  const { autoScroll, handleScroll, handleTranslate, isLoading } =
-    useChatHistory({
-      apiEndpoint: apiEndpoint,
-      enableAutoSpeak: true,
-      query,
-    });
+  const {
+    autoScroll,
+    handleScroll,
+    handleTranslate,
+    isLoading,
+    handleGetFeedback,
+  } = useChatHistory({
+    apiEndpoint: apiEndpoint,
+    enableAutoSpeak: true,
+    query,
+  });
 
   return (
     <section className="h-[calc(100dvh-156px-75px)] max-[950px]:h-[calc(100dvh-79px-90px)]">
@@ -37,7 +43,7 @@ function ChatScreen({
         onScroll={handleScroll}
       >
         {/* Display loading animation if chat history is being fetched. */}
-        {!isLoading ? (
+        {isLoading ? (
           <Loader />
         ) : userMessage && userMessage?.length > 0 ? (
           // Render chat messages if available.
@@ -92,9 +98,25 @@ function ChatScreen({
               return (
                 <div
                   key={msg._id || index}
-                  className={`px-6 py-4 bg-[#2E3BC7] rounded-xl ml-auto shadow-md max-w-max max-[950px]:w-[97%] flex flex-col gap-4`}
+                  className={`ml-auto  flex ic
+                 items-center gap-4 max-[650px]:gap-2.5`}
+                  onClick={() => {
+                    handleGetFeedback(
+                      msg.feedback!,
+                      msg.content!,
+                      msg.correction!,
+                      msg._id!
+                    );
+                  }}
                 >
-                  <p className="font-nunito-sans font-medium text-base text-white max-[950px]:text-md">
+                  <div className=" bg-[#FCA129] cursor-pointer rounded-full p-1.5 flex items-center justify-center">
+                    <CircleAlert className="h-4 w-4 text-white" />
+                  </div>
+
+                  <p
+                    className="bg-[#2E3BC7] shadow-md max-w-max max-[950px]:w-[97%] px-6 py-4
+                  font-nunito-sans font-medium text-base text-white max-[950px]:text-md rounded-xl "
+                  >
                     {msg.content}
                   </p>
                 </div>
