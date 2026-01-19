@@ -42,9 +42,10 @@ function Sidebar() {
                 Dashboard
               </li>
             </Link>
+            <Link href={'/explore'}>
             <li className="py-2 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
               <Compass size={18} /> Explore
-            </li>
+            </li></Link>
             <li className="py-2 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
               <TrendingUp size={18} />
               Progress
@@ -114,12 +115,14 @@ function Sidebar() {
                 <span className="text-xs">Dashboard</span>
               </button>
             </Link>
+            <Link href={'/explore'}>
             <button
               className={`flex flex-col items-center justify-center gap-2`}
             >
               <Compass size={18} />
               <span className="text-xs">Explore</span>
             </button>
+            </Link>
             <button
               className={`flex flex-col items-center justify-center gap-2`}
             >
