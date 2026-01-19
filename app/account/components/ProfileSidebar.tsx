@@ -79,7 +79,7 @@ function ProfileSidebar() {
 
     if (isSupport) {
       const path = "/api/addSupport";
-      const response = await mutatePost({ path, data: addSupport });
+      await mutatePost({ path, data: addSupport });
     } else {
       const path = "/api/updateUserInfo";
       if (!userProfile.email.match(/^[a-zA-Z0-9._%+-]+@gmail\.com$/)) {
