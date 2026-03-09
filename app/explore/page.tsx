@@ -89,15 +89,15 @@ function Explore() {
                     <section className="flex flex-col gap-6">
                       <header className="flex justify-between items-end">
                         <div className="flex flex-col gap-1">
-                          <h3 className="text-2xl font-bold text-[#282828] font-nunito-sans">
+                          <h3 className="text-2xl font-bold text-[#282828]">
                             Popular Characters
                           </h3>
-                          <p className="text-gray-400 font-nunito-sans">
+                          <p className="text-gray-400">
                             Chat with idols, historical icons, and fictional
                             friends.
                           </p>
                         </div>
-                        <button className="text-[#193cb8] font-bold font-nunito-sans text-sm hover:underline">
+                        <button className="text-[#1C398E] font-bold text-sm hover:underline">
                           See all
                         </button>
                       </header>
@@ -127,15 +127,15 @@ function Explore() {
                     <section className="flex flex-col gap-6">
                       <header className="flex justify-between items-end">
                         <div className="flex flex-col gap-1">
-                          <h3 className="text-2xl font-bold text-[#282828] font-nunito-sans">
+                          <h3 className="text-2xl font-bold text-[#282828]">
                             Realistic Roleplays
                           </h3>
-                          <p className="text-gray-400 font-nunito-sans">
+                          <p className="text-gray-400">
                             Practice real-world situations like ordering coffee
                             or interviews.
                           </p>
                         </div>
-                        <button className="text-[#193cb8] font-bold font-nunito-sans text-sm hover:underline">
+                        <button className="text-[#1C398E] font-bold text-sm hover:underline">
                           See all
                         </button>
                       </header>
@@ -164,14 +164,14 @@ function Explore() {
                     <section className="flex flex-col gap-6">
                       <header className="flex justify-between items-end">
                         <div className="flex flex-col gap-1">
-                          <h3 className="text-2xl font-bold text-[#282828] font-nunito-sans">
+                          <h3 className="text-2xl font-bold text-[#282828]">
                             Intellectual Debates
                           </h3>
-                          <p className="text-gray-400 font-nunito-sans">
+                          <p className="text-gray-400">
                             Argue for your point of view against AI logic.
                           </p>
                         </div>
-                        <button className="text-[#193cb8] font-bold font-nunito-sans text-sm hover:underline">
+                        <button className="text-[#1C398E] font-bold text-sm hover:underline">
                           See all
                         </button>
                       </header>
@@ -198,7 +198,7 @@ function Explore() {
                   filteredDebates.length === 0 && (
                     <div className="flex flex-col items-center justify-center py-20 gap-4">
                       <div className="text-gray-300 text-6xl">🔍</div>
-                      <p className="text-gray-500 font-nunito-sans text-xl font-semibold">
+                      <p className="text-gray-500 text-xl font-semibold">
                         No results found for "{searchQuery}"
                       </p>
                       <button
@@ -206,7 +206,7 @@ function Explore() {
                           setSearchQuery("");
                           setSelectedCategory("All");
                         }}
-                        className="text-[#193cb8] font-bold font-nunito-sans hover:underline"
+                        className="text-[#1C398E] font-bold hover:underline"
                       >
                         Clear all filters
                       </button>

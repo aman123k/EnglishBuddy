@@ -1,6 +1,9 @@
+"use client";
+import React from "react";
 import Image from "next/image";
 import { RiAccountCircleFill } from "react-icons/ri";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Compass,
   Drama,
@@ -9,129 +12,207 @@ import {
   Scale,
   TrendingUp,
   Users,
+  ChevronRight,
 } from "lucide-react";
 
 function Sidebar() {
+  const pathname = usePathname();
+
+  const menuItems = [
+    { name: "Dashboard", href: "/", icon: Home },
+    { name: "Explore", href: "/explore", icon: Compass },
+    { name: "Progress", href: "/progress", icon: TrendingUp },
+  ];
+
+  const learningModes = [
+    { name: "Chat", href: "/learning-modes/chat", icon: MessageSquare },
+    {
+      name: "Character Talks",
+      href: "/learning-modes/characters",
+      icon: Users,
+    },
+    { name: "Debates", href: "/learning-modes/debates", icon: Scale },
+    { name: "Roleplays", href: "/learning-modes/roleplays", icon: Drama },
+  ];
+
   return (
     <>
-      {/* Desktop header */}
-      <section className="w-64 flex-shrink-0 h-[100dvh] bg-[#FFFFFF] border border-gray-200 overflow-y-scroll no-scrollbar max-[950px]:hidden ">
-        <div className="p-[24px] sticky top-0 bg-white">
-          <Link href={"/"} className=" flex items-center gap-4">
+      {/* Desktop sidebar */}
+      <aside className="w-72 flex-shrink-0 h-screen bg-white border-r border-gray-100 flex flex-col max-[950px]:hidden overflow-hidden">
+        {/* Logo Section - Keeping original structure as requested */}
+        <div className="p-8 pb-10">
+          <Link
+            href={"/"}
+            className="flex items-center gap-4 text-decoration-none"
+          >
             <Image
               src="/Images/logo-blue.svg"
               alt="logo"
               width={35}
               height={35}
+              className="hover:scale-110 transition-transform"
             />
-            <div className=" flex-col flex gap-0.5">
-              <h1 className="text-xl font-bold text-slate-900 font-nunito-sans">
+            <div className="flex-col flex gap-0.5">
+              <h1 className="text-xl font-bold text-slate-900 leading-none">
                 Lingo
               </h1>
-              <p className="text-xs text-slate-500 font-nunito-sans">
+              <p className="text-[11px] text-slate-400 font-medium tracking-wide">
                 Master English Daily
               </p>
             </div>
           </Link>
         </div>
-        <div className=" flex flex-col justify-center gap-10 max-[1050px]:gap-8 px-[20px] mt-[16px]">
-          <ul className=" flex flex-col gap-3.5">
-            <Link href={"/"}>
-              <li className=" py-2 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
-                <Home size={18} />
-                Dashboard
-              </li>
-            </Link>
-            <Link href={'/explore'}>
-            <li className="py-2 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
-              <Compass size={18} /> Explore
-            </li></Link>
-            <li className="py-2 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
-              <TrendingUp size={18} />
-              Progress
-            </li>
-          </ul>
-          <div className="">
-            <p className="text-xs font-nunito-sans font-semibold text-slate-400 uppercase tracking-wider">
+
+        {/* Navigation Section */}
+        <div className="flex-1 px-4 flex flex-col gap-10 overflow-y-auto no-scrollbar">
+          {/* Main Menu */}
+          <div>
+            <p className="px-4 mb-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">
+              Menu
+            </p>
+            <ul className="space-y-1.5 list-none p-0">
+              {menuItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-decoration-none block"
+                  >
+                    <li
+                      className={`px-4 py-3 rounded-2xl flex items-center gap-3.5 transition-all duration-300 group ${
+                        isActive
+                          ? "bg-[#1C398E] text-white shadow-lg shadow-[#1C398E]/25"
+                          : "text-slate-500 hover:bg-slate-50 hover:text-[#1C398E]"
+                      }`}
+                    >
+                      <item.icon
+                        size={18}
+                        className={`${isActive ? "text-white" : "text-slate-400 group-hover:text-[#1C398E]"} transition-colors`}
+                      />
+                      <span
+                        className={`${isActive ? "font-semibold" : "font-medium"} text-[14px]`}
+                      >
+                        {item.name}
+                      </span>
+                      {isActive && (
+                        <ChevronRight
+                          size={14}
+                          className="ml-auto opacity-50"
+                        />
+                      )}
+                    </li>
+                  </Link>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Learning Section */}
+          <div>
+            <p className="px-4 mb-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">
               Learning Modes
             </p>
+            <ul className="space-y-1.5 list-none p-0">
+              {learningModes.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-decoration-none block"
+                  >
+                    <li
+                      className={`px-4 py-3 rounded-2xl flex items-center gap-3.5 transition-all duration-300 group ${
+                        isActive
+                          ? "bg-indigo-50 text-[#1C398E]"
+                          : "text-slate-500 hover:bg-slate-50 hover:text-[#1C398E]"
+                      }`}
+                    >
+                      <item.icon
+                        size={18}
+                        className={`${isActive ? "text-[#1C398E]" : "text-slate-400 group-hover:text-[#1C398E]"} transition-colors`}
+                      />
+                      <span
+                        className={`${isActive ? "font-semibold" : "font-medium"} text-[14px]`}
+                      >
+                        {item.name}
+                      </span>
+                    </li>
+                  </Link>
+                );
+              })}
+            </ul>
           </div>
-          <ul className=" flex flex-col gap-3.5 ">
-            <Link href={"/learning-modes/chat"}>
-              <li className=" py-2 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
-                <MessageSquare className="w-5 h-5" />
-                Chat
-              </li>
-            </Link>
-            <Link href={"/learning-modes/characters"}>
-              <li className=" py-2 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
-                <Users className="w-5 h-5" />
-                Character Talks
-              </li>
-            </Link>
-            <Link href={"/learning-modes/debates"}>
-              <li className=" py-2 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
-                <Scale className="w-5 h-5" />
-                Debates
-              </li>
-            </Link>
-            <Link href={"/learning-modes/roleplays"}>
-              <li className=" py-2 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
-                <Drama className="w-5 h-5" />
-                Roleplays
-              </li>
-            </Link>
-          </ul>
         </div>
-        <Link href={"/account"}>
-          <div className="p-[24px] fixed bottom-0 flex gap-2 items-center font-nunito-sans  cursor-pointer hover:text-[#193cb8] font-semibold">
-            <RiAccountCircleFill size={24} />
 
-            <span>Account</span>
-          </div>
-        </Link>
-      </section>
+        {/* Account Section */}
+        <div className="p-6 border-t border-gray-100 mt-auto">
+          <Link href="/account" className="text-decoration-none">
+            <div className="flex items-center gap-3 p-3 rounded-2xl hover:bg-slate-50 transition-all duration-300 group cursor-pointer border border-transparent hover:border-slate-100">
+              <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-[#1C398E] group-hover:bg-[#1C398E] group-hover:text-white transition-all duration-300 shadow-sm">
+                <RiAccountCircleFill size={24} />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold text-slate-800">
+                  My Account
+                </span>
+                <span className="text-[10px] font-medium text-slate-400">
+                  Settings
+                </span>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </aside>
 
-      {/* mobile header */}
-      <section className="min-[950px]:hidden z-10">
-        <Link href={"/account"}>
-          <header className="flex items-center justify-between px-8 max-[650px]:px-4 py-4 ">
+      {/* Mobile sidebar */}
+      <nav className="min-[950px]:hidden z-50 fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div className="flex items-center justify-between px-6 py-4">
+          <Link href="/" className="flex items-center gap-2">
             <Image
               src="/Images/logo-blue.svg"
               alt="logo"
-              width={30}
-              height={30}
+              width={28}
+              height={28}
             />
-            <RiAccountCircleFill size={28} />
-          </header>
-        </Link>
-        <div className="fixed bottom-0 left-0 right-0 bg-white px-8 py-4 max-[950px]:z-50">
-          <div className="flex justify-between">
-            <Link href={"/"}>
-              <button
-                className={`flex flex-col items-center justify-center gap-2`}
-              >
-                <Home size={20} />
-                <span className="text-xs">Dashboard</span>
-              </button>
-            </Link>
-            <Link href={'/explore'}>
-            <button
-              className={`flex flex-col items-center justify-center gap-2`}
-            >
-              <Compass size={18} />
-              <span className="text-xs">Explore</span>
-            </button>
-            </Link>
-            <button
-              className={`flex flex-col items-center justify-center gap-2`}
-            >
-              <TrendingUp size={20} />
-              <span className="text-xs">Progress</span>
-            </button>
-          </div>
+            <span className="text-lg font-bold text-slate-900 tracking-tight">
+              Lingo
+            </span>
+          </Link>
+          <Link href="/account">
+            <RiAccountCircleFill size={30} className="text-[#1C398E]" />
+          </Link>
         </div>
-      </section>
+      </nav>
+
+      {/* Navigation bottom bar for mobile */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-gray-100 px-6 py-4 min-[950px]:hidden z-50">
+        <div className="flex justify-around items-center">
+          {menuItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-decoration-none"
+              >
+                <div
+                  className={`flex flex-col items-center gap-1 transition-colors ${isActive ? "text-[#1C398E]" : "text-slate-400"}`}
+                >
+                  <item.icon
+                    size={20}
+                    className={isActive ? "stroke-[2.5px]" : ""}
+                  />
+                  <span className="text-[10px] font-semibold uppercase tracking-widest">
+                    {item.name === "Dashboard" ? "Home" : item.name}
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </>
   );
 }

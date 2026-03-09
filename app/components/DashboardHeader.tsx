@@ -14,7 +14,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ userName }) => {
         </h1>
         <div className="flex items-center gap-2">
           <Trophy size={14} className="text-amber-500" />
-          <p className="text-gray-500 text-xs font-semibold uppercase tracking-widest opacity-60">
+          <p className="text-gray-500 text-xs font-bold uppercase tracking-widest opacity-60">
             Master English Daily
           </p>
         </div>
@@ -35,7 +35,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ userName }) => {
         <button className="p-2.5 bg-white border border-gray-200 rounded-xl text-gray-500 hover:text-[#1C398E] hover:border-[#1C398E]/30 transition-all shadow-sm">
           <Bell size={20} />
         </button>
-        <div className="w-10 h-10 rounded-2xl bg-[#1C398E] text-white flex items-center justify-center font-bold text-xs shadow-lg shadow-[#1C398E]/20 cursor-pointer hover:scale-105 transition-transform">
+        <div className="w-10 h-10 rounded-2xl bg-[#1C398E] text-white flex items-center justify-center font-black text-xs shadow-lg shadow-[#1C398E]/20 cursor-pointer hover:scale-105 transition-transform">
           {userName?.charAt(0).toUpperCase() || "L"}
         </div>
       </div>

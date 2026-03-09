@@ -28,10 +28,10 @@ const CategoryChips: React.FC<CategoryChipsProps> = ({
         <button
           key={category}
           onClick={() => setSelectedCategory(category)}
-          className={`flex-shrink-0 px-6 py-2.5 rounded-2xl font-nunito-sans font-bold text-sm transition-all duration-300 border ${
+          className={`flex-shrink-0 px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all duration-300 border ${
             selectedCategory === category
-              ? "bg-[#193cb8] text-white border-[#193cb8] shadow-lg shadow-[#193cb8]/25 -translate-y-0.5"
-              : "bg-white text-gray-500 border-gray-100 hover:border-[#193cb8] hover:text-[#193cb8] hover:shadow-md hover:bg-white"
+              ? "bg-[#1C398E] text-white border-[#1C398E] shadow-lg shadow-[#1C398E]/25 -translate-y-0.5"
+              : "bg-white text-gray-500 border-gray-100 hover:border-[#1C398E] hover:text-[#1C398E] hover:shadow-md hover:bg-white"
           }`}
         >
           {category}
