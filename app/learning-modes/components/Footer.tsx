@@ -1,6 +1,7 @@
 // Chat input footer: handles text input, voice input and sending messages
 // to the chat API, and pushes both user and AI replies into the store.
 "use client";
+import "regenerator-runtime/runtime";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { BsSend } from "react-icons/bs";
@@ -93,8 +94,8 @@ function Footer({ path }: { path: string }) {
     } else {
       // If not listening, start it. Reset transcript for a clean start.
       resetTranscript();
-      // Set 'continuous: false' to automatically stop listening after a pause.
-      SpeechRecognition.startListening({ continuous: false });
+      // Set 'continuous: true' to keep listening even if the user pauses.
+      SpeechRecognition.startListening({ continuous: true, language: "en-US" });
     }
   };
 
@@ -108,6 +109,17 @@ function Footer({ path }: { path: string }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listening, transcript]); // Dependencies: listening state and the captured text.
+
+  // Custom timeout: automatically stop listening after 3 seconds of silence
+  useEffect(() => {
+    if (listening && transcript) {
+      const timeoutId = setTimeout(() => {
+        SpeechRecognition.stopListening();
+      }, 3000); // Wait for 3 seconds of silence before auto-submitting
+      return () => clearTimeout(timeoutId);
+    }
+  }, [listening, transcript]);
+
 
   // Dimensions for the Lottie loading animation.
   const dimensions = { height: 50, width: 80 };
