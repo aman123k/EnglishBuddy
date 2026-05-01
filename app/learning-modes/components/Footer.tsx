@@ -69,7 +69,7 @@ function Footer({ path }: { path: string }) {
     //  UI UPDATE (AI Response): Add the AI's response to the chat display.
     if (response?.reply?.content) {
       setUserMessage({
-        _id: String(new Date().getTime()),
+        _id: response.reply._id || String(new Date().getTime()),
         role: "model",
         content: response.reply.content,
         timestamp: new Date(),
