@@ -25,6 +25,7 @@ interface Store {
   setInitialMessages: (messages: Message[]) => void;
   setAccountSidebar: (props: Partial<UtilitySidebarProps>) => void;
   setAllCharacter: (characters: cardGridInterface[]) => void;
+  updateMessage: (id: string, updates: Partial<Message>) => void;
 }
 
 // Initial state
@@ -116,4 +117,11 @@ export const useStore = create<Store & CreateStoreState>((set) => ({
     }));
   },
   setAllCharacter: (characters) => set({ allCharacter: characters }),
+  updateMessage: (id, updates) => {
+    set((state) => ({
+      userMessage: (state.userMessage || []).map((msg) =>
+        msg._id === id ? { ...msg, ...updates } : msg
+      ),
+    }));
+  },
 }));

@@ -43,6 +43,7 @@ export const useChatHistory = (
     setUtilitySidebar,
     setInitialMessages,
     setPreviousMessages,
+    updateMessage,
   } = useStore();
 
   // Ref for auto-scrolling to the bottom of the chat.
@@ -194,12 +195,21 @@ export const useChatHistory = (
         data: { originalMessage },
       });
       if (response?.status) {
+        const corrected = response?.data?.correctedMatch?.[1]?.trim() || "";
+        const feedbackVal = response?.data?.feedbackMatch?.[1]?.trim() || "";
+        
+        // Update message in the store so UI updates immediately (e.g. icon color change)
+        updateMessage(id, {
+          correction: corrected,
+          feedback: feedbackVal,
+        });
+
         setUtilitySidebar({
           isOpen: true,
           title: "Feedback",
           yourWords: originalMessage,
-          translatedWords: response?.data?.correctedMatch[1],
-          description: response?.data?.feedbackMatch[1],
+          translatedWords: corrected,
+          description: feedbackVal,
         });
       }
     }

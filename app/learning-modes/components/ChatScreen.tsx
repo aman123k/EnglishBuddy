@@ -3,6 +3,7 @@
 // auto-scroll and translation actions via the chat history hook.
 "use client";
 
+import React, { useState } from "react";
 import { MdReplay, MdTranslate } from "react-icons/md";
 import { useStore } from "@/app/store/store";
 import { Message } from "@/app/interface/messageInterface";
@@ -10,7 +11,7 @@ import { speakFemale } from "../voice/speak";
 
 import { useChatHistory } from "../hooks/useChatHistory";
 import Loader from "@/app/UIKIT/Loader";
-import { CircleAlert } from "lucide-react";
+import { CircleAlert, Check, Loader2 } from "lucide-react";
 
 function ChatScreen({
   apiEndpoint,
@@ -21,6 +22,19 @@ function ChatScreen({
 }) {
   // Get chat-related state from store.
   const { userMessage } = useStore();
+
+  const [loadingFeedbackId, setLoadingFeedbackId] = useState<string | null>(null);
+
+  const isMessageCorrect = (msg: Message) => {
+    if (!msg.correction) return false;
+    const cleanCorrection = msg.correction.trim().toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+    const cleanContent = msg.content.trim().toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+    
+    return (
+      cleanCorrection === "no correction needed" ||
+      cleanCorrection === cleanContent
+    );
+  };
 
   // Use the reusable chat history hook for managing pagination, scrolling, and translation.
   const {
@@ -95,22 +109,50 @@ function ChatScreen({
               );
             } else {
               // User message display.
+              const isCorrect = isMessageCorrect(msg);
+              const isLoadingFeedback = loadingFeedbackId === msg._id;
+
               return (
                 <div
                   key={msg._id || index}
-                  className={`ml-auto  flex ic
-                 items-center gap-4 max-[650px]:gap-2.5`}
-                  onClick={() => {
-                    handleGetFeedback(
-                      msg.feedback!,
-                      msg.content!,
-                      msg.correction!,
-                      msg._id!
-                    );
+                  className="ml-auto flex items-center gap-4 max-[650px]:gap-2.5"
+                  onClick={async () => {
+                    if (isLoadingFeedback) return;
+
+                    const needsApiCall = !msg.correction;
+                    if (needsApiCall) {
+                      setLoadingFeedbackId(msg._id || null);
+                    }
+
+                    try {
+                      await handleGetFeedback(
+                        msg.feedback!,
+                        msg.content!,
+                        msg.correction!,
+                        msg._id!
+                      );
+                    } finally {
+                      if (needsApiCall) {
+                        setLoadingFeedbackId(null);
+                      }
+                    }
                   }}
                 >
-                  <div className=" bg-[#FCA129] cursor-pointer rounded-full p-1.5 flex items-center justify-center">
-                    <CircleAlert className="h-4 w-4 text-white" />
+                  <div
+                    className={`cursor-pointer rounded-full p-1.5 flex items-center justify-center transition-colors duration-300
+                      ${isLoadingFeedback
+                        ? "bg-slate-100"
+                        : isCorrect
+                          ? "bg-green-500 hover:bg-green-600"
+                          : "bg-[#FCA129] hover:bg-[#E08F22]"}`}
+                  >
+                    {isLoadingFeedback ? (
+                      <Loader2 className="h-4 w-4 text-slate-500 animate-spin" />
+                    ) : isCorrect ? (
+                      <Check className="h-4 w-4 text-white" />
+                    ) : (
+                      <CircleAlert className="h-4 w-4 text-white" />
+                    )}
                   </div>
 
                   <p
