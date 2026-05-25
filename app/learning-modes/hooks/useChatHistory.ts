@@ -53,10 +53,17 @@ export const useChatHistory = (
   const [totalPageCount, setTotalPageCount] = useState(0);
   const [isFetchingHistory, setIsFetchingHistory] = useState(false);
 
-  // Construct the full API endpoint with page parameter
-  const fullEndpoint = query
-    ? `${apiEndpoint}?page=${page}&${query}`
-    : `${apiEndpoint}?page=${page}`;
+  // Construct the full API endpoint with page parameter and active sessionId
+  const searchParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+  const urlSessionId = searchParams?.get("sessionId") || "";
+
+  let fullEndpoint = `${apiEndpoint}?page=${page}`;
+  if (urlSessionId) {
+    fullEndpoint += `&sessionId=${urlSessionId}`;
+  }
+  if (query) {
+    fullEndpoint += `&${query}`;
+  }
 
   const { data: chatHistory, isLoading } = useGetAPIRequest<Message[]>(
     fullEndpoint,
@@ -65,6 +72,17 @@ export const useChatHistory = (
   );
 
   const { mutateAsync } = usePostMessageRequest();
+
+  // Sync active chatSessionId to the URL search parameters
+  useEffect(() => {
+    if (chatHistory?.chatSessionId && typeof window !== "undefined") {
+      const currentUrl = new URL(window.location.href);
+      if (currentUrl.searchParams.get("sessionId") !== chatHistory.chatSessionId) {
+        currentUrl.searchParams.set("sessionId", chatHistory.chatSessionId);
+        window.history.replaceState(null, "", currentUrl.pathname + currentUrl.search);
+      }
+    }
+  }, [chatHistory]);
 
   useEffect(() => {
     if (chatHistory?.data) {

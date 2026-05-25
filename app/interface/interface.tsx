@@ -55,4 +55,5 @@ export interface ApiResponse<T> {
   data: T;
   total?: number;
   route?: string;
+  chatSessionId?: string;
 }

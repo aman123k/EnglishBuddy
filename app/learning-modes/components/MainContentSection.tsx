@@ -50,6 +50,8 @@ export function MainContentSection({
         tutorName={tutorName}
         img={img}
         isShowBottomHeader={isShowBottomHeader}
+        apiEndpoint={apiEndpoint}
+        query={query}
       />
       <ChatScreen apiEndpoint={apiEndpoint} query={query} />
       <Footer path={apiPath} />

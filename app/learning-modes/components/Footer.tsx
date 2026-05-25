@@ -60,10 +60,15 @@ function Footer({ path }: { path: string }) {
     resetTranscript();
 
     //  API CALL: Send the message to the backend chat service.
+    const searchParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+    const chatSessionId = searchParams?.get("sessionId") || undefined;
 
     const response = await mutateAsync({
       path,
-      data: { messages: [{ content: text, role: "user" }] },
+      data: { 
+        messages: [{ content: text, role: "user" }],
+        chatSessionId 
+      },
     });
 
     //  UI UPDATE (AI Response): Add the AI's response to the chat display.
