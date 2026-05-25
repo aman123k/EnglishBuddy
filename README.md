@@ -73,7 +73,9 @@ EnglishTutor (Lingo) is a cutting-edge Next.js application that revolutionizes E
 - **Adaptive Learning Paths**: AI-driven content recommendations based on user performance
 - **Survey-Driven Customization**: Initial assessment creates tailored learning experiences
 - **Instant Feedback System**: Real-time grammar corrections and translation assistance
-- **Progress Analytics**: Track improvement across different skills and modes
+- **Progress Analytics**: High-fidelity metrics dashboard rendering learning streaks, total practice duration, accumulated XP, radial grammar accuracy gauge, learning mode distribution, and dynamic weekly activity charts
+- **Grammar Review Notebook**: Persistent list of user's past grammar errors complete with correct matches and detailed rule explanations
+- **Multi-Session Chat Archival**: Interactive dropdown to toggle between starting fresh chats, looking up archived session histories, resuming historical conversations, and deleting specific past sessions
 - **Enhanced Chat History**: Persistent conversation storage with translation caching and feedback history
 - **Interactive Learning Tools**: Click-to-translate and feedback features for deeper engagement
 
@@ -287,6 +289,15 @@ High-level overview of the main client-side structure, with a focus on the `app/
   - `account/` – User account area:
     - `page.tsx` – Account dashboard / entry point.
     - `components/` – Profile and account UI (e.g., `ProfileSidebar.tsx`, `Header.tsx`, `Container.tsx`).
+  - `progress/` – User statistics and analytics dashboard:
+    - `page.tsx` – Main Progress Page displaying modular user statistics.
+    - `components/` – Custom SVG data visualizers and feedback subpanels:
+      - `HeroStats.tsx` – Fluency rank tracker, study target goals selector, and level indicator.
+      - `StatsOverview.tsx` – Core numeric cards (streaks, total study hours, accumulated XP).
+      - `WeeklyActivityChart.tsx` – Dynamic, responsive SVG bar chart displaying weekly active time.
+      - `AccuracyGauge.tsx` – Radial gauge indicating exact grammar accuracy levels.
+      - `ModesDistribution.tsx` – Mode-by-mode overview cards listing practice time across categories.
+      - `GrammarNotebook.tsx` – Grammar review notebook detailing sentences, corrected outputs, and rules explanation.
   - `components/` – Shared, app-level components such as `Sidebar.tsx` and common headers/sidebars.
   - `hooks/` – Cross-cutting hooks:
     - `useAuth.ts` – Authentication state and utilities.
