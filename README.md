@@ -1,390 +1,247 @@
-# EnglishTutor (Lingo) 🗣️
+# Lingo — AI-Powered English Learning Platform
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.0+-000000?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0+-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+**Lingo** is a web application that helps you improve your English through real conversations with AI. Instead of doing grammar drills or watching videos, you actually *talk* — you chat, debate, roleplay real situations, and speak with famous personalities, all in English, with an AI that listens, responds, and helps you get better.
 
-Your friendly companion for mastering English, one conversation at a time.
+---
 
-## 🌟 Overview
+## 📋 Table of Contents
 
-EnglishTutor (Lingo) is a cutting-edge Next.js application that revolutionizes English language learning through interactive, AI-powered conversations. Designed with modern web technologies, it creates an immersive learning environment where users can practice speaking, listening, reading, and writing skills through multiple engaging modes.
+- [What is Lingo?](#what-is-lingo)
+- [How It Works](#how-it-works)
+- [Pages & Screens](#pages--screens)
+- [Learning Modes](#learning-modes)
+- [Progress Tracking](#progress-tracking)
+- [Account & Settings](#account--settings)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [Running the App](#running-the-app)
+- [Tech Stack](#tech-stack)
 
-### 🎯 What Makes It Special
+---
 
-- **AI-Powered Conversations**: Real-time chat with intelligent AI tutors that adapt to your learning level
-- **Multi-Modal Learning**: Four distinct learning modes catering to different practice styles
-- **Voice Integration**: Built-in text-to-speech and speech recognition for authentic conversation practice
-- **Personalized Experience**: Survey-driven onboarding creates customized learning paths
-- **Character-Based Learning**: Engage with historical figures and fictional characters for contextual practice
+## 🌟 What is Lingo?
 
-## 🚀 Key Features
+Lingo is built around one idea: **the best way to learn a language is to use it**. Every feature on the platform is designed to get you speaking and writing in English as much as possible, with AI that gives you instant feedback, corrections, and encouragement.
 
-### 🔐 Authentication & User Management
+When you sign up, Lingo asks you a short survey about your level, your goals, and how you like to learn. From that point on, everything is personalized — the AI tutor knows who you are, what you're working on, and adjusts its responses to match your level.
 
-- **Google OAuth Integration**: Secure, seamless login with Google accounts
-- **Personalized Onboarding**: Interactive survey system that assesses user goals and proficiency levels
-- **User Profile Management**: Comprehensive account dashboard with progress tracking
+---
 
-### 💬 Interactive Learning Modes
+## 🔄 How It Works
 
-#### **Free Chat Practice**
+1. **Sign up** with your email or Google account
+2. **Complete the onboarding survey** — tell Lingo your English level, why you're learning, and how often you want to practice
+3. **Pick a learning mode** from the dashboard — chat, debate, character dialogue, or roleplay
+4. **Start a conversation** — type or speak your message, and get an AI response in seconds
+5. **Get feedback** — the grammar feedback sidebar shows corrections and explanations for your mistakes in real time
+6. **Track your progress** — check your XP, streak, accuracy score, and grammar notebook on the Progress page
 
-- Real-time conversations with AI tutor "Jennifer"
-- Natural language processing for contextual responses
-- **Grammar correction and vocabulary suggestions** with instant feedback
-- **Translation support** for AI messages in multiple languages
-- **Interactive feedback system** with correction suggestions for user messages
-- Conversation history with pagination support and auto-scroll
-- Enhanced voice features with speech recognition and text-to-speech
+---
 
-#### **Character Conversations**
+## 🖥 Pages & Screens
 
-- Engage with 25+ famous historical and fictional characters
-- Contextual learning through role-based scenarios
-- Characters include: Albert Einstein, Cleopatra, Elon Musk, Wonder Woman, and more
-- Dynamic character selection with API-driven content
+### 🏠 Dashboard (Home)
 
-#### **Debate Arena**
+The main screen you see after logging in. It shows:
 
-- Argue for or against controversial topics
-- Critical thinking and argumentation skills development
-- Structured debate formats with clear objectives
-- Topic variety covering social, ethical, and contemporary issues
+- **Your stats** — current streak (how many days in a row you've practiced), your language level, and your total XP
+- **A hero section** — highlighted content or a motivational banner
+- **Four learning mode cards** — Natural Chats, Intellectual Debates, Character Dialogues, and Immersive Roleplays — each linking directly to that mode
 
-#### **Roleplay Scenarios**
+The layout has a persistent **sidebar** on the left (or bottom on mobile) with navigation links to all sections of the app.
 
-- Real-world conversation practice (job interviews, ordering food, travel situations)
-- Scenario-based learning with practical applications
-- Cultural context integration for authentic experiences
+---
 
-### 🎤 Voice & Accessibility Features
+### 💬 Natural Chats (`/learning-modes/chat`)
 
-- **Text-to-Speech Integration**: High-quality voice synthesis for AI responses with replay functionality
-- **Speech Recognition**: Advanced voice input with continuous listening and automatic transcription
-- **Translation Features**: Real-time translation of AI messages with persistent storage
-- **Grammar Feedback System**: Instant correction suggestions with detailed explanations
-- **Visual Feedback**: Lottie animations, voice wave indicators, and interactive feedback alerts
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices with touch-friendly controls
+This is your main conversation space with **Jennifer**, Lingo's AI English tutor. Jennifer knows your name, your level, your goals, and your learning style from the onboarding survey. She adapts her vocabulary, tone, and complexity to match where you are.
 
-### 🎯 Personalization & Progress Tracking
+You can:
+- Type messages and receive streaming AI responses (text appears word by word, like a real chat)
+- **Use voice input** — click the microphone and speak instead of type
+- **Hear AI responses read aloud** — tap the speaker icon on any message for text-to-speech playback
+- **Translate any message** — click the translate icon on a message to see it in your preferred language
+- Open the **Grammar Feedback sidebar** — Jennifer quietly reviews your messages and highlights mistakes, explains what went wrong, and shows the corrected version
+- **Start a new session** without losing your previous conversations — sessions are saved separately and you can browse through your history
+- **Delete old sessions** you no longer need
 
-- **Adaptive Learning Paths**: AI-driven content recommendations based on user performance
-- **Survey-Driven Customization**: Initial assessment creates tailored learning experiences
-- **Instant Feedback System**: Real-time grammar corrections and translation assistance
-- **Progress Analytics**: High-fidelity metrics dashboard rendering learning streaks, total practice duration, accumulated XP, radial grammar accuracy gauge, learning mode distribution, and dynamic weekly activity charts
-- **Grammar Review Notebook**: Persistent list of user's past grammar errors complete with correct matches and detailed rule explanations
-- **Multi-Session Chat Archival**: Interactive dropdown to toggle between starting fresh chats, looking up archived session histories, resuming historical conversations, and deleting specific past sessions
-- **Enhanced Chat History**: Persistent conversation storage with translation caching and feedback history
-- **Interactive Learning Tools**: Click-to-translate and feedback features for deeper engagement
+---
 
-### 🛠️ Technical Excellence
+### 🎭 Character Dialogues (`/learning-modes/characters`)
 
-- **Modern State Management**: Zustand for global state, React Query for server state
-- **Type-Safe Development**: Full TypeScript implementation with comprehensive interfaces
-- **Performance Optimized**: Efficient data fetching, caching, and lazy loading
-- **Accessibility First**: WCAG compliant design with screen reader support
+Choose a famous personality or historical figure to talk with. Lingo has characters like **Einstein, Shiva, and many others** — each with their own personality, backstory, and way of speaking.
 
-## 📸 Screenshots
+This mode is great for:
+- Practising English in a more narrative, storytelling context
+- Getting exposure to different vocabulary and speaking styles
+- Making learning fun by immersing yourself in a character's world
 
-### Landing Page & Learning Modes
+When you enter this mode, you first see a **grid of available characters** with images and descriptions. Pick one and a dedicated chat opens, exactly like the Natural Chat but with the chosen character's personality guiding the conversation.
 
-_Main dashboard showcasing different learning modes and navigation_
+---
 
-### Interactive Chat Interface
+### 🗣 Intellectual Debates (`/learning-modes/debates`)
 
-_Real-time conversation with AI tutor featuring voice controls, translation, feedback, and chat history_
+Pick a debate topic and argue your point of view against the AI. The AI takes the opposing side and challenges your reasoning.
 
-### Character Selection
+This mode helps you:
+- Build confidence expressing complex ideas in English
+- Learn how to structure arguments and counterarguments
+- Use more formal and academic English vocabulary
+- Practice thinking on your feet
 
-_Browse and select from 25+ famous characters for contextual learning_
+Topics range from social issues to science and philosophy. Like character mode, you start by browsing a list of debate topics, then enter the debate chat.
 
-### Voice Features
+---
 
-_Speech recognition and text-to-speech capabilities with visual feedback_
+### 🌍 Immersive Roleplays (`/learning-modes/roleplays`)
 
-### Translation & Feedback
+Step into real-world scenarios and practice the English you actually need day-to-day. Scenarios include things like:
 
-_In-app translation and grammar correction features with interactive feedback system_
+- Booking a hotel room
+- Ordering food at a restaurant
+- Going through a job interview
+- Asking for directions
+- Shopping at a store
 
-### Mobile Responsive Design
+The AI plays the other person in the scenario (the hotel receptionist, the interviewer, etc.) and the conversation stays within that context. It's designed to feel as close to a real situation as possible, so the English you practice here is immediately useful in real life.
 
-_Optimized experience across all device sizes_
+---
 
-## 🛠️ Tech Stack & Architecture
+### 🔍 Explore (`/explore`)
 
-### Core Framework & Language
+A browsable library of everything available on the platform. You can:
 
-- **[Next.js 16](https://nextjs.org/)** – App Router with server components, API routes, and enhanced performance
-- **[React 19](https://react.dev/)** – Latest React with concurrent features and improved developer experience
-- **[TypeScript 5](https://www.typescriptlang.org/)** – Full type safety and modern ES features
+- **Search** for a specific character, debate topic, or roleplay scenario by name
+- **Filter by category** — Characters, Debates, Daily Scenarios, or view All
+- Click directly into any item to start a session
 
-### Styling & UI
+The Explore page is great for discovering new content and deciding what to practice next.
 
-- **[Tailwind CSS 4](https://tailwindcss.com/)** – Utility-first CSS framework
-- **[Lucide React](https://lucide.dev/)** – Beautiful, consistent icon library
-- **[Lottie React](https://lottiefiles.com/)** – High-quality animations and micro-interactions
+---
 
-### State Management & Data Fetching
+### 📊 Progress (`/progress`)
 
-- **[Zustand](https://zustand-store.netlify.app/)** – Lightweight, scalable state management
-- **[React Query (TanStack Query)](https://tanstack.com/query/latest)** – Powerful data synchronization and caching
-- **Custom Hooks** – Reusable API integration patterns
+Your personal learning dashboard. Everything here is calculated from your actual activity on the platform.
 
-### Authentication & Voice
+**What you can see:**
 
-- **[Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2)** – Secure social authentication
-- **[React Speech Recognition](https://www.npmjs.com/package/react-speech-recognition)** – Voice input capabilities
-- **Web Speech API** – Browser-native text-to-speech synthesis
+| Section | What it shows |
+|---|---|
+| **Hero Stats** | Your language level, learning goal, total XP earned, this week's XP, and your progress towards the next fluency level |
+| **Stats Overview** | Current streak, longest streak ever, total XP, and total messages sent |
+| **Weekly Activity Chart** | A bar chart showing how many messages you sent each day over the past week |
+| **Accuracy Gauge** | A circular gauge showing your overall grammar accuracy score |
+| **Modes Distribution** | A breakdown (%) of how much time you've spent in each learning mode — chat, character, debate, roleplay |
+| **Grammar Notebook** | A log of every grammar mistake you've made across all sessions, with the original sentence, the corrected version, and an explanation |
 
-### Development Tools
+You can also **set a weekly XP goal** (Casual / Regular / Intensive / Insane) and see how close you are to hitting it this week.
 
-- **ESLint** – Code quality and consistency
-- **PostCSS** – CSS processing and optimization
-- **TypeScript Compiler** – Advanced type checking
+---
 
-### Architecture Highlights
+### 👤 Account (`/account`)
 
-- **Component-Driven Architecture** – Reusable, modular components
-- **Custom Hook Pattern** – Encapsulated business logic
-- **Route-Based Code Splitting** – Optimized bundle sizes
-- **Responsive Design System** – Mobile-first approach
+Manage your profile and account settings:
+
+- **Edit your name** and profile picture (uploaded via Cloudinary)
+- **Change your password**
+- **Delete your account** permanently
+- **Contact support** — submit a support request with a subject and description if you run into any problems
+
+---
+
+## 🔐 Authentication Screens
+
+### Get Started (`/get-started`)
+The landing page for new users. Sign up with your email and a password, or use **Continue with Google** for one-click sign-up.
+
+### Login (`/login`)
+Sign in with email/password or Google. If you've previously signed in with Google, you'll be automatically redirected.
+
+### Survey (`/survey`)
+After creating your account, you complete a short multi-step survey before accessing the app. This is how Lingo personalises everything for you. Questions include:
+
+- What is your current English level? (Beginner → Advanced)
+- What is your main learning goal? (e.g. travel, business, exams)
+- Why are you learning English?
+- How do you prefer to learn? (visual, reading/writing, etc.)
+- Your age group
+- Which language should translations be shown in?
+- How often do you plan to practice?
+
+### Forgot Password (`/forgot-password`)
+Enter your email to receive a one-time password (OTP) by email. Enter the OTP on the next screen and you can set a new password.
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- **Node.js** 18.0 or higher
-- **npm** or **yarn** package manager
-- **Google OAuth** credentials (for authentication)
+- Node.js v18 or higher
+- The [Lingo server](../server/README.md) must be running
 
-### Installation & Setup
-
-#### 1. Clone and Install
+### Installation
 
 ```bash
-# Clone the repository
-git clone <repository-url>
 cd client
-
-# Install dependencies
 npm install
 ```
 
-#### 2. Environment Configuration
+### Environment Variables
 
-Create a `.env.local` file in the project root:
+Create a `.env` file inside the `client/` folder:
 
-```bash
-# Google OAuth Configuration
-NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id_here
-
-# API Configuration
-NEXT_PUBLIC_API_URL=https://your-api-domain.com
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-google-client-id
 ```
 
-**Environment Variables:**
+- `NEXT_PUBLIC_API_URL` — the URL where the Lingo server is running
+- `NEXT_PUBLIC_GOOGLE_CLIENT_ID` — your Google OAuth client ID (from [Google Cloud Console](https://console.cloud.google.com/))
 
-- `NEXT_PUBLIC_GOOGLE_CLIENT_ID` – Google OAuth client ID for user authentication
-- `NEXT_PUBLIC_API_URL` – Backend API base URL for all data operations
+---
 
-#### 3. Development Server
+## 🏃 Running the App
 
 ```bash
-# Start development server
+# Development (with hot reload)
 npm run dev
+```
 
-# Build for production
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+```bash
+# Production build
 npm run build
-
-# Start production server
 npm start
 ```
 
-Visit `http://localhost:3000` to see the application running.
+---
 
-### 🔧 Development Commands
+## 🛠 Tech Stack
 
-```bash
-# Run linting
-npm run lint
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Global State | Zustand v5 |
+| Data Fetching | TanStack React Query v5 |
+| Google OAuth | `@react-oauth/google` |
+| Voice Input | React Speech Recognition |
+| Text-to-Speech | Web Speech API |
+| Icons | Lucide React, React Icons |
+| Animations | Lottie React |
+| Notifications | React Hot Toast |
+| Fonts | Nunito Sans, Roboto, Poppins |
 
-# Type checking
-npx tsc --noEmit
-
-# Build optimization check
-npm run build
-```
-
-## 🔌 API Integration
-
-The application integrates with a backend API through custom React hooks:
-
-- **Authentication**: Google OAuth flow with token management
-- **Learning Data**: Character profiles, debate topics, roleplay scenarios
-- **Chat History**: Persistent conversation storage and retrieval
-- **User Progress**: Personalized learning analytics and recommendations
-
-All API calls use React Query for caching, error handling, and optimistic updates.
-
-## Learning Modes Architecture
-
-All learning modes (Chat, Characters, Debates, Roleplays) follow a consistent pattern:
-
-1. **Listing Pages** (`page.tsx`) – Display a grid of available options (characters, debate topics, roleplay scenarios) fetched from the API.
-2. **Detail Pages** (`[id]/page.tsx`) – Load a specific item and render the `MainContentSection` component with chat functionality.
-3. **Shared Components** – All modes use the same reusable components:
-   - `MainContentSection` – Wraps the chat interface
-   - `ChatScreen` – Displays messages with pagination, translation, and feedback features
-   - `Footer` – Handles user input (text/voice) with enhanced speech recognition
-   - `Header` – Shows tutor info and controls with TTS toggle
-   - `CardGrid` – Renders clickable cards for navigation
-
-This architecture ensures consistency across all learning experiences while allowing each mode to have its own API endpoints and data structure.
-
-## Project Structure (Client)
-
-High-level overview of the main client-side structure, with a focus on the `app/` directory (Next.js App Router):
-
-- `app/` – Main application entry and route tree.
-
-  - `page.tsx` – Root landing page.
-  - `layout.tsx` – Root layout (providers, global shells, etc.).
-  - `providers.tsx` – Global providers (React Query, Zustand wrappers, etc.).
-  - `globals.css` – Global styles and Tailwind layers.
-  - `(auth)/` – Authentication and onboarding flows:
-    - `login/`, `forgot-password/`, `get-started/`, `survey/`, `callback/` – Auth pages and survey / onboarding journey.
-  - `learning-modes/` – All learning experiences:
-    - `chat/` – Real-time chat practice
-      - `page.tsx` – Chat mode entry page that wires up the shared layout.
-    - `characters/` – Character-based conversation mode
-      - `page.tsx` – Character grid listing all available characters (fetches from `/api/allCharacter`).
-      - `[character]/page.tsx` – Dynamic character route that loads a specific character and opens the chat experience scoped to that character.
-    - `debates/` – Debate-style practice mode
-      - `page.tsx` – Debate topics grid listing all available debates (fetches from `/api/allDebates`).
-      - `[debates]/page.tsx` – Dynamic debate route that loads a specific debate topic and opens the chat experience for that debate.
-    - `roleplays/` – Role-play conversation scenarios
-      - `page.tsx` – Roleplay scenarios grid listing all available roleplays (fetches from `/api/allRoleplays`).
-      - `[roleplays]/page.tsx` – Dynamic roleplay route that loads a specific scenario and opens the chat experience for that roleplay.
-    - `components/` – Shared learning-mode UI components:
-      - `MainContentSection.tsx` – Main chat layout wrapper (header + chat history + footer). Automatically closes utility sidebar on unmount.
-      - `ChatScreen.tsx` – Scrollable chat history view with message rendering, replay, translation, and interactive feedback features.
-      - `Footer.tsx` – Chat input form with text input, voice recognition (mic), and send functionality.
-      - `Header.tsx` – Shared header component with navigation, tutor avatar, and TTS toggle controls.
-      - `CardGrid.tsx` – Generic grid component for displaying clickable learning cards (characters, debates, roleplays).
-      - `CommonSidebar.tsx` – Static informational sidebar for learning mode descriptions.
-      - `CommonSidebarLayout.tsx` – Dynamic utility sidebar for translations and information, controlled by global store.
-    - `hooks/` – Learning-mode specific hooks:
-      - `useChatHistory.ts` – Manages chat history fetching, pagination, auto-scroll, translation, and feedback functionality.
-      - `usePostMessage.ts` – Handles sending messages to the API with React Query mutations.
-    - `voice/` – Text-to-Speech utilities:
-      - `speak.ts` – TTS functions for AI message playback.
-      - `voicePack.ts` – Voice configuration and settings.
-    - `function/` – Utility functions:
-      - `toggleTts.ts` – Toggle text-to-speech on/off and persist to localStorage.
-    - `data/` – Static data and animations:
-      - `loading.json`, `chatsLoading.json` – Lottie loading animations.
-      - `voice_wave.json` – Voice wave animation for active speech recognition.
-  - `account/` – User account area:
-    - `page.tsx` – Account dashboard / entry point.
-    - `components/` – Profile and account UI (e.g., `ProfileSidebar.tsx`, `Header.tsx`, `Container.tsx`).
-  - `progress/` – User statistics and analytics dashboard:
-    - `page.tsx` – Main Progress Page displaying modular user statistics.
-    - `components/` – Custom SVG data visualizers and feedback subpanels:
-      - `HeroStats.tsx` – Fluency rank tracker, study target goals selector, and level indicator.
-      - `StatsOverview.tsx` – Core numeric cards (streaks, total study hours, accumulated XP).
-      - `WeeklyActivityChart.tsx` – Dynamic, responsive SVG bar chart displaying weekly active time.
-      - `AccuracyGauge.tsx` – Radial gauge indicating exact grammar accuracy levels.
-      - `ModesDistribution.tsx` – Mode-by-mode overview cards listing practice time across categories.
-      - `GrammarNotebook.tsx` – Grammar review notebook detailing sentences, corrected outputs, and rules explanation.
-  - `components/` – Shared, app-level components such as `Sidebar.tsx` and common headers/sidebars.
-  - `hooks/` – Cross-cutting hooks:
-    - `useAuth.ts` – Authentication state and utilities.
-    - `useGetAPIRequest.ts`, `usePostAPIRequest.ts`, `useDeleteAPIRequest.ts` – Generic API hooks.
-    - `useGoogleAuth.ts` – Google OAuth integration helper.
-  - `interface/` – Shared TypeScript interfaces and types (messages, cards, UI models, etc.).
-  - `constants/` – Reusable constants such as chat system messages.
-  - `queryKeys/` – Centralized React Query key definitions.
-  - `store/` – Zustand store configuration (`store.ts`) for user, chat, and UI state.
-  - `UIKIT/` – Reusable UI elements and form controls:
-    - `AuthBtn.tsx`, `Input.tsx`, `PasswordInput.tsx`, `SelectField.tsx` – Common form components.
-    - `GeneralAvatar.tsx` – Generated avatar (initials + deterministic color) for tutors/users.
-    - `Loader.tsx` – Centered Lottie loader used across chat and characters.
-
-- `public/` – Static assets (images, illustrations, character avatars, logos).
-- `tailwind.config.js` – Tailwind CSS configuration.
-- `tsconfig.json` – TypeScript compiler configuration.
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how you can help improve EnglishTutor:
-
-### Development Process
-
-1. **Fork** the repository
-2. **Clone** your fork: `git clone https://github.com/your-username/client.git`
-3. **Create** a feature branch: `git checkout -b feature/amazing-feature`
-4. **Install** dependencies: `npm install`
-5. **Make** your changes with proper TypeScript types and tests
-6. **Commit** with conventional format: `git commit -m "feat: add amazing feature"`
-7. **Push** to your branch: `git push origin feature/amazing-feature`
-8. **Open** a Pull Request
-
-### Code Standards
-
-- **TypeScript**: Strict type checking enabled
-- **ESLint**: Follow the configured linting rules
-- **Component Structure**: Use functional components with custom hooks
-- **State Management**: Prefer Zustand for global state, React Query for server state
-- **Styling**: Tailwind CSS with responsive design principles
-
-### Testing
-
-```bash
-# Run linting
-npm run lint
-
-# Type checking
-npx tsc --noEmit
-
-# Build verification
-npm run build
-```
-
-### Areas for Contribution
-
-- 🐛 **Bug Fixes**: Help improve stability and user experience
-- ✨ **New Features**: Add learning modes, characters, or voice features
-- 🎨 **UI/UX**: Enhance design and accessibility
-- 📱 **Mobile Optimization**: Improve responsive design
-- 🔧 **Performance**: Optimize loading times and bundle size
-- 🌐 **Internationalization**: Add support for multiple languages
+---
 
 ## 📄 License
 
-This project is currently intended for internal/personal use. For production deployment or redistribution:
-
-- **Educational Use**: Free for non-commercial educational purposes
-- **Commercial Use**: Contact for licensing arrangements
-- **Open Source**: Consider MIT License for community contributions
+ISC
 
 ---
 
-## 🙏 Acknowledgments
-
-- **Character Images**: Historical and fictional character illustrations
-- **Lottie Animations**: Loading states and micro-interactions
-- **Open Source Community**: React, Next.js, and all contributing libraries
-
-## 📞 Support
-
-For questions, issues, or feature requests:
-
-- Create an [issue](https://github.com/your-repo/issues) on GitHub
-- Join our community discussions
-- Check the documentation for common solutions
-
----
-
-_Built with ❤️ for language learners worldwide_
+For questions or issues, please open an issue in the repository.
