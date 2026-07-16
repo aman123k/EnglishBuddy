@@ -144,4 +144,22 @@ export const personalizePlan: PersonalizePlan[] = [
     title: "Characters",
     subText: "Role-play conversations with different personalities",
   },
+  {
+    id: 5,
+    img: "/Images/business-coach.webp",
+    title: "Business Coach",
+    subText: "Master professional writing and business English",
+  },
+  {
+    id: 6,
+    img: "/Images/vocab-arena.webp",
+    title: "Vocab Arena",
+    subText: "Play word-guessing games to expand vocabulary",
+  },
+  {
+    id: 7,
+    img: "/Images/story-builder.webp",
+    title: "Story Co-creation",
+    subText: "Build creative stories collaboratively line-by-line",
+  },
 ];

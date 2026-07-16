@@ -13,6 +13,9 @@ import {
   TrendingUp,
   Users,
   ChevronRight,
+  Briefcase,
+  Trophy,
+  BookOpen,
 } from "lucide-react";
 
 function Sidebar() {
@@ -33,6 +36,9 @@ function Sidebar() {
     },
     { name: "Debates", href: "/learning-modes/debates", icon: Scale },
     { name: "Roleplays", href: "/learning-modes/roleplays", icon: Drama },
+    { name: "Business Coach", href: "/learning-modes/business-coach", icon: Briefcase },
+    { name: "Vocab Arena", href: "/learning-modes/vocab-arena", icon: Trophy },
+    { name: "Story Co-creation", href: "/learning-modes/co-write-story", icon: BookOpen },
   ];
 
   return (

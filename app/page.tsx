@@ -75,6 +75,33 @@ export default function Home() {
                   span2="#Real-world"
                   image="/Images/roleplay.webp"
                 />
+
+                <FeatureCard
+                  title="Business Coach"
+                  description="Master professional English, draft emails, and practice negotiations."
+                  link="/learning-modes/business-coach"
+                  span1="#Business"
+                  span2="#Career"
+                  image="/Images/business-coach.webp"
+                />
+
+                <FeatureCard
+                  title="Vocab Arena"
+                  description="Play a fun word-guessing game with Jennifer to expand your vocabulary."
+                  link="/learning-modes/vocab-arena"
+                  span1="#Vocabulary"
+                  span2="#Playful"
+                  image="/Images/vocab-arena.webp"
+                />
+
+                <FeatureCard
+                  title="Story Co-creation"
+                  description="Build creative stories collaboratively sentence-by-sentence."
+                  link="/learning-modes/co-write-story"
+                  span1="#Writing"
+                  span2="#Creativity"
+                  image="/Images/story-builder.webp"
+                />
               </div>
             </section>
           </div>

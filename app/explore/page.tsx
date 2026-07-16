@@ -53,6 +53,49 @@ function Explore() {
     );
   }, [debatesData, searchQuery]);
 
+  const specialModes = useMemo(() => {
+    const modes = [
+      {
+        id: "business-coach",
+        name: "Business Coach",
+        description: "Master professional English, draft emails, and practice negotiations.",
+        link: "/learning-modes/business-coach",
+        span1: "#Business",
+        span2: "#Career",
+        imageUrl: "/Images/business-coach.webp",
+        categories: ["Business English", "Interview Prep"]
+      },
+      {
+        id: "vocab-arena",
+        name: "Vocab Arena",
+        description: "Play a fun word-guessing game with Jennifer to expand your vocabulary.",
+        link: "/learning-modes/vocab-arena",
+        span1: "#Vocabulary",
+        span2: "#Playful",
+        imageUrl: "/Images/vocab-arena.webp",
+        categories: ["Vocabulary"]
+      },
+      {
+        id: "story-creation",
+        name: "Story Co-creation",
+        description: "Build creative stories collaboratively sentence-by-sentence.",
+        link: "/learning-modes/co-write-story",
+        span1: "#Writing",
+        span2: "#Creativity",
+        imageUrl: "/Images/story-builder.webp",
+        categories: ["Grammar"]
+      }
+    ];
+
+    return modes.filter((m) => {
+      const matchesSearch = m.name.toLowerCase().includes(searchQuery.toLowerCase());
+      if (!matchesSearch) return false;
+
+      if (selectedCategory === "All") return true;
+      return m.categories.includes(selectedCategory);
+    });
+  }, [searchQuery, selectedCategory]);
+
   const isLoaingAll = isLoadingChars || isLoadingRoleplays || isLoadingDebates;
 
   return (
@@ -82,6 +125,40 @@ function Explore() {
               </div>
             ) : (
               <div className="px-8 pb-12 flex flex-col gap-12">
+                {/* Specialized AI Tutors */}
+                {(selectedCategory === "All" ||
+                  selectedCategory === "Business English" ||
+                  selectedCategory === "Vocabulary" ||
+                  selectedCategory === "Grammar" ||
+                  selectedCategory === "Interview Prep") &&
+                  specialModes.length > 0 && (
+                    <section className="flex flex-col gap-6">
+                      <header className="flex justify-between items-end">
+                        <div className="flex flex-col gap-1">
+                          <h3 className="text-2xl font-bold text-[#282828] font-nunito-sans">
+                            Specialized AI Tutors
+                          </h3>
+                          <p className="text-gray-400 font-medium">
+                            Focus on professional communication, word games, or collaborative writing.
+                          </p>
+                        </div>
+                      </header>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                        {specialModes.map((m) => (
+                          <FeatureCard
+                            key={m.id}
+                            title={m.name}
+                            description={m.description}
+                            link={m.link}
+                            span1={m.span1}
+                            span2={m.span2}
+                            image={m.imageUrl}
+                          />
+                        ))}
+                      </div>
+                    </section>
+                  )}
+
                 {/* Popular Characters */}
                 {(selectedCategory === "All" ||
                   selectedCategory === "Characters") &&
@@ -195,7 +272,8 @@ function Explore() {
 
                 {filteredCharacters.length === 0 &&
                   filteredRoleplays.length === 0 &&
-                  filteredDebates.length === 0 && (
+                  filteredDebates.length === 0 &&
+                  specialModes.length === 0 && (
                     <div className="flex flex-col items-center justify-center py-20 gap-4">
                       <div className="text-gray-300 text-6xl">🔍</div>
                       <p className="text-gray-500 text-xl font-semibold">
