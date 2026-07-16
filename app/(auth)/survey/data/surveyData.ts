@@ -122,7 +122,7 @@ export const fieldRecord: Record<number, string> = {
 export const personalizePlan: PersonalizePlan[] = [
   {
     id: 1,
-    img: "/Images/debates.png",
+    img: "/Images/debates.webp",
     title: "Debates",
     subText: "Practice arguing different viewpoints with AI",
   },
@@ -134,13 +134,13 @@ export const personalizePlan: PersonalizePlan[] = [
   },
   {
     id: 3,
-    img: "/Images/role-play.png",
+    img: "/Images/role-play.webp",
     title: "Roleplays",
     subText: "Practice with real-life scenarios",
   },
   {
     id: 4,
-    img: "/Images/characters.png",
+    img: "/Images/characters.webp",
     title: "Characters",
     subText: "Role-play conversations with different personalities",
   },

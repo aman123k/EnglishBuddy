@@ -8,9 +8,9 @@ const HomeHero = () => {
       <Link href="/learning-modes/chat" className="group block">
         <div className="relative h-[320px] md:h-[400px] rounded-[2.5rem] bg-indigo-50/50 overflow-hidden border border-indigo-100 shadow-2xl shadow-indigo-900/5 transition-all">
           <img
-            src="/Images/chat.png"
+            src="/Images/chat.webp"
             alt="AI Chat Teacher"
-            className="opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700 object-cover w-full h-full"
+            className="opacity-80 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700 object-cover w-full h-full"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/40 to-transparent" />
 

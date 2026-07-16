@@ -46,7 +46,7 @@ export default function Home() {
                   link="/learning-modes/chat"
                   span1="#Writing"
                   span2="#Reading"
-                  image="/Images/chat.png"
+                  image="/Images/chat.webp"
                 />
 
                 <FeatureCard
@@ -55,7 +55,7 @@ export default function Home() {
                   link="/learning-modes/debates"
                   span1="#Speaking"
                   span2="#Thinking"
-                  image="/Images/debate.png"
+                  image="/Images/debate.webp"
                 />
 
                 <FeatureCard
@@ -64,7 +64,7 @@ export default function Home() {
                   link="/learning-modes/characters"
                   span1="#Speaking"
                   span2="#Listening"
-                  image="/Images/character.png"
+                  image="/Images/character.webp"
                 />
 
                 <FeatureCard
@@ -73,7 +73,7 @@ export default function Home() {
                   link="/learning-modes/roleplays"
                   span1="#Speaking"
                   span2="#Real-world"
-                  image="/Images/roleplay.png"
+                  image="/Images/roleplay.webp"
                 />
               </div>
             </section>

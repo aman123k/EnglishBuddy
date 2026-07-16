@@ -7,7 +7,7 @@ const ExploreHero = () => {
       <Link href="/learning-modes/roleplays" className="group block">
         <div className="relative h-[450px] rounded-[2.5rem] bg-slate-100 overflow-hidden border border-gray-200 shadow-2xl shadow-indigo-900/10 transition-all">
           <img
-            src="/Images/roleplay.png"
+            src="/Images/roleplay.webp"
             alt="Fearless Negotiations"
             className="opacity-90 brightness-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700 object-cover w-full h-full"
           />

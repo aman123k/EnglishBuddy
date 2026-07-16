@@ -15,7 +15,7 @@ function Chats() {
         <MainContentSection
           title="Chat"
           tutorName="Jennifer"
-          img="/Images/Jennifer.png"
+          img="/Images/Jennifer.webp"
           isShowBottomHeader={true}
           apiEndpoint={`/api/chatHistory`}
           apiPath="/api/chatService"
