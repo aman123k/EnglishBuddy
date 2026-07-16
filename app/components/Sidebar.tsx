@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { RiAccountCircleFill } from "react-icons/ri";
 import Link from "next/link";
@@ -13,13 +13,17 @@ import {
   TrendingUp,
   Users,
   ChevronRight,
+  ChevronDown,
   Briefcase,
   Trophy,
   BookOpen,
+  Plane,
 } from "lucide-react";
 
 function Sidebar() {
   const pathname = usePathname();
+  const [menuCollapsed, setMenuCollapsed] = useState(false);
+  const [modesCollapsed, setModesCollapsed] = useState(false);
 
   const menuItems = [
     { name: "Dashboard", href: "/", icon: Home },
@@ -39,6 +43,7 @@ function Sidebar() {
     { name: "Business Coach", href: "/learning-modes/business-coach", icon: Briefcase },
     { name: "Vocab Arena", href: "/learning-modes/vocab-arena", icon: Trophy },
     { name: "Story Co-creation", href: "/learning-modes/co-write-story", icon: BookOpen },
+    { name: "Travel Survival", href: "/learning-modes/travels", icon: Plane },
   ];
 
   return (
@@ -70,85 +75,97 @@ function Sidebar() {
         </div>
 
         {/* Navigation Section */}
-        <div className="flex-1 px-4 flex flex-col gap-10 overflow-y-auto no-scrollbar">
+        <div className="flex-1 px-4 flex flex-col gap-8 overflow-y-auto no-scrollbar">
           {/* Main Menu */}
           <div>
-            <p className="px-4 mb-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">
-              Menu
-            </p>
-            <ul className="space-y-1.5 list-none p-0">
-              {menuItems.map((item) => {
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="text-decoration-none block"
-                  >
-                    <li
-                      className={`px-4 py-3 rounded-2xl flex items-center gap-3.5 transition-all duration-300 group ${
-                        isActive
-                          ? "bg-[#1C398E] text-white shadow-lg shadow-[#1C398E]/25"
-                          : "text-slate-500 hover:bg-slate-50 hover:text-[#1C398E]"
-                      }`}
+            <button 
+              onClick={() => setMenuCollapsed(!menuCollapsed)}
+              className="w-full flex items-center justify-between px-4 mb-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em] hover:text-[#1C398E] transition-colors bg-transparent border-0 outline-none cursor-pointer"
+            >
+              <span>Menu</span>
+              <ChevronDown size={12} className={`transition-transform duration-300 ${menuCollapsed ? "-rotate-90 text-slate-400" : "text-[#1C398E]"}`} />
+            </button>
+            <div className={`transition-all duration-500 overflow-hidden ${menuCollapsed ? "max-h-0 opacity-0" : "max-h-[200px] opacity-100"}`}>
+              <ul className="space-y-1.5 list-none p-0 m-0">
+                {menuItems.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="text-decoration-none block"
                     >
-                      <item.icon
-                        size={18}
-                        className={`${isActive ? "text-white" : "text-slate-400 group-hover:text-[#1C398E]"} transition-colors`}
-                      />
-                      <span
-                        className={`${isActive ? "font-semibold" : "font-medium"} text-[14px]`}
+                      <li
+                        className={`px-4 py-3 rounded-2xl flex items-center gap-3.5 transition-all duration-300 group ${
+                          isActive
+                            ? "bg-[#1C398E] text-white shadow-lg shadow-[#1C398E]/25"
+                            : "text-slate-500 hover:bg-slate-50 hover:text-[#1C398E]"
+                        }`}
                       >
-                        {item.name}
-                      </span>
-                      {isActive && (
-                        <ChevronRight
-                          size={14}
-                          className="ml-auto opacity-50"
+                        <item.icon
+                          size={18}
+                          className={`${isActive ? "text-white" : "text-slate-400 group-hover:text-[#1C398E]"} transition-colors`}
                         />
-                      )}
-                    </li>
-                  </Link>
-                );
-              })}
-            </ul>
+                        <span
+                          className={`${isActive ? "font-semibold" : "font-medium"} text-[14px]`}
+                        >
+                          {item.name}
+                        </span>
+                        {isActive && (
+                          <ChevronRight
+                            size={14}
+                            className="ml-auto opacity-50"
+                          />
+                        )}
+                      </li>
+                    </Link>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
 
           {/* Learning Section */}
           <div>
-            <p className="px-4 mb-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">
-              Learning Modes
-            </p>
-            <ul className="space-y-1.5 list-none p-0">
-              {learningModes.map((item) => {
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="text-decoration-none block"
-                  >
-                    <li
-                      className={`px-4 py-3 rounded-2xl flex items-center gap-3.5 transition-all duration-300 group ${
-                        isActive
-                          ? "bg-indigo-50 text-[#1C398E]"
-                          : "text-slate-500 hover:bg-slate-50 hover:text-[#1C398E]"
-                      }`}
+            <button 
+              onClick={() => setModesCollapsed(!modesCollapsed)}
+              className="w-full flex items-center justify-between px-4 mb-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em] hover:text-[#1C398E] transition-colors bg-transparent border-0 outline-none cursor-pointer"
+            >
+              <span>Learning Modes</span>
+              <ChevronDown size={12} className={`transition-transform duration-300 ${modesCollapsed ? "-rotate-90 text-slate-400" : "text-[#1C398E]"}`} />
+            </button>
+            <div className={`transition-all duration-500 overflow-hidden ${modesCollapsed ? "max-h-0 opacity-0" : "max-h-[600px] opacity-100"}`}>
+              <ul className="space-y-1.5 list-none p-0 m-0">
+                {learningModes.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="text-decoration-none block"
                     >
-                      <item.icon
-                        size={18}
-                        className={`${isActive ? "text-[#1C398E]" : "text-slate-400 group-hover:text-[#1C398E]"} transition-colors`}
-                      />
-                      <span
-                        className={`${isActive ? "font-semibold" : "font-medium"} text-[14px]`}
+                      <li
+                        className={`px-4 py-3 rounded-2xl flex items-center gap-3.5 transition-all duration-300 group ${
+                          isActive
+                            ? "bg-indigo-50 text-[#1C398E]"
+                            : "text-slate-500 hover:bg-slate-50 hover:text-[#1C398E]"
+                        }`}
                       >
-                        {item.name}
-                      </span>
-                    </li>
-                  </Link>
-                );
-              })}
-            </ul>
+                        <item.icon
+                          size={18}
+                          className={`${isActive ? "text-[#1C398E]" : "text-slate-400 group-hover:text-[#1C398E]"} transition-colors`}
+                        />
+                        <span
+                          className={`${isActive ? "font-semibold" : "font-medium"} text-[14px]`}
+                        >
+                          {item.name}
+                        </span>
+                      </li>
+                    </Link>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
         </div>
 

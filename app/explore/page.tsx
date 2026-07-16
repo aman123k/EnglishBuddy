@@ -28,6 +28,9 @@ function Explore() {
   const { data: debatesData, isLoading: isLoadingDebates } = useGetAPIRequest<
     cardGridInterface[]
   >("/api/allDebates", GET_USER_COMMON("/api/allDebates"), 1000 * 60 * 5);
+  const { data: travelsData, isLoading: isLoadingTravels } = useGetAPIRequest<
+    cardGridInterface[]
+  >("/api/allTravels", GET_USER_COMMON("/api/allTravels"), 1000 * 60 * 5);
 
   const filteredCharacters = useMemo(() => {
     return (
@@ -52,6 +55,14 @@ function Explore() {
       ) || []
     );
   }, [debatesData, searchQuery]);
+
+  const filteredTravels = useMemo(() => {
+    return (
+      travelsData?.data?.filter((item: cardGridInterface) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      ) || []
+    );
+  }, [travelsData, searchQuery]);
 
   const specialModes = useMemo(() => {
     const modes = [
@@ -96,7 +107,7 @@ function Explore() {
     });
   }, [searchQuery, selectedCategory]);
 
-  const isLoaingAll = isLoadingChars || isLoadingRoleplays || isLoadingDebates;
+  const isLoaingAll = isLoadingChars || isLoadingRoleplays || isLoadingDebates || isLoadingTravels;
 
   return (
     <section className=" bg-[#F7F7FE] max-[950px]:bg-white min-[1600px]:w-[1400px]  min-[1600px]:mx-[50%] min-[1600px]:translate-x-[-50%]">
@@ -270,9 +281,48 @@ function Explore() {
                     </section>
                   )}
 
+                {/* Travel Survival Scenarios */}
+                {(selectedCategory === "All" ||
+                  selectedCategory === "Travel & Tourism" ||
+                  selectedCategory === "Daily Scenarios" ||
+                  selectedCategory === "Roleplay") &&
+                  filteredTravels.length > 0 && (
+                    <section className="flex flex-col gap-6">
+                      <header className="flex justify-between items-end">
+                        <div className="flex flex-col gap-1">
+                          <h3 className="text-2xl font-bold text-[#282828] font-nunito-sans">
+                            Travel Survival Scenarios
+                          </h3>
+                          <p className="text-gray-400 font-medium">
+                            Navigate emergency situations and build traveler fluency.
+                          </p>
+                        </div>
+                        <button className="text-[#1C398E] font-bold text-sm hover:underline bg-transparent border-none outline-none cursor-pointer">
+                          See all
+                        </button>
+                      </header>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                        {filteredTravels
+                          .slice(0, 4)
+                          .map((tr: cardGridInterface) => (
+                            <FeatureCard
+                              key={tr._id}
+                              title={tr.name}
+                              description={`Survive on the scenario "${tr.name}" with Jennifer. Navigate choices and build vocabulary.`}
+                              link={`/learning-modes/travels/${tr._id}`}
+                              span1="#Travel"
+                              span2="#Survival"
+                              image={tr.imageUrl}
+                            />
+                          ))}
+                      </div>
+                    </section>
+                  )}
+
                 {filteredCharacters.length === 0 &&
                   filteredRoleplays.length === 0 &&
                   filteredDebates.length === 0 &&
+                  filteredTravels.length === 0 &&
                   specialModes.length === 0 && (
                     <div className="flex flex-col items-center justify-center py-20 gap-4">
                       <div className="text-gray-300 text-6xl">🔍</div>

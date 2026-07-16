@@ -102,6 +102,15 @@ export default function Home() {
                   span2="#Creativity"
                   image="/Images/story-builder.webp"
                 />
+
+                <FeatureCard
+                  title="Travel Survival"
+                  description="Simulate critical emergencies like lost islands, jungles, or cities."
+                  link="/learning-modes/travels"
+                  span1="#Travel"
+                  span2="#Survival"
+                  image="/Images/lost-city.webp"
+                />
               </div>
             </section>
           </div>

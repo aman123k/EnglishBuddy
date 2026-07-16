@@ -162,4 +162,10 @@ export const personalizePlan: PersonalizePlan[] = [
     title: "Story Co-creation",
     subText: "Build creative stories collaboratively line-by-line",
   },
+  {
+    id: 8,
+    img: "/Images/lost-city.webp",
+    title: "Travel Survival",
+    subText: "Simulate critical emergencies and survive situations",
+  },
 ];
