@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect } from "react";
 import usePostAPIRequest from "../../hooks/usePostAPIRequest";
 import { useRouter } from "next/navigation";
+import { setClientCookie } from "../../utils/cookie";
 
 function GithubCallBack() {
   const router = useRouter();
@@ -18,6 +19,7 @@ function GithubCallBack() {
 
       if (response?.status) {
         localStorage.removeItem("surveyRes");
+        setClientCookie("lingo_logged_in", "true", 30);
         router.push(response?.route);
       } else {
         localStorage.removeItem("surveyRes");

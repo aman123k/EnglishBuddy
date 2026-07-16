@@ -7,6 +7,7 @@ import { LuLogOut } from "react-icons/lu";
 import { MdSupportAgent } from "react-icons/md";
 import { useQueryClient } from "@tanstack/react-query";
 import { GET_USER_INFORMATION } from "@/app/queryKeys/allQueryKeys";
+import { deleteClientCookie } from "@/app/utils/cookie";
 
 function Container() {
   const { setAccountSidebar, setUser } = useStore();
@@ -30,6 +31,7 @@ function Container() {
     const response = await mutatePost({ path, data: {} });
     if (response?.status) {
       // Clear local user and remove cached user info to avoid stale redirects.
+      deleteClientCookie("lingo_logged_in");
       setUser(null);
       queryClient.removeQueries({
         queryKey: GET_USER_INFORMATION("/api/userInformation"),

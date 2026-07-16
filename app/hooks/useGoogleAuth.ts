@@ -3,6 +3,7 @@ import { useStore } from "../store/store";
 import { ERROR_MESSAGES } from "../constants/messages";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { setClientCookie } from "../utils/cookie";
 
 const useGoogleAuth = () => {
   const router = useRouter();
@@ -24,6 +25,7 @@ const useGoogleAuth = () => {
         const json = await response.json();
         if (json?.status) {
           toast.success(json.message);
+          setClientCookie("lingo_logged_in", "true", 30);
           setTimeout(() => {
             router.push(json.route);
           }, 2000);

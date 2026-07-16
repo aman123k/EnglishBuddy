@@ -13,6 +13,7 @@ import { useStore } from "../../store/store";
 import useAuthentication from "../../hooks/useAuth";
 import Image from "next/image";
 import { FaGithub } from "react-icons/fa";
+import { setClientCookie } from "../../utils/cookie";
 
 function Login() {
   const router = useRouter();
@@ -36,6 +37,7 @@ function Login() {
     // Make API call to register user
     const response = await mutateAsync({ path, data: userInfo });
     if (response?.status) {
+      setClientCookie("lingo_logged_in", "true", 30);
       router.push(response?.route);
     }
   };
