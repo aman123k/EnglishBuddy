@@ -4,9 +4,12 @@ import { ERROR_MESSAGES } from "../constants/messages";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { setClientCookie } from "../utils/cookie";
+import { useQueryClient } from "@tanstack/react-query";
+import { GET_USER_INFORMATION } from "../queryKeys/allQueryKeys";
 
 const useGoogleAuth = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { surveyRes } = useStore();
   const url = process.env.NEXT_PUBLIC_API_URL;
 
@@ -26,6 +29,9 @@ const useGoogleAuth = () => {
         if (json?.status) {
           toast.success(json.message);
           setClientCookie("lingo_logged_in", "true", 30);
+          queryClient.invalidateQueries({
+            queryKey: GET_USER_INFORMATION("/api/userInformation"),
+          });
           setTimeout(() => {
             router.push(json.route);
           }, 2000);

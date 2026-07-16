@@ -3,9 +3,12 @@ import React, { useCallback, useEffect } from "react";
 import usePostAPIRequest from "../../hooks/usePostAPIRequest";
 import { useRouter } from "next/navigation";
 import { setClientCookie } from "../../utils/cookie";
+import { useQueryClient } from "@tanstack/react-query";
+import { GET_USER_INFORMATION } from "../../queryKeys/allQueryKeys";
 
 function GithubCallBack() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { mutateAsync } = usePostAPIRequest();
 
   const githubAuth = useCallback(
@@ -20,6 +23,9 @@ function GithubCallBack() {
       if (response?.status) {
         localStorage.removeItem("surveyRes");
         setClientCookie("lingo_logged_in", "true", 30);
+        queryClient.invalidateQueries({
+          queryKey: GET_USER_INFORMATION("/api/userInformation"),
+        });
         router.push(response?.route);
       } else {
         localStorage.removeItem("surveyRes");

@@ -14,10 +14,13 @@ import useAuthentication from "../../hooks/useAuth";
 import Image from "next/image";
 import { FaGithub } from "react-icons/fa";
 import { setClientCookie } from "../../utils/cookie";
+import { useQueryClient } from "@tanstack/react-query";
+import { GET_USER_INFORMATION } from "../../queryKeys/allQueryKeys";
 
 function Login() {
   const router = useRouter();
   useAuthentication();
+  const queryClient = useQueryClient();
   const { surveyRes } = useStore();
   const [userInfo, setUserInfo] = useState({ email: "", password: "" });
   const loginCondition =
@@ -38,6 +41,9 @@ function Login() {
     const response = await mutateAsync({ path, data: userInfo });
     if (response?.status) {
       setClientCookie("lingo_logged_in", "true", 30);
+      queryClient.invalidateQueries({
+        queryKey: GET_USER_INFORMATION("/api/userInformation"),
+      });
       router.push(response?.route);
     }
   };

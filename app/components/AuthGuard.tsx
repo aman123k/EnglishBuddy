@@ -39,8 +39,12 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     // During initial loading
     if (isLoading) {
       if (isPublicPath) {
-        // Public pages are accessible immediately
-        setAuthorized(true);
+        // If they are visiting login/auth pages and are likely logged in, show loader instead of form to avoid flickering
+        if (hasAuthCookieFlag && (pathname === "/login" || pathname === "/get-started" || pathname === "/forgot-password")) {
+          setAuthorized(false);
+        } else {
+          setAuthorized(true);
+        }
       } else if (hasAuthCookieFlag) {
         // Assume logged in (to prevent full-screen loader) and render layout structure.
         // The background fetch will either complete successfully or fail and redirect.
@@ -92,9 +96,12 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
 
   const isPublicPath = allowedPaths.includes(pathname);
   const hasAuthCookieFlag = getClientCookie("lingo_logged_in") === "true";
+  const isAuthPage = pathname === "/login" || pathname === "/get-started" || pathname === "/forgot-password";
 
-  // While loading, if the user doesn't have the logged_in flag and is accessing a protected route, block page and show loader
-  if (isLoading && !isPublicPath && !hasAuthCookieFlag) {
+  // While loading, block page and show loader if:
+  // 1. It is a protected route and we don't have the logged_in cookie flag (meaning we're logged out)
+  // 2. It is an auth page and we DO have the logged_in cookie flag (meaning we're probably logged in and will redirect)
+  if (isLoading && ((!isPublicPath && !hasAuthCookieFlag) || (isAuthPage && hasAuthCookieFlag))) {
     return (
       <div className="relative min-h-screen min-w-full bg-[#F7F7FE]">
         <Loader />
