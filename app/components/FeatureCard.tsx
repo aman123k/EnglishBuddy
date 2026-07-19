@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Lock } from "lucide-react";
 
 interface cardProps {
   link: string;
@@ -9,6 +9,8 @@ interface cardProps {
   image: string;
   span1: string;
   span2: string;
+  isLocked?: boolean;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 function FeatureCard({
@@ -18,9 +20,24 @@ function FeatureCard({
   image,
   span1,
   span2,
+  isLocked = false,
+  onClick,
 }: cardProps) {
+  const handleClick = (e: React.MouseEvent) => {
+    if (isLocked && onClick) {
+      e.preventDefault();
+      onClick(e);
+    } else if (onClick) {
+      onClick(e);
+    }
+  };
+
   return (
-    <Link href={`${link}`} className="group block text-decoration-none">
+    <Link 
+      href={isLocked ? "#" : link} 
+      onClick={handleClick}
+      className="group block text-decoration-none"
+    >
       <div className="bg-white rounded-[2rem] p-6 flex flex-col sm:flex-row items-center gap-6 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-indigo-900/5 transition-all duration-500 relative overflow-hidden group-hover:-translate-y-1">
         {/* Background Decorative Element */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50/50 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-indigo-100/50 transition-colors" />
@@ -34,13 +51,25 @@ function FeatureCard({
             fill
             className="object-cover group-hover:scale-110 transition-transform duration-700"
           />
+          {isLocked && (
+            <div className="absolute inset-0 bg-black/40 z-20 flex items-center justify-center backdrop-blur-[1px]">
+              <div className="bg-amber-500 text-black p-2 rounded-full shadow-lg">
+                <Lock size={18} />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Content */}
         <div className="flex-1 flex flex-col gap-3 relative z-10">
           <div className="flex flex-col gap-1">
-            <h3 className="text-[#282828] text-xl font-semibold tracking-tight group-hover:text-[#1C398E] transition-colors">
+            <h3 className="text-[#282828] text-xl font-semibold tracking-tight group-hover:text-[#1C398E] transition-colors flex items-center gap-2">
               {title}
+              {isLocked && (
+                <span className="text-[9px] font-bold bg-amber-500/10 text-amber-600 border border-amber-500/20 px-1.5 py-0.5 rounded-full uppercase tracking-wider">
+                  Premium
+                </span>
+              )}
             </h3>
             <div className="flex gap-2">
               <span className="text-[10px] font-semibold text-[#1C398E] uppercase tracking-widest bg-indigo-50 px-2 py-1 rounded-md">
@@ -57,7 +86,7 @@ function FeatureCard({
           </p>
 
           <div className="flex items-center gap-2 text-[#1C398E] text-xs font-semibold uppercase tracking-widest mt-1 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-300">
-            Start Learning <ArrowRight size={14} />
+            {isLocked ? "Unlock Access" : "Start Learning"} <ArrowRight size={14} />
           </div>
         </div>
       </div>

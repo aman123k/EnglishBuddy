@@ -2,6 +2,7 @@
 // Optionally invalidates a query key after a successful request.
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useStore } from "@/app/store/store";
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 
@@ -13,6 +14,7 @@ interface PostAPIRequestParams {
 
 const usePostMessageRequest = (refetchQueryKey?: string[]) => {
   const queryClient = useQueryClient();
+  const setSubscriptionModalOpen = useStore((state) => state.setSubscriptionModalOpen);
 
   const postAPIRequest = async ({
     path,
@@ -33,7 +35,11 @@ const usePostMessageRequest = (refetchQueryKey?: string[]) => {
       if (json.status) {
         return json;
       } else {
+        if (response.status === 403 || json.isLimitReached) {
+          setSubscriptionModalOpen(true);
+        }
         toast.error(json.message || "An error occurred");
+        return json;
       }
     } catch (err) {
       console.log(err);

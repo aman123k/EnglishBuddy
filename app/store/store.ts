@@ -12,6 +12,7 @@ interface CreateStoreState {
   utilitySidebar: UtilitySidebarProps;
   accountSidebar: UtilitySidebarProps;
   allCharacter: cardGridInterface[];
+  isSubscriptionModalOpen: boolean;
 }
 
 interface Store {
@@ -26,6 +27,7 @@ interface Store {
   setAccountSidebar: (props: Partial<UtilitySidebarProps>) => void;
   setAllCharacter: (characters: cardGridInterface[]) => void;
   updateMessage: (id: string, updates: Partial<Message>) => void;
+  setSubscriptionModalOpen: (isOpen: boolean) => void;
 }
 
 // Initial state
@@ -56,6 +58,7 @@ const initialState: CreateStoreState = {
     title: "",
   },
   allCharacter: [],
+  isSubscriptionModalOpen: false,
 };
 
 export const useStore = create<Store & CreateStoreState>((set) => ({
@@ -124,4 +127,5 @@ export const useStore = create<Store & CreateStoreState>((set) => ({
       ),
     }));
   },
+  setSubscriptionModalOpen: (isSubscriptionModalOpen) => set({ isSubscriptionModalOpen }),
 }));

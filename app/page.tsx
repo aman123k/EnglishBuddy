@@ -6,9 +6,14 @@ import FeatureCard from "./components/FeatureCard";
 import DashboardHeader from "./components/DashboardHeader";
 import StatsCards from "./components/StatsCards";
 import HomeHero from "./components/HomeHero";
+import { useStore } from "./store/store";
+import SubscriptionModal from "./components/SubscriptionModal";
 
 export default function Home() {
   const { userData } = useAuthentication();
+  const setSubscriptionModalOpen = useStore((state) => state.setSubscriptionModalOpen);
+
+  const isFree = !userData || userData.subscriptionPlan === "free";
 
   return (
     <section className="bg-[#F7F7FE] min-h-screen">
@@ -56,6 +61,8 @@ export default function Home() {
                   span1="#Speaking"
                   span2="#Thinking"
                   image="/Images/debate.webp"
+                  isLocked={isFree}
+                  onClick={() => setSubscriptionModalOpen(true)}
                 />
 
                 <FeatureCard
@@ -65,6 +72,8 @@ export default function Home() {
                   span1="#Speaking"
                   span2="#Listening"
                   image="/Images/character.webp"
+                  isLocked={isFree}
+                  onClick={() => setSubscriptionModalOpen(true)}
                 />
 
                 <FeatureCard
@@ -74,6 +83,8 @@ export default function Home() {
                   span1="#Speaking"
                   span2="#Real-world"
                   image="/Images/roleplay.webp"
+                  isLocked={isFree}
+                  onClick={() => setSubscriptionModalOpen(true)}
                 />
 
                 <FeatureCard
@@ -83,6 +94,8 @@ export default function Home() {
                   span1="#Business"
                   span2="#Career"
                   image="/Images/business-coach.webp"
+                  isLocked={isFree}
+                  onClick={() => setSubscriptionModalOpen(true)}
                 />
 
                 <FeatureCard
@@ -92,6 +105,8 @@ export default function Home() {
                   span1="#Vocabulary"
                   span2="#Playful"
                   image="/Images/vocab-arena.webp"
+                  isLocked={isFree}
+                  onClick={() => setSubscriptionModalOpen(true)}
                 />
 
                 <FeatureCard
@@ -101,6 +116,8 @@ export default function Home() {
                   span1="#Writing"
                   span2="#Creativity"
                   image="/Images/story-builder.webp"
+                  isLocked={isFree}
+                  onClick={() => setSubscriptionModalOpen(true)}
                 />
 
                 <FeatureCard
@@ -110,6 +127,8 @@ export default function Home() {
                   span1="#Travel"
                   span2="#Survival"
                   image="/Images/lost-city.webp"
+                  isLocked={isFree}
+                  onClick={() => setSubscriptionModalOpen(true)}
                 />
               </div>
             </section>

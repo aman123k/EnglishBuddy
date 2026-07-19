@@ -10,9 +10,13 @@ import { cardGridInterface } from "../interface/cardGridInterface";
 import { GET_USER_COMMON } from "../queryKeys/allQueryKeys";
 import Loader from "../UIKIT/Loader";
 import useAuthentication from "../hooks/useAuth";
+import { useStore } from "../store/store";
+import SubscriptionModal from "../components/SubscriptionModal";
 
 function Explore() {
-  useAuthentication();
+  const { userData } = useAuthentication();
+  const setSubscriptionModalOpen = useStore((state) => state.setSubscriptionModalOpen);
+  const isFree = !userData || userData.subscriptionPlan === "free";
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -164,6 +168,8 @@ function Explore() {
                             span1={m.span1}
                             span2={m.span2}
                             image={m.imageUrl}
+                            isLocked={isFree}
+                            onClick={() => setSubscriptionModalOpen(true)}
                           />
                         ))}
                       </div>
@@ -201,6 +207,8 @@ function Explore() {
                               span1="#Characters"
                               span2="#Speaking"
                               image={char.imageUrl}
+                              isLocked={isFree}
+                              onClick={() => setSubscriptionModalOpen(true)}
                             />
                           ))}
                       </div>
@@ -239,6 +247,8 @@ function Explore() {
                               span1="#Roleplay"
                               span2="#Immersive"
                               image={rp.imageUrl}
+                              isLocked={isFree}
+                              onClick={() => setSubscriptionModalOpen(true)}
                             />
                           ))}
                       </div>
@@ -275,6 +285,8 @@ function Explore() {
                               span1="#Debate"
                               span2="#Logic"
                               image={db.imageUrl}
+                              isLocked={isFree}
+                              onClick={() => setSubscriptionModalOpen(true)}
                             />
                           ))}
                       </div>
@@ -313,6 +325,8 @@ function Explore() {
                               span1="#Travel"
                               span2="#Survival"
                               image={tr.imageUrl}
+                              isLocked={isFree}
+                              onClick={() => setSubscriptionModalOpen(true)}
                             />
                           ))}
                       </div>

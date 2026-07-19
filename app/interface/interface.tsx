@@ -46,6 +46,7 @@ export interface User {
   isSurveyComplete: boolean;
   translationLanguage: string;
   practiceFrequency: string;
+  subscriptionPlan: "free" | "gold" | "platinum";
   createdAt: Date;
 }
 
