@@ -4,6 +4,8 @@ import Image from "next/image";
 import { RiAccountCircleFill } from "react-icons/ri";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useStore } from "../store/store";
+import useAuthentication from "../hooks/useAuth";
 import {
   Compass,
   Drama,
@@ -24,6 +26,10 @@ function Sidebar() {
   const pathname = usePathname();
   const [menuCollapsed, setMenuCollapsed] = useState(false);
   const [modesCollapsed, setModesCollapsed] = useState(false);
+  const { setSubscriptionModalOpen } = useStore();
+  const { userData } = useAuthentication();
+
+  const plan = userData?.subscriptionPlan ?? "free";
 
   const menuItems = [
     { name: "Dashboard", href: "/", icon: Home },
@@ -187,21 +193,78 @@ function Sidebar() {
           </div>
         </div>
 
-        {/* Account Section */}
-        <div className="p-6 border-t border-gray-100 mt-auto">
+        {/* Account + Plan Section */}
+        <div className="px-4 pb-5 pt-4 border-t border-gray-100 mt-auto flex flex-col gap-2">
+
+          {/* Subscription plan badge */}
+          {plan === "free" ? (
+            <div
+              onClick={() => setSubscriptionModalOpen(true)}
+              className="relative overflow-hidden flex items-center gap-3 px-4 py-3 rounded-2xl cursor-pointer
+                bg-gradient-to-r from-[#1C398E]/8 to-indigo-50 border border-[#1C398E]/15
+                hover:from-[#1C398E]/15 hover:to-indigo-100 hover:border-[#1C398E]/30
+                transition-all duration-300 group"
+            >
+              {/* animated shimmer */}
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700
+                bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+              <div className="w-7 h-7 rounded-lg bg-[#1C398E]/10 flex items-center justify-center flex-shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1C398E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-[11px] font-bold text-[#1C398E] leading-none">Upgrade to Premium</span>
+                <span className="text-[10px] text-slate-400 mt-0.5">Unlock all features</span>
+              </div>
+              <svg className="ml-auto flex-shrink-0 text-[#1C398E]/50 group-hover:text-[#1C398E] transition-colors" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </div>
+          ) : (
+            <div className={`flex items-center gap-3 px-4 py-3 rounded-2xl border ${
+              plan === "gold"
+                ? "bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-200/60"
+                : "bg-gradient-to-r from-indigo-50 to-violet-50 border-indigo-200/60"
+            }`}>
+              <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                plan === "gold" ? "bg-amber-100" : "bg-indigo-100"
+              }`}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill={plan === "gold" ? "#d97706" : "#4f46e5"} stroke="none">
+                  <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+                </svg>
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className={`text-[11px] font-bold leading-none ${
+                  plan === "gold" ? "text-amber-700" : "text-indigo-700"
+                }`}>
+                  {plan === "gold" ? "Gold Plan" : "Platinum Plan"}
+                </span>
+                <span className="text-[10px] text-slate-400 mt-0.5">Active subscription</span>
+              </div>
+              <span className={`ml-auto text-[9px] font-black uppercase px-2 py-0.5 rounded-full flex-shrink-0 ${
+                plan === "gold" ? "bg-amber-200 text-amber-700" : "bg-indigo-200 text-indigo-700"
+              }`}>Active</span>
+            </div>
+          )}
+
+          {/* Account link */}
           <Link href="/account" className="text-decoration-none">
-            <div className="flex items-center gap-3 p-3 rounded-2xl hover:bg-slate-50 transition-all duration-300 group cursor-pointer border border-transparent hover:border-slate-100">
-              <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-[#1C398E] group-hover:bg-[#1C398E] group-hover:text-white transition-all duration-300 shadow-sm">
-                <RiAccountCircleFill size={24} />
+            <div className="flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-slate-50 transition-all duration-200 group cursor-pointer">
+              <div className="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-[#1C398E] group-hover:bg-[#1C398E] group-hover:text-white transition-all duration-300 flex-shrink-0">
+                <RiAccountCircleFill size={20} />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-slate-800">
-                  My Account
+                <span className="text-[13px] font-semibold text-slate-800 leading-none">
+                  {userData?.name?.split(" ")[0] || "My Account"}
                 </span>
-                <span className="text-[10px] font-medium text-slate-400">
-                  Settings
+                <span className="text-[10px] font-medium text-slate-400 mt-0.5">
+                  {userData?.email || "Settings"}
                 </span>
               </div>
+              <svg className="ml-auto text-slate-300 group-hover:text-slate-400 transition-colors" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
             </div>
           </Link>
         </div>

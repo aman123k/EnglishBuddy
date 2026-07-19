@@ -2,6 +2,7 @@
 import Sidebar from "@/app/components/Sidebar";
 import { CommonSidebarLayout } from "../components/CommonSidebarLayout";
 import { MainContentSection } from "../components/MainContentSection";
+import { PaidGuard } from "../components/PaidGuard";
 
 function VocabArena() {
   return (
@@ -11,19 +12,25 @@ function VocabArena() {
           <Sidebar />
         </div>
 
-        <MainContentSection
-          title="Vocab Arena"
-          tutorName="Game Host"
-          img="/Images/vocab-arena.webp"
-          isShowBottomHeader={true}
-          apiEndpoint="/api/chatHistory"
-          query="mode=vocab"
-          apiPath="/api/learningModeService?mode=vocab"
-        />
-        <CommonSidebarLayout />
+        <PaidGuard
+          featureName="Vocab Arena"
+          featureDesc="Play a fun word-guessing game with Jennifer to expand your vocabulary in a playful, competitive way."
+        >
+          <MainContentSection
+            title="Vocab Arena"
+            tutorName="Game Host"
+            img="/Images/vocab-arena.webp"
+            isShowBottomHeader={true}
+            apiEndpoint="/api/chatHistory"
+            query="mode=vocab"
+            apiPath="/api/learningModeService?mode=vocab"
+          />
+          <CommonSidebarLayout />
+        </PaidGuard>
       </section>
     </section>
   );
 }
 
 export default VocabArena;
+
