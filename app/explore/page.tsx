@@ -15,7 +15,9 @@ import SubscriptionModal from "../components/SubscriptionModal";
 
 function Explore() {
   const { userData } = useAuthentication();
-  const setSubscriptionModalOpen = useStore((state) => state.setSubscriptionModalOpen);
+  const setSubscriptionModalOpen = useStore(
+    (state) => state.setSubscriptionModalOpen,
+  );
   const isFree = !userData || userData.subscriptionPlan === "free";
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -73,37 +75,42 @@ function Explore() {
       {
         id: "business-coach",
         name: "Business Coach",
-        description: "Master professional English, draft emails, and practice negotiations.",
+        description:
+          "Master professional English, draft emails, and practice negotiations.",
         link: "/learning-modes/business-coach",
         span1: "#Business",
         span2: "#Career",
         imageUrl: "/Images/business-coach.webp",
-        categories: ["Business English", "Interview Prep"]
+        categories: ["Business English", "Interview Prep"],
       },
       {
         id: "vocab-arena",
         name: "Vocab Arena",
-        description: "Play a fun word-guessing game with Jennifer to expand your vocabulary.",
+        description:
+          "Play a fun word-guessing game with Jennifer to expand your vocabulary.",
         link: "/learning-modes/vocab-arena",
         span1: "#Vocabulary",
         span2: "#Playful",
         imageUrl: "/Images/vocab-arena.webp",
-        categories: ["Vocabulary"]
+        categories: ["Vocabulary"],
       },
       {
         id: "story-creation",
         name: "Story Co-creation",
-        description: "Build creative stories collaboratively sentence-by-sentence.",
+        description:
+          "Build creative stories collaboratively sentence-by-sentence.",
         link: "/learning-modes/co-write-story",
         span1: "#Writing",
         span2: "#Creativity",
         imageUrl: "/Images/story-builder.webp",
-        categories: ["Grammar"]
-      }
+        categories: ["Grammar"],
+      },
     ];
 
     return modes.filter((m) => {
-      const matchesSearch = m.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSearch = m.name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
       if (!matchesSearch) return false;
 
       if (selectedCategory === "All") return true;
@@ -111,7 +118,11 @@ function Explore() {
     });
   }, [searchQuery, selectedCategory]);
 
-  const isLoaingAll = isLoadingChars || isLoadingRoleplays || isLoadingDebates || isLoadingTravels;
+  const isLoaingAll =
+    isLoadingChars ||
+    isLoadingRoleplays ||
+    isLoadingDebates ||
+    isLoadingTravels;
 
   return (
     <section className=" bg-[#F7F7FE] max-[950px]:bg-white min-[1600px]:w-[1400px]  min-[1600px]:mx-[50%] min-[1600px]:translate-x-[-50%]">
@@ -154,7 +165,8 @@ function Explore() {
                             Specialized AI Tutors
                           </h3>
                           <p className="text-gray-400 font-medium">
-                            Focus on professional communication, word games, or collaborative writing.
+                            Focus on professional communication, word games, or
+                            collaborative writing.
                           </p>
                         </div>
                       </header>
@@ -306,7 +318,8 @@ function Explore() {
                             Travel Survival Scenarios
                           </h3>
                           <p className="text-gray-400 font-medium">
-                            Navigate emergency situations and build traveler fluency.
+                            Navigate emergency situations and build traveler
+                            fluency.
                           </p>
                         </div>
                         <button className="text-[#1C398E] font-bold text-sm hover:underline bg-transparent border-none outline-none cursor-pointer">

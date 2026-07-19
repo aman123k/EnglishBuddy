@@ -11,7 +11,9 @@ import SubscriptionModal from "./components/SubscriptionModal";
 
 export default function Home() {
   const { userData } = useAuthentication();
-  const setSubscriptionModalOpen = useStore((state) => state.setSubscriptionModalOpen);
+  const setSubscriptionModalOpen = useStore(
+    (state) => state.setSubscriptionModalOpen,
+  );
 
   const isFree = !userData || userData.subscriptionPlan === "free";
 

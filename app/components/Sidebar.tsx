@@ -40,9 +40,17 @@ function Sidebar() {
     },
     { name: "Debates", href: "/learning-modes/debates", icon: Scale },
     { name: "Roleplays", href: "/learning-modes/roleplays", icon: Drama },
-    { name: "Business Coach", href: "/learning-modes/business-coach", icon: Briefcase },
+    {
+      name: "Business Coach",
+      href: "/learning-modes/business-coach",
+      icon: Briefcase,
+    },
     { name: "Vocab Arena", href: "/learning-modes/vocab-arena", icon: Trophy },
-    { name: "Story Co-creation", href: "/learning-modes/co-write-story", icon: BookOpen },
+    {
+      name: "Story Co-creation",
+      href: "/learning-modes/co-write-story",
+      icon: BookOpen,
+    },
     { name: "Travel Survival", href: "/learning-modes/travels", icon: Plane },
   ];
 
@@ -78,14 +86,19 @@ function Sidebar() {
         <div className="flex-1 px-4 flex flex-col gap-8 overflow-y-auto no-scrollbar">
           {/* Main Menu */}
           <div>
-            <button 
+            <button
               onClick={() => setMenuCollapsed(!menuCollapsed)}
               className="w-full flex items-center justify-between px-4 mb-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em] hover:text-[#1C398E] transition-colors bg-transparent border-0 outline-none cursor-pointer"
             >
               <span>Menu</span>
-              <ChevronDown size={12} className={`transition-transform duration-300 ${menuCollapsed ? "-rotate-90 text-slate-400" : "text-[#1C398E]"}`} />
+              <ChevronDown
+                size={12}
+                className={`transition-transform duration-300 ${menuCollapsed ? "-rotate-90 text-slate-400" : "text-[#1C398E]"}`}
+              />
             </button>
-            <div className={`transition-all duration-500 overflow-hidden ${menuCollapsed ? "max-h-0 opacity-0" : "max-h-[200px] opacity-100"}`}>
+            <div
+              className={`transition-all duration-500 overflow-hidden ${menuCollapsed ? "max-h-0 opacity-0" : "max-h-[200px] opacity-100"}`}
+            >
               <ul className="space-y-1.5 list-none p-0 m-0">
                 {menuItems.map((item) => {
                   const isActive = pathname === item.href;
@@ -127,14 +140,19 @@ function Sidebar() {
 
           {/* Learning Section */}
           <div>
-            <button 
+            <button
               onClick={() => setModesCollapsed(!modesCollapsed)}
               className="w-full flex items-center justify-between px-4 mb-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em] hover:text-[#1C398E] transition-colors bg-transparent border-0 outline-none cursor-pointer"
             >
               <span>Learning Modes</span>
-              <ChevronDown size={12} className={`transition-transform duration-300 ${modesCollapsed ? "-rotate-90 text-slate-400" : "text-[#1C398E]"}`} />
+              <ChevronDown
+                size={12}
+                className={`transition-transform duration-300 ${modesCollapsed ? "-rotate-90 text-slate-400" : "text-[#1C398E]"}`}
+              />
             </button>
-            <div className={`transition-all duration-500 overflow-hidden ${modesCollapsed ? "max-h-0 opacity-0" : "max-h-[600px] opacity-100"}`}>
+            <div
+              className={`transition-all duration-500 overflow-hidden ${modesCollapsed ? "max-h-0 opacity-0" : "max-h-[600px] opacity-100"}`}
+            >
               <ul className="space-y-1.5 list-none p-0 m-0">
                 {learningModes.map((item) => {
                   const isActive = pathname === item.href;
